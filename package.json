@@ -1,0 +1,19 @@
+{
+  "name": "hrnet",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/laminemessaci/HRNet.git"
+  },
+  "author": "Lamine MESSACI",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/laminemessaci/HRNet/issues"
+  },
+  "homepage": "https://github.com/laminemessaci/HRNet#readme"
+}
