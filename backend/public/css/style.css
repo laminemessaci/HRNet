@@ -1,0 +1,33 @@
+@import url('https://fonts.googleapis.com/css?family=Share+Techno+Mono&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+
+  box-sizing: border-box;
+}
+html {
+  font-family: 'Share Techno Mono', monospace;
+  font-size: 1.5rem;
+}
+
+body {
+  background-color: #42b983;
+  color: #fff;
+  min-height: 100vh;
+  display: grid;
+  place-content: center;
+  padding: 1rem;
+}
+
+footer {
+  color: #fff;
+  place-content: center;
+  display: flex;
+  bottom: auto;
+  padding: 3rem 0;
+  font-size: medium;
+  @media (max-width: 1340px) {
+    padding: 2rem;
+  }
+}

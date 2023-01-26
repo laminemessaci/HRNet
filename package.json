@@ -1,10 +1,16 @@
 {
   "name": "hrnet",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "OPC Project 14 HRNet",
+  "main": "server.js",
   "scripts": {
-    "test": "test"
+    "back:install": "cd backend && npm install && cd ..",
+    "front:install": "cd frontend && npm install && cd ..",
+    "install": "npm run back:install && npm run front:install",
+    "doc": "cd frontend && npm run jsdoc && cd..",
+    "server": " cd backend && npm run dev:server && cd ..",
+    "client": "npm start --prefix frontend",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
   },
   "repository": {
     "type": "git",
