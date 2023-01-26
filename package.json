@@ -4,11 +4,11 @@
   "description": "OPC Project 14 HRNet",
   "main": "server.js",
   "scripts": {
-    "back:install": "cd backend && npm install && cd ..",
-    "front:install": "cd frontend && npm install && cd ..",
-    "install": "npm run back:install && npm run front:install",
+    "back:install": "npm install --prefix backend",
+    "front:install": "npm install --prefix frontend",
+    "install": "concurrently \"npm run back:install\" \"npm run front:install\"",
     "doc": "cd frontend && npm run jsdoc && cd..",
-    "server": " cd backend && npm run dev:server && cd ..",
+    "server": "npm run dev --prefix backend",
     "client": "npm start --prefix frontend",
     "dev": "concurrently \"npm run server\" \"npm run client\""
   },
