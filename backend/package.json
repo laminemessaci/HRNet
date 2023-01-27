@@ -1,7 +1,7 @@
 {
-  "name": "lesson_12-be",
+  "name": "Hrnet-backend",
   "version": "1.0.0",
-  "description": "techNotes MERN Project",
+  "description": "HrNet backend ",
   "main": "server.js",
   "scripts": {
     "start": "node server",
