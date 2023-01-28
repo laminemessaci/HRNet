@@ -1,8 +1,8 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import React, { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import Loader from '../components/Loader';
-import Message from '../components/Message';
+import React, { useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
+import Loader from '../components/Loader'
+import Message from '../components/Message'
 
 export interface IUserLogin {
   loading: boolean;
@@ -15,13 +15,13 @@ export interface IUserLogin {
  * @returns {JSX.Element}
  */
 const Login: React.FC = (): JSX.Element => {
-  const navigate = useNavigate();
+  const navigate = useNavigate()
   return (
     <div className="flex flex-col items-center justify-center h-screen">
       {' '}
       Login{' '}
     </div>
-  );
-};
+  )
+}
 
-export default Login;
+export default Login

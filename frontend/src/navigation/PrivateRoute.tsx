@@ -1,7 +1,6 @@
 import { Navigate, Outlet } from 'react-router'
 import { ActionFunction, LoaderFunction, ShouldRevalidateFunction } from 'react-router-dom'
 
-
 interface RouteObject {
   path?: string
   index?: boolean
@@ -21,8 +20,7 @@ interface RouteObject {
  * @returns {JSX.Element}
  */
 const PrivateRoute: React.FC<RouteObject> = (): JSX.Element => {
-
-  const token = "azerreeet"
+  const token = 'null'
   if (!token) {
     return <Navigate to='/' />
   }

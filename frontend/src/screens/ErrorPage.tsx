@@ -1,5 +1,5 @@
-import { FaBackward } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
+import { FaBackward } from 'react-icons/fa'
+import { Link } from 'react-router-dom'
 
 /**
  * *Error Page
@@ -23,7 +23,7 @@ const ErrorPage: React.FC = (): JSX.Element => {
         <FaBackward className="w-8 h-8 mx-2" /> Back to the home page
       </Link>
     </main>
-  );
-};
+  )
+}
 
-export default ErrorPage;
+export default ErrorPage

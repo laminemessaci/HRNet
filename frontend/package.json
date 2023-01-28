@@ -20,8 +20,13 @@
     "start": "react-scripts start",
     "build": "react-scripts build cross-env TS_NODE_PROJECT=\"tsconfig-for-webpack-config.json\" webpack",
     "test": "react-scripts test",
-    "sass": "sass --watch ./src/main.scss:./src/styles/style.css",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "lint": "eslint src/**/*.{js,jsx,ts,tsx,json}",
+    "lint:fix": "eslint --fix \"src/**/*.{js,jsx,ts,tsx,json}\"",
+    "format": "prettier --write 'src/**/*.{js,jsx,ts,tsx,css,md,json}' --config ./.prettierrc",
+    "jsdoc": "jsdoc -c jsdoc.json",
+    "clean": "rm -rf build dist docs",
+    "clean:all": "rm -fr node_modules build dist docs package-lock.json"
   },
   "eslintConfig": {
     "extends": [
