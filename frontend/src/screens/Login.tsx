@@ -1,13 +1,23 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import React, { useEffect } from 'react'
+import React, { MutableRefObject, useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import * as Yup from 'yup'
+import { ErrorMessage, Field, Form, Formik } from 'formik'
 import Loader from '../components/Loader'
 import Message from '../components/Message'
+import { useLoginMutation } from '../features/auth/authApiSlice'
+import { IAuth, setCredentials } from '../features/auth/authSlice'
+import { useAppDispatch } from '../app/storeTypes'
+import usePersist from '../hooks/usePersist'
 
 export interface IUserLogin {
   loading: boolean
   error: string | null
   token: string | null
+}
+interface IValues {
+  username: string
+  password: string
 }
 
 /**
@@ -16,39 +26,111 @@ export interface IUserLogin {
  */
 const Login: React.FC = (): JSX.Element => {
   const navigate = useNavigate()
+  const dispatch = useAppDispatch()
+
+  const [errMsg, setErrMsg] = useState('')
+  const [persist, setPersist] = usePersist()
+
+  //  const userRef = useRef<HTMLInputElement | null>(null)
+
+  const [login, { isLoading }] = useLoginMutation()
+  // console.log(login)
+
+  useEffect(() => {
+    //  userRef.current.focus()
+  }, [])
+
+  const validationSchema = Yup.object().shape({
+    username: Yup.string().required('username is required!.').min(3, 'Must be greater than 5 characters.'),
+    password: Yup.string()
+      .required('Password is required.')
+      .min(3, 'Must be greater than 5 characters.')
+      .max(10, 'Must be smaller than 10 characters.'),
+  })
+
+  const initialValues: IValues = {
+    username: '',
+    password: '',
+  }
+
+  const handleSubmit = async (values: IValues) => {
+    const { username, password } = values
+    try {
+      const { accessToken }: IAuth = await login({ username, password }).unwrap()
+      dispatch(setCredentials({ accessToken }))
+      //   setUsername('')
+      //   setPassword('')
+      navigate('/home')
+    } catch (err: any) {
+      if (!err.status) {
+        setErrMsg('No Server Response')
+      } else if (err.status === 400) {
+        setErrMsg('Missing Username or Password')
+      } else if (err.status === 401) {
+        setErrMsg('Unauthorized')
+      } else {
+        setErrMsg(err.data?.message)
+      }
+      console.log('err', err)
+    }
+  }
+
   return (
     <>
       <div className='relative flex flex-col justify-center min-h-screen overflow-hidden'>
         <div className='w-full p-6 m-auto bg-white rounded-md shadow-xl lg:max-w-xl'>
-          <h1 className='text-3xl font-semibold text-center text-emerald-400 uppercase'>Sign in</h1>
-          <form className='mt-6'>
-            <div className='mb-2'>
-              <label htmlFor='email' className='block text-sm font-semibold text-gray-800'>
-                Email
-              </label>
-              <input
-                type='email'
-                className='block w-full px-4 py-2 mt-2 text-emerald-700 bg-white border rounded-md focus:border-emerald-400 focus:ring-emerald-300 focus:outline-none focus:ring focus:ring-opacity-40'
-              />
-            </div>
-            <div className='mb-2'>
-              <label htmlFor='password' className='block text-sm font-semibold text-gray-800'>
-                Password
-              </label>
-              <input
-                type='password'
-                className='block w-full px-4 py-2 mt-2 text-emerald-700 bg-white border rounded-md focus:border-emerald-400 focus:ring-emerald-300 focus:outline-none focus:ring focus:ring-opacity-40'
-              />
-            </div>
-            <a href='#' className='text-xs text-emerald-600 hover:underline'>
-              Forget Password?
-            </a>
-            <div className='mt-6'>
-              <button className='w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-emerald-700 rounded-md hover:bg-emerald-600 focus:outline-none focus:bg-emerald-600'>
-                Login
-              </button>
-            </div>
-          </form>
+          <div className='flex flex-row sm:mx-auto sm:w-full sm:max-w-md  justify-center '>
+            <img className='mx-0 h-12 w-auto' src='/logo192.png' alt='HrNet' />
+            <h1 className='text-3xl font-semibold text-center text-lime-700 uppercase'>Sign in</h1>
+          </div>
+          <Formik
+            initialValues={initialValues}
+            validationSchema={validationSchema}
+            onSubmit={(values: IValues) => handleSubmit(values)}
+          >
+            {({ resetForm }: any) => (
+              <Form className='mt-6'>
+                <div className='mb-2'>
+                  <label htmlFor='username' className='block text-sm font-semibold text-gray-800'>
+                    UserName
+                  </label>
+                  <Field
+                    id='username'
+                    name='username'
+                    type='username'
+                    placeholder='Your userName'
+                    className='block w-full px-4 py-2 mt-2 text-teal-700 bg-white border rounded-md focus:border-teal-400 focus:ring-teal-300 focus:outline-none focus:ring focus:ring-opacity-40'
+                  />
+                  <ErrorMessage name='username' component='small' className='text-red-700' />
+                </div>
+                <div className='mb-2'>
+                  <label htmlFor='password' className='block text-sm font-semibold text-gray-800'>
+                    Password
+                  </label>
+                  <Field
+                    type='password'
+                    id='password'
+                    placeholder='Password'
+                    name='password'
+                    className='block w-full px-4 py-2 mt-2 text-teal-700 bg-white border rounded-md focus:border-teal-400 focus:ring-teal-300 focus:outline-none focus:ring focus:ring-opacity-40'
+                  />
+                  <ErrorMessage name='password' component='small' className='text-red-700' />
+                </div>
+                <a href='#' className='text-xs text-teal-600 hover:underline'>
+                  Forget Password?
+                </a>
+                <div className='mt-6'>
+                  <button
+                    type='submit'
+                    className='w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-teal-700 rounded-md hover:bg-teal-600 focus:outline-none focus:bg-teal-600'
+                  >
+                    Login
+                  </button>
+                </div>
+              </Form>
+            )}
+          </Formik>
+
           <div className='relative flex items-center justify-center w-full mt-6 border border-t'>
             <div className='absolute px-5 bg-white'>Or</div>
           </div>
@@ -72,10 +154,9 @@ const Login: React.FC = (): JSX.Element => {
             </svg>
           </button>
         </div> */}
-
           <p className='mt-8 text-xs font-light text-center text-gray-700'>
             Don&apos;t have an account?
-            <a href='#' className='font-medium text-emerald-600 hover:underline'>
+            <a href='#' className='font-medium text-teal-600 hover:underline'>
               Sign up
             </a>
           </p>
