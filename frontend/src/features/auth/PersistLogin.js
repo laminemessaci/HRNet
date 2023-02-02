@@ -5,10 +5,13 @@ import usePersist from '../../hooks/usePersist'
 import { useSelector } from 'react-redux'
 import { selectCurrentToken } from './authSlice'
 import PulseLoader from 'react-spinners/PulseLoader'
+import Message from '../../components/Message'
 
 const PersistLogin = () => {
   const [persist] = usePersist()
   const token = useSelector(selectCurrentToken)
+
+  console.log('token:: ', token)
   const effectRan = useRef(false)
 
   const [trueSuccess, setTrueSuccess] = useState(false)
@@ -52,10 +55,10 @@ const PersistLogin = () => {
     // persist: yes, token: no
     console.log('error')
     content = (
-      <p className='errmsg'>
+      <Message className='errmsg'>
         {`${error?.data?.message} - `}
         <Link to='/'>Please login again</Link>.
-      </p>
+      </Message>
     )
   } else if (isSuccess && trueSuccess) {
     // persist: yes, token: yes

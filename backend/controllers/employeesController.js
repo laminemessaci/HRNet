@@ -6,7 +6,7 @@ const Employee = require('../models/Employee');
 // @route GET /employees
 // @access Private
 const getAllEmployees = async (req, res) => {
-  console.log(color.cyan('Get all Employees'));
+  console.log(color.cyan('Get all Employees', req.body));
   // Get all employees from MongoDB
   const employees = await Employee.find().lean();
   console.log(color.cyan(employees));

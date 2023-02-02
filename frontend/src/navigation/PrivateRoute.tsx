@@ -1,5 +1,7 @@
 import { Navigate, Outlet } from 'react-router'
 import { ActionFunction, LoaderFunction, ShouldRevalidateFunction } from 'react-router-dom'
+import { useSelector } from 'react-redux'
+import { selectCurrentToken } from '../features/auth/authSlice'
 
 interface RouteObject {
   path?: string
@@ -20,7 +22,8 @@ interface RouteObject {
  * @returns {JSX.Element}
  */
 const PrivateRoute: React.FC<RouteObject> = (): JSX.Element => {
-  const token = 'null'
+  const token = useSelector(selectCurrentToken)
+
   if (!token) {
     return <Navigate to='/' />
   }

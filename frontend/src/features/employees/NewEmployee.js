@@ -3,8 +3,8 @@ import { useGetUsersQuery } from '../users/usersApiSlice'
 import PulseLoader from 'react-spinners/PulseLoader'
 import useTitle from '../../hooks/useTitle'
 
-const Newemployee = () => {
-  useTitle('techemployees: New employee')
+const NewEmployee = () => {
+  useTitle('HrNetemployees: New employee')
 
   const { users } = useGetUsersQuery('usersList', {
     selectFromResult: ({ data }) => ({
@@ -18,4 +18,4 @@ const Newemployee = () => {
 
   return content
 }
-export default Newemployee
+export default NewEmployee

@@ -6,6 +6,10 @@ import ErrorPage from './../screens/ErrorPage'
 import Loader from '../components/Loader'
 import Prefetch from '../features/auth/Prefetch'
 import PersistLogin from '../features/auth/PersistLogin'
+import EmployeesList from '../features/employees/EmployeesList'
+import UsersList from '../features/users/UsersList'
+import NewEmployee from '../features/employees/NewEmployee'
+import Layout from '../components/Layout'
 
 const Home = lazy(() => import('../screens/Home'))
 const Login = lazy(() => import('../screens/Login'))
@@ -32,16 +36,24 @@ const Navigation: React.FC<RouteObject> = (): JSX.Element => {
   return (
     <Suspense fallback={<Loader type={'blank'} color={''} />}>
       <Routes>
-        <Route path='/' element={<Login />} />
-        <Route element={<PersistLogin />}>
-          <Route element={<Prefetch />}>
-            <Route element={<PrivateRoute />}>
-              <Route path='/profile' element={<Profile />}></Route>
-              <Route path='/home' element={<Home />} />
+        <Route path='/' element={<Layout />}>
+          <Route path='/' element={<Login />} />
+
+          {/* Protected Routes */}
+          <Route element={<PersistLogin />}>
+            <Route element={<Prefetch />}>
+              <Route element={<PrivateRoute />}>
+                <Route path='/home' element={<Home />} />
+                <Route path='/home/employees-list' element={<EmployeesList />} />
+                <Route path='/home/new-employee' element={<NewEmployee />} />
+                <Route path='/home/users-list' element={<UsersList />} />
+                {/* <Route path='/profile' element={<Profile />} /> */}
+              </Route>
             </Route>
+            {/* End Protected Routes */}
           </Route>
+          <Route path='*' element={<ErrorPage />} />
         </Route>
-        <Route path='*' element={<ErrorPage />} />
       </Routes>
     </Suspense>
   )

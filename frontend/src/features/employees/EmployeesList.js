@@ -1,5 +1,5 @@
 import { useGetEmployeesQuery } from './EmployeesApiSlice'
-import Note from './Employee'
+import Employee from './Employee'
 import useAuth from '../../hooks/useAuth'
 import useTitle from '../../hooks/useTitle'
 import PulseLoader from 'react-spinners/PulseLoader'
@@ -36,31 +36,31 @@ const EmployeesList = () => {
     if (isManager || isAdmin) {
       filteredIds = [...ids]
     } else {
-      filteredIds = ids.filter((noteId) => entities[noteId].username === username)
+      filteredIds = ids.filter((employeeId) => entities[employeeId].username === username)
     }
 
-    const tableContent = ids?.length && filteredIds.map((noteId) => <Note key={noteId} noteId={noteId} />)
+    const tableContent = ids?.length && filteredIds.map((employeeId) => <Employee key={employeeId} employeeId={employeeId} />)
 
     content = (
       <table className='table table--employees'>
         <thead className='table__thead'>
           <tr>
-            <th scope='col' className='table__th note__status'>
+            <th scope='col' className='table__th employee__status'>
               Username
             </th>
-            <th scope='col' className='table__th note__created'>
+            <th scope='col' className='table__th employee__created'>
               Created
             </th>
-            <th scope='col' className='table__th note__updated'>
+            <th scope='col' className='table__th employee__updated'>
               Updated
             </th>
-            <th scope='col' className='table__th note__title'>
+            <th scope='col' className='table__th employee__title'>
               Title
             </th>
-            <th scope='col' className='table__th note__username'>
+            <th scope='col' className='table__th employee__username'>
               Owner
             </th>
-            <th scope='col' className='table__th note__edit'>
+            <th scope='col' className='table__th employee__edit'>
               Edit
             </th>
           </tr>
