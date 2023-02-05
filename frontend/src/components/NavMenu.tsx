@@ -5,9 +5,9 @@ import { NavLink, useNavigate } from 'react-router-dom'
 import { useSendLogoutMutation } from '../features/auth/authApiSlice'
 
 const navigation = [
-  { name: 'Home', href: '/home' },
-  { name: 'Create Employee', href: '/home/new-employee' },
-  { name: 'View Current Employees', href: '/home/employees-list' },
+  // { name: 'Home', href: '/home' },
+  { name: 'Add Employee', href: '/home/new-employee' },
+  { name: 'View Employees', href: '/home/employees-list' },
 ]
 
 function NavMenu() {
@@ -40,14 +40,22 @@ function NavMenu() {
                 <div className='flex  sm:w-full items-center justify-center sm:items-center sm:justify-center'>
                   <div className='hidden sm:block sm:flex sm:justify-between w-full'>
                     <div className='flex space-x-8'>
+                      <NavLink to={'/home'} key='Home'>
+                        <img
+                          className=' h-12 p-1 hover:bg-green-400 rounded-full'
+                          loading='lazy'
+                          src='/logo192.ico'
+                          alt='HrNet-logo'
+                        />
+                      </NavLink>
                       {navigation.map((item) => (
                         <NavLink
                           key={item.name}
                           to={item.href}
                           className={({ isActive }) =>
                             isActive
-                              ? 'bg-green-200 text-green-700 sm:text-lg py-1 px-2 rounded'
-                              : 'text-green-700 hover:bg-green-200 hover:green-700 sm:text-lg py-1 px-2 rounded'
+                              ? 'bg-green-200 text-green-700 sm:text-lg py-2 px-2 rounded'
+                              : 'text-green-700 hover:bg-green-300  sm:text-lg py-2 px-2 rounded'
                           }
                           aria-current={item ? 'page' : undefined}
                           end
@@ -56,6 +64,7 @@ function NavMenu() {
                         </NavLink>
                       ))}
                     </div>
+
                     <button
                       onClick={sendLogout}
                       className='border px-3  rounded bg-green-700 text-green-200 hover:bg-green-200 hover:text-green-700'

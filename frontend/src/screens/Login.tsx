@@ -1,6 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import React, { MutableRefObject, useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { Navigate } from 'react-router'
 import * as Yup from 'yup'
 import { ErrorMessage, Field, Form, Formik } from 'formik'
 import Loader from '../components/Loader'
@@ -10,6 +11,8 @@ import { IAuth, setCredentials } from '../features/auth/authSlice'
 import { useAppDispatch } from '../app/storeTypes'
 import usePersist from '../hooks/usePersist'
 import Footer from '../components/Footer'
+import { useSelector } from 'react-redux'
+import { selectCurrentToken } from './../features/auth/authSlice'
 
 export interface IUserLogin {
   loading: boolean
@@ -28,6 +31,8 @@ interface IValues {
 const Login: React.FC = (): JSX.Element => {
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
+  const token = useSelector(selectCurrentToken)
+  console.log('login', token)
 
   const [errMsg, setErrMsg] = useState('')
   const [persist, setPersist] = usePersist()
@@ -39,6 +44,7 @@ const Login: React.FC = (): JSX.Element => {
 
   useEffect(() => {
     //  userRef.current.focus()
+    if (token) navigate('/home')
   }, [])
 
   const validationSchema = Yup.object().shape({
