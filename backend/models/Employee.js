@@ -63,7 +63,27 @@ const employeeSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
-  address: addressSchema,
+  // address: addressSchema,
+  street: {
+    type: String,
+    required: true,
+  },
+  city: {
+    type: String,
+    required: true,
+  },
+  state: {
+    type: String,
+    required: true,
+  },
+  zipCode: {
+    type: String,
+    required: true,
+  },
+  department: {
+    type: String,
+    required: true,
+  },
 });
 
 module.exports = mongoose.model('Employee', employeeSchema);

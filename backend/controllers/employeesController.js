@@ -28,10 +28,28 @@ const createNewEmployee = async (req, res) => {
   });
   console.log(color.cyan(newEmployee));
 
-  const { firstName, lastName, birthDay, address } = newEmployee;
+  const {
+    firstName,
+    lastName,
+    birthDay,
+    street,
+    city,
+    state,
+    zipCode,
+    department,
+  } = newEmployee;
 
   // Confirm data
-  if (!lastName || !firstName || !birthDay || !address) {
+  if (
+    !lastName ||
+    !firstName ||
+    !birthDay ||
+    !street ||
+    !city ||
+    !state ||
+    !zipCode ||
+    !department
+  ) {
     return res.status(400).json({ message: 'All fields are required' });
   }
 
@@ -98,7 +116,7 @@ const updateEmployee = async (req, res) => {
 // @route DELETE /employees
 // @access Private
 const deleteEmployee = async (req, res) => {
-  const  id  = req.params.id;
+  const id = req.params.id;
 
   // Confirm data
   if (!id) {
