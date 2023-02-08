@@ -1,9 +1,12 @@
-import { Table } from 'antd'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCirclePlus, faEye, faSave, faTrashCan, faUserEdit } from '@fortawesome/free-solid-svg-icons'
+import { Table, Space } from 'antd'
 import React from 'react'
 import Loader from '../../components/Loader'
 import { useGetEmployeesQuery } from '../../features/employees/EmployeesApiSlice'
 import { useGetUsersQuery } from '../../features/users/usersApiSlice.js'
 import useAuth from '../../hooks/useAuth'
+import EmployeesFormat from '../../utils/EmployeeFormater'
 
 const EmployeesList = () => {
   const {
@@ -43,7 +46,7 @@ const EmployeesList = () => {
       defaultSortOrder: 'descend',
       sortDirections: ['descend', 'ascend'],
       sorter: (a, b) => new Date(a.startdate) - new Date(b.startdate),
-      render: (date) => dateFormat(date),
+      render: (date) => date,
     },
     {
       key: 'department',
@@ -60,7 +63,7 @@ const EmployeesList = () => {
       defaultSortOrder: 'descend',
       sortDirections: ['descend', 'ascend'],
       sorter: (a, b) => new Date(a.birthdate) - new Date(b.birthdate),
-      render: (date) => dateFormat(date),
+      render: (date) => date,
     },
     {
       key: 'street',
@@ -94,11 +97,27 @@ const EmployeesList = () => {
       sortDirections: ['descend', 'ascend'],
       sorter: (a, b) => a.zip - b.zip,
     },
+    {
+      title: 'Action',
+      key: 'action',
+      render: (_, record) => (
+        <Space>
+          <FontAwesomeIcon
+            onClick={() => console.log('clicked')}
+            className='bg-green-600  rounded m-1'
+            icon={faEye}
+            color='white'
+          />
+          <FontAwesomeIcon className='m-1' onClick={() => console.log('clicked')} icon={faUserEdit} color='orange' />
+          <FontAwesomeIcon className='' onClick={() => console.log('clicked')} icon={faTrashCan} color='red' />
+        </Space>
+      ),
+    },
   ]
 
-  function dateFormat(seconds) {
-    return new Date(seconds * 1000).toLocaleDateString('fr')
-  }
+  // function dateFormat(seconds) {
+  //   return new Date(seconds * 1000).toLocaleDateString('fr')
+  // }
   const { username, isManager, isAdmin } = useAuth()
   const { users } = useGetUsersQuery('usersList', {
     selectFromResult: ({ data }) => ({
@@ -114,34 +133,26 @@ const EmployeesList = () => {
     content = <p className='errmsg'>{error?.data?.message}</p>
   }
 
-   console.log('users', users, username)
-
   if (isSuccess) {
     const { ids, entities } = employees
     console.log('entities ', Object.values(entities))
 
     let filteredIds = []
     if (isManager || isAdmin) {
-      console.log('her////////////////')
       filteredIds = [...ids]
     } else {
-     
       filteredIds = ids.filter((employeeId) => {
-        console.log('entities[employeeId].firstName', entities[employeeId].firstName, username)
         const currentUser = entities[employeeId].firstName.toLowerCase()
-        console.log('current user', username, isManager)
         return currentUser === username
       })
     }
-
-    console.log('filteredIds', filteredIds)
-    // const tableContent = ids?.length && filteredIds.map((noteId) => <Note key={noteId} noteId={noteId} />)
-    const tableContent = Object.values(entities).filter((employee) => {
-      console.log(employee.user)
-      return employee.user == filteredIds
+    const employesToDisplay = filteredIds?.length && filteredIds.map((employeeId) => entities[employeeId])
+    console.log('employesToDisplay', employesToDisplay)
+    const tableContent = []
+    employesToDisplay.map((emp) => {
+      tableContent.push(new EmployeesFormat(emp))
     })
-
-    console.log('tableContent', Object.values(entities))
+    console.log('tableContent', tableContent)
 
     content = (
       <>
@@ -171,12 +182,12 @@ const EmployeesList = () => {
             </div>
           </div>
 
-          <div className='mb-20 w-full'>
+          <section className='mb-20 w-full '>
             {' '}
             <Table
               dataSource={[...tableContent]}
               columns={columns}
-              // size="middle"
+              size='middle'
               rowKey={(data) => data.key}
               scroll={{ x: 'max-content', y: '500' }}
               pagination={{
@@ -197,7 +208,7 @@ const EmployeesList = () => {
                 showTotal: (total, range) => `Showing ${range[0]} to ${range[1]} of ${total} entries`,
               }}
             />
-          </div>
+          </section>
         </div>
       </>
     )

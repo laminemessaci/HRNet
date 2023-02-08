@@ -42,12 +42,7 @@ const Home = () => {
         <div className=' h-64 w-full sm:h-72 md:h-96  lg:h-full lg:w-1/2'>
           <picture>
             <source type='image/webp' />
-            <img
-              loading='lazy'
-              className=' h-full w-full object-cover rounded-r-lg p-0 drop-shadow-lg '
-              src={'/home.jpg'}
-              alt='natural'
-            />
+            <img loading='lazy' className=' h-full w-full object-cover rounded-r-lg p-0  ' src={'/home.jpg'} alt='natural' />
           </picture>
         </div>
       </section>

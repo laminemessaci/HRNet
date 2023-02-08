@@ -3,6 +3,8 @@ import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 import React, { useEffect } from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
 import { useSendLogoutMutation } from '../features/auth/authApiSlice'
+import UserAvatar from './Avatar'
+import Dropdown from './Dropdown'
 
 const navigation = [
   // { name: 'Home', href: '/home' },
@@ -20,7 +22,7 @@ function NavMenu() {
   }, [isSuccess, navigate])
 
   return (
-    <div className='flex flex-row w-full bg-gray-200 p-4'>
+    <div className='flex flex-row w-full bg-gray-200 p-4 items-center'>
       <Disclosure as='nav' className='w-full flex flex-col justify-center items-center'>
         {({ open }) => (
           <>
@@ -65,12 +67,15 @@ function NavMenu() {
                       ))}
                     </div>
 
-                    <button
+                    {/* <button
                       onClick={sendLogout}
                       className='border px-3  rounded bg-green-700 text-green-200 hover:bg-green-200 hover:text-green-700'
                     >
                       SignOut
-                    </button>
+                    </button> */}
+                    <div className='mr-0 justify-center mx-auto block border px-6  rounded'>
+                      <Dropdown />
+                    </div>
                   </div>
                 </div>
               </div>
@@ -87,7 +92,7 @@ function NavMenu() {
                           ? 'bg-green-200 text-green-500 sm:text-xl lg:text-2xl block p-2 w-full  mx-auto'
                           : 'text-green-500 hover:bg-green-200 hover:green-700 sm:text-xl lg:text-2xl p-2  mx-auto block'
                       }
-                      // aria-current={item.current ? 'page' : undefined}
+                      aria-current={item.current ? 'page' : undefined}
                       end
                     >
                       {item.name}
@@ -95,12 +100,13 @@ function NavMenu() {
                   </Disclosure.Button>
                 ))}
               </div>
-              <button
+
+              {/* <button
                 onClick={sendLogout}
                 className='mx-auto block border px-3  rounded bg-green-700 text-green-200 hover:bg-green-200 hover:text-green-700'
               >
                 SignOut
-              </button>
+              </button> */}
             </Disclosure.Panel>
           </>
         )}
