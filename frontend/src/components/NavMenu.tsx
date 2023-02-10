@@ -56,8 +56,8 @@ function NavMenu() {
                           to={item.href}
                           className={({ isActive }) =>
                             isActive
-                              ? 'bg-green-200 text-green-700 sm:text-lg py-2 px-2 rounded'
-                              : 'text-green-700 hover:bg-green-300  sm:text-lg py-2 px-2 rounded'
+                              ? 'bg-green-200 text-green-700 sm:text-lg py-1 px-2 rounded text-center'
+                              : 'text-green-700 hover:bg-green-300  sm:text-lg py-1 px-2 rounded text-center'
                           }
                           aria-current={item ? 'page' : undefined}
                           end
@@ -101,12 +101,12 @@ function NavMenu() {
                 ))}
               </div>
 
-              {/* <button
+              <button
                 onClick={sendLogout}
-                className='mx-auto block border px-3  rounded bg-green-700 text-green-200 hover:bg-green-200 hover:text-green-700'
+                className='mx-auto block border px-3 lg:hidden  rounded bg-green-700 text-green-200 hover:bg-green-200 hover:text-green-700'
               >
                 SignOut
-              </button> */}
+              </button>
             </Disclosure.Panel>
           </>
         )}

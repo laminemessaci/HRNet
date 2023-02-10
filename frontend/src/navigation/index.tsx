@@ -1,6 +1,6 @@
 import React, { lazy, Suspense } from 'react'
 import { ActionFunction, LoaderFunction, Route, Routes, ShouldRevalidateFunction } from 'react-router-dom'
-import Profile from '../screens/Profile'
+import Profile from '../screens/user/Profile'
 import PrivateRoute from './PrivateRoute'
 import ErrorPage from './../screens/ErrorPage'
 import Loader from '../components/Loader'
@@ -10,6 +10,7 @@ import UsersList from '../features/users/UsersList'
 import NewEmployee from '../features/employees/NewEmployee'
 import Layout from '../components/Layout'
 import EmployeesList from '../screens/employee/EmployeesList'
+import EditProfile from '../screens/user/EditProfile'
 
 const Home = lazy(() => import('../screens/Home'))
 const Login = lazy(() => import('../screens/Login'))
@@ -46,7 +47,8 @@ const Navigation: React.FC<RouteObject> = (): JSX.Element => {
                 <Route path='/home/employees-list' element={<EmployeesList />} />
                 <Route path='/home/new-employee' element={<NewEmployee />} />
                 <Route path='/home/users-list' element={<UsersList />} />
-                {/* <Route path='/profile' element={<Profile />} /> */}
+                <Route path='/profile' element={<Profile />} />
+                <Route path='/edit-profile' element={<EditProfile />} />
               </Route>
             </Route>
             {/* End Protected Routes */}
