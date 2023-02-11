@@ -4,15 +4,12 @@ import { Fragment, useEffect } from 'react'
 import { useNavigate } from 'react-router'
 import { useSendLogoutMutation } from '../features/auth/authApiSlice'
 import UserAvatar from './Avatar'
+import { navigateTo } from './../utils/index'
 
 export default function Dropdown() {
   const navigate = useNavigate()
 
   const [sendLogout, { isLoading, isSuccess, isError, error }] = useSendLogoutMutation()
-
-  const navigateTo = (path) => {
-    navigate(`${path}`)
-  }
 
   useEffect(() => {
     if (isSuccess) navigate('/')
@@ -41,7 +38,7 @@ export default function Dropdown() {
               <Menu.Item>
                 {({ active }) => (
                   <button
-                    onClick={() => navigateTo('/edit-profile')}
+                    onClick={() => navigateTo('/edit-profile', navigate)}
                     className={`${
                       active ? 'bg-green-200 text-white' : 'text-gray-900'
                     } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
@@ -58,7 +55,7 @@ export default function Dropdown() {
               <Menu.Item>
                 {({ active }) => (
                   <button
-                    onClick={() => navigateTo('/profile')}
+                    onClick={() => navigateTo('/profile', navigate)}
                     className={`${
                       active ? 'bg-green-200 text-white' : 'text-gray-900'
                     } group flex w-full items-center rounded-md px-2 py-2 text-sm`}

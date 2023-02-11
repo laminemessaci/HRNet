@@ -5,6 +5,7 @@ import { NavLink, useNavigate } from 'react-router-dom'
 import { useSendLogoutMutation } from '../features/auth/authApiSlice'
 import UserAvatar from './Avatar'
 import Dropdown from './Dropdown'
+import { navigateTo } from './../utils/index'
 
 const navigation = [
   // { name: 'Home', href: '/home' },
@@ -106,6 +107,18 @@ function NavMenu() {
                 className='mx-auto block border px-3 lg:hidden  rounded bg-green-700 text-green-200 hover:bg-green-200 hover:text-green-700'
               >
                 SignOut
+              </button>
+              <button
+                onClick={() => navigateTo('/edit-profile', navigate)}
+                className='mx-auto block border px-3 lg:hidden  rounded bg-green-700 text-green-200 hover:bg-green-200 hover:text-green-700'
+              >
+                Edit-Profile
+              </button>
+              <button
+                onClick={() => navigateTo('/profile', navigate)}
+                className='mx-auto block border px-3 lg:hidden  rounded bg-green-700 text-green-200 hover:bg-green-200 hover:text-green-700'
+              >
+                Profile
               </button>
             </Disclosure.Panel>
           </>
