@@ -11,7 +11,7 @@ const UserAvatar: React.FC = () => {
       />{' '}
       {/* <div className=' bottom-0 left-0 w-2 h-2  rounded-full bg-green-500 border-2 border-white'></div> */}
       {/* <h5 className='text-xl font-medium leading-tight mb-2'>Lamine</h5> */}
-      {/* <p className='text-gray-500'>Admin</p>  */}
+      {/* <span className=' absolute mt-10  text-red-500 text-xs'>Admin</span> */}
     </div>
   )
 }

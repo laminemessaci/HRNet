@@ -23,7 +23,7 @@ function NavMenu() {
   }, [isSuccess, navigate])
 
   return (
-    <div className='flex flex-row w-full bg-gray-200 p-4 items-center'>
+    <div className='flex flex-row w-full bg-gray-200 p-4 items-center justify-center'>
       <Disclosure as='nav' className='w-full flex flex-col justify-center items-center'>
         {({ open }) => (
           <>
@@ -40,12 +40,12 @@ function NavMenu() {
                     )}
                   </Disclosure.Button>
                 </div>
-                <div className='flex  sm:w-full items-center justify-center sm:items-center sm:justify-center'>
-                  <div className='hidden sm:block sm:flex sm:justify-between w-full'>
-                    <div className='flex space-x-8'>
+                <div className='flex  sm:w-full items-center '>
+                  <div className='hidden sm:flex sm:justify-between w-full'>
+                    <div className='flex space-x-8 border-4 '>
                       <NavLink to={'/home'} key='Home'>
                         <img
-                          className=' h-12 p-1 hover:bg-green-400 rounded-full'
+                          className=' h-12 p-1 hover:bg-green-400 rounded-full border-2  border-green-700'
                           loading='lazy'
                           src='/logo192.ico'
                           alt='HrNet-logo'
@@ -57,8 +57,8 @@ function NavMenu() {
                           to={item.href}
                           className={({ isActive }) =>
                             isActive
-                              ? 'bg-green-200 text-green-700 sm:text-lg py-1 px-2 rounded text-center'
-                              : 'text-green-700 hover:bg-green-300  sm:text-lg py-1 px-2 rounded text-center'
+                              ? 'bg-green-200 text-green-700 sm:text-lg py-1 px-2 rounded text-center  justify-center '
+                              : 'text-green-700 hover:bg-green-300  sm:text-lg py-1 px-2 rounded text-center justify-center  '
                           }
                           aria-current={item ? 'page' : undefined}
                           end
@@ -74,7 +74,7 @@ function NavMenu() {
                     >
                       SignOut
                     </button> */}
-                    <div className='mr-0 justify-center mx-auto block border px-6  rounded'>
+                    <div className='mr-0 justify-center mx-auto block  px-4 '>
                       <Dropdown />
                     </div>
                   </div>

@@ -8,6 +8,8 @@ import { store } from './app/store'
 import './index.css'
 import reportWebVitals from './reportWebVitals'
 
+import 'react-datepicker/dist/react-datepicker.css'
+
 if (process.env.NODE_ENV === 'production') disableReactDevTools()
 
 const root = ReactDOM.createRoot(document.getElementById('root'))

@@ -19,7 +19,9 @@
     "jwt-decode": "^3.1.2",
     "moment": "^2.29.4",
     "react": "^18.2.0",
+    "react-datepicker": "^4.10.0",
     "react-dom": "^18.2.0",
+    "react-hook-form": "^7.43.1",
     "react-icons": "^4.7.1",
     "react-loading": "^2.0.3",
     "react-redux": "^8.0.5",
@@ -63,6 +65,7 @@
   },
   "devDependencies": {
     "@tailwindcss/forms": "^0.5.3",
+    "@types/react": "^18.0.28",
     "@typescript-eslint/eslint-plugin": "^5.45.0",
     "@typescript-eslint/parser": "^5.45.0",
     "autoprefixer": "^10.4.13",

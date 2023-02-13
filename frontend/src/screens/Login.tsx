@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import React, { MutableRefObject, useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Navigate } from 'react-router'
 import * as Yup from 'yup'
@@ -83,7 +83,7 @@ const Login: React.FC = (): JSX.Element => {
   }
   useEffect(() => {
     setErrMsg('')
-  }, [])
+  }, [navigate])
 
   return (
     <>
