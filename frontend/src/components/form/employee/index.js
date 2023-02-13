@@ -66,50 +66,55 @@ const EmployeeForm = () => {
             {errors.lastname && <p className='text-red-500'>Please enter a Lastname</p>}
           </div>
         </div>
-        <div className='mt-8'>
-          <label htmlFor='birthDate' className='block text-sm font-medium text-gray-700'>
-            Date of Birth
-          </label>
-          <Controller
-            name='birthDate'
-            control={control}
-            defaultValue={new Date()}
-            render={({ field }) => (
-              <>
-                <DateField
-                  text='What is your birth day?'
-                  name='birthDate'
-                  placeholderText='Select the date of birth'
-                  selectedField={field.value}
-                  callbackFn={(date) => field.onChange(date)}
-                />
-                {errors.birthDate && <p className='text-red-500'>{errors.birthDate.message}</p>}
-              </>
-            )}
-          />
-        </div>
-        <div className='mt-8 '>
-          <label htmlFor='startdate' className='block text-sm font-medium text-gray-700'>
-            Start Date
-          </label>
 
-          <Controller
-            name='startDate'
-            defaultValue={new Date()}
-            control={control}
-            render={({ field }) => (
-              <>
-                <DateField
-                  text='What is your start day?'
-                  name='birthDate'
-                  placeholderText='Select the start date'
-                  selectedField={field.value}
-                  callbackFn={(date) => field.onChange(date)}
-                />
-                {errors.startDate && <p className='text-red-500'>{errors.startDate.message}</p>}
-              </>
-            )}
-          />
+        <div className='flex lg:flex-row  flex-col  justify-between'>
+          <div className='mt-8 lg:w-1/2 m-1'>
+            <label htmlFor='birthDate' className='block text-sm font-medium text-gray-700'>
+              Date of Birth
+            </label>
+            <Controller
+              name='birthDate'
+              control={control}
+              defaultValue={new Date()}
+              render={({ field }) => (
+                <>
+                  <DateField
+                    text='What is your birth day?'
+                    name='birthDate'
+                    placeholderText='Select the date of birth'
+                    selectedField={field.value}
+                    callbackFn={(date) => field.onChange(date)}
+                  />
+                  {errors.birthDate && <p className='text-red-500'>{errors.birthDate.message}</p>}
+                </>
+              )}
+            />
+          </div>
+          <div className='mt-8 lg:w-1/2 m-1 '>
+            <label htmlFor='startdate' className='block text-sm font-medium text-gray-700'>
+              Start Date
+            </label>
+
+            <Controller
+              name='startDate'
+              defaultValue={new Date()}
+              control={control}
+              render={({ field }) => (
+                <>
+                  <DateField
+                    text='What is your start day?'
+                    name='birthDate'
+                    placeholderText='Select the start date'
+                    selectedField={field.value}
+                    callbackFn={(date) => field.onChange(date)}
+                  />
+                  {errors.startDate && <p className='text-red-500'>{errors.startDate.message}</p>}
+                </>
+              )}
+            />
+          </div>
+        </div>
+        <div className='mt-8'>
           <Controller
             name='department'
             control={control}
@@ -126,6 +131,7 @@ const EmployeeForm = () => {
             )}
           ></Controller>
         </div>
+
         <div className='adress border mt-8 bg-green-200 mb-8'>
           <h1 className='text-green-600 text-center mt-8'>
             <FontAwesomeIcon icon={faAddressCard} className='mx-2' />
