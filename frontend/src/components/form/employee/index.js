@@ -73,6 +73,7 @@ const EmployeeForm = () => {
           <Controller
             name='birthDate'
             control={control}
+            defaultValue={new Date()}
             render={({ field }) => (
               <>
                 <DateField
@@ -94,6 +95,7 @@ const EmployeeForm = () => {
 
           <Controller
             name='startDate'
+            defaultValue={new Date()}
             control={control}
             render={({ field }) => (
               <>
