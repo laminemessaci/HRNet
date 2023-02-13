@@ -28,7 +28,6 @@ const PrivateRoute: React.FC<RouteObject> = (): JSX.Element => {
   // console.log('token private route ', token)
 
   if (!token) {
-    console.log('token private route ', token)
     return <Navigate to='/' />
   }
   return (

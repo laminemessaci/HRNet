@@ -1,23 +1,24 @@
 /* eslint-disable react/prop-types */
-import { Fragment, useState } from 'react'
-import { Listbox, Transition } from '@headlessui/react'
-import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid'
-import { CalendarIcon } from '@heroicons/react/24/outline'
-import DatePicker from 'react-datepicker'
-import { useForm, Controller } from 'react-hook-form'
+import { faAddressCard } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { useState } from 'react'
+import { Controller, useForm } from 'react-hook-form'
+import { useAddNewEmployeeMutation } from '../../../features/employees/EmployeesApiSlice.js'
+import { useGetUsersQuery } from '../../../features/users/usersApiSlice.js'
+import Message from '../../Message'
 import { departments } from './../../../utils/Department'
 import { states } from './../../../utils/States'
-import DateField from './DateField'
 import DataListField from './DataListField'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faAddressBook, faAddressCard } from '@fortawesome/free-solid-svg-icons'
+import DateField from './DateField'
+import useAuth from './../../../hooks/useAuth'
+import Loader from './../../Loader'
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
 const EmployeeForm = () => {
-  const [departement, setDepartment] = useState(departments[0])
+  const [department, setDepartment] = useState(departments[0])
   const [selctedState, setSelectedState] = useState(states[0])
 
   const {
@@ -28,64 +29,102 @@ const EmployeeForm = () => {
     formState: { errors },
   } = useForm()
 
+  const [addNewEmployee, { isLoading, isSuccess, isError, error }] = useAddNewEmployeeMutation()
+  const { roles, username } = useAuth()
+
+  // console.log('username', username, roles)
+  const { users } = useGetUsersQuery('usersList', {
+    selectFromResult: ({ data }) => ({
+      users: data?.ids.map((id) => data?.entities[id]),
+    }),
+  })
+
+  if (!users?.length) return <Loader type='bubbles' color='green' width={200} height={200} />
+
+  console.log('users', users)
+  const currentUser = users.filter((user) => user.username === username)
+  console.log('currentUser', currentUser[0]._id)
+
   const onSubmit = async (data) => {
     console.log(data)
+    const { firstName, lastName, startDay, birthDay, department: department, state: state, street, zipCode, city } = data
+    try {
+      window.scrollTo(0, 0)
+      await addNewEmployee({
+        user: users[0].id,
+        firstName,
+        lastName,
+        startDay,
+        birthDay,
+        department: department.name,
+        state: state.name,
+        street,
+        zipCode,
+        city,
+      })
+      reset()
+      setSelectedState(states[0])
+      setDepartment(departments[0])
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   return (
     <>
+      {error && <Message>{error['message']}</Message>}
       <form onSubmit={handleSubmit(onSubmit)} className='w-4/5 sm:w-2/5 mx-auto mt-8'>
         <div className='flex lg:flex-row  flex-col  justify-between'>
           <div className='lg:w-1/2 m-1'>
-            <label htmlFor='firstname' className='block text-sm font-medium text-gray-700'>
+            <label htmlFor='firstName' className='block text-sm font-medium text-gray-700'>
               Firstname
             </label>
 
             <input
-              {...register('firstname', { required: true })}
+              {...register('firstName', { required: true })}
               type='text'
-              name='firstname'
-              id='firstname'
+              name='firstName'
+              id='firstName'
               className='mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm'
               placeholder='Firstname'
             />
-            {errors.firstname && <p className='text-red-500'>Please enter a Firstname</p>}
+            {errors.firstName && <p className='text-red-500'>Please enter a Firstname</p>}
           </div>
           <div className='lg:w-1/2 m-1'>
-            <label htmlFor='lastname' className='block text-sm font-medium text-gray-700'>
+            <label htmlFor='lastName' className='block text-sm font-medium text-gray-700'>
               Lastname
             </label>
             <input
-              {...register('lastname', { required: true })}
+              {...register('lastName', { required: true })}
               type='text'
-              name='lastname'
-              id='lastname'
+              name='lastName'
+              id='lastName'
               className='mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm'
               placeholder='Lastname'
             />
-            {errors.lastname && <p className='text-red-500'>Please enter a Lastname</p>}
+            {errors.lastName && <p className='text-red-500'>Please enter a Lastname</p>}
           </div>
         </div>
 
         <div className='flex lg:flex-row  flex-col  justify-between'>
           <div className='mt-8 lg:w-1/2 m-1'>
-            <label htmlFor='birthDate' className='block text-sm font-medium text-gray-700'>
+            <label htmlFor='birthDay' className='block text-sm font-medium text-gray-700'>
               Date of Birth
             </label>
             <Controller
-              name='birthDate'
+              name='birthDay'
               control={control}
               defaultValue={new Date()}
               render={({ field }) => (
                 <>
                   <DateField
                     text='What is your birth day?'
-                    name='birthDate'
+                    name='birthDay'
                     placeholderText='Select the date of birth'
                     selectedField={field.value}
                     callbackFn={(date) => field.onChange(date)}
                   />
-                  {errors.birthDate && <p className='text-red-500'>{errors.birthDate.message}</p>}
+                  {errors.birthDay && <p className='text-red-500'>{errors.birthDay.message}</p>}
                 </>
               )}
             />
@@ -96,19 +135,19 @@ const EmployeeForm = () => {
             </label>
 
             <Controller
-              name='startDate'
+              name='startDay'
               defaultValue={new Date()}
               control={control}
               render={({ field }) => (
                 <>
                   <DateField
                     text='What is your start day?'
-                    name='birthDate'
+                    name='birthDay'
                     placeholderText='Select the start date'
                     selectedField={field.value}
                     callbackFn={(date) => field.onChange(date)}
                   />
-                  {errors.startDate && <p className='text-red-500'>{errors.startDate.message}</p>}
+                  {errors.startDay && <p className='text-red-500'>{errors.startDay.message}</p>}
                 </>
               )}
             />
@@ -122,7 +161,7 @@ const EmployeeForm = () => {
             render={({ field: { onChange } }) => (
               <DataListField
                 list={departments}
-                value={departement}
+                value={department}
                 onChange={(e) => {
                   onChange(e)
                   setDepartment(e)
@@ -184,29 +223,35 @@ const EmployeeForm = () => {
           ></Controller>
 
           <div className='mt-8 w-11/12 sm:w-1/2 mx-auto mb-8'>
-            <label htmlFor='zip' className='block text-sm font-medium text-gray-700'>
+            <label htmlFor='zipCode' className='block text-sm font-medium text-gray-700'>
               Zip Code
             </label>
 
             <input
-              {...register('zip', { required: true, pattern: /^[0-9]+$/ })}
+              {...register('zipCode', { required: true, pattern: /^[0-9]+$/ })}
               type='number'
-              name='zip'
-              id='zip'
+              name='zipCode'
+              id='zipCode'
               className='mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm'
-              placeholder='zip'
+              placeholder='zipCode'
             />
-            {errors.zip && <p className='text-red-500'>Please enter a valid zip code</p>}
+            {errors.zipCode && <p className='text-red-500'>Please enter a valid zipCode code</p>}
           </div>
         </div>
 
         <div className='w-full flex justify-center mt-8 mb-8'>
           <button
             type='submit'
-            className='inline-flex items-center rounded-md border border-transparent bg-green-700 px-6 py-3 text-base font-medium text-green-200 hover:bg-green-200 hover:text-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2'
+            className='inline-flex mr-2 items-center  rounded-md border border-transparent bg-green-700 px-6 py-3 text-base font-medium text-green-200 hover:bg-green-200 hover:text-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2'
           >
             Save
           </button>
+          {/* <button
+            onClick={reset()}
+            className='inline-flex items-center rounded-md border border-gray-200 shadow bg-white px-6 py-3 text-base font-medium text-green-700  hover:bg-green-200 hover:text-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2'
+          >
+            Cancel
+          </button> */}
         </div>
       </form>
     </>

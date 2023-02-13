@@ -51,7 +51,7 @@ const employeeSchema = new mongoose.Schema({
     type: Date,
     required: true,
   },
-  startDate: {
+  startDay: {
     type: Date,
     required: true,
   },

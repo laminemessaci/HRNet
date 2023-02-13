@@ -6,7 +6,7 @@ export type IState = {
   abbreviation: string
 }
 
-export const states = [
+export const states: IState[] = [
   {
     id: uuidv4(),
     name: 'Select Your State',
@@ -70,7 +70,7 @@ export const states = [
   {
     id: uuidv4(),
     name: 'Florida',
-    abbreviation: 'FL', // / Je me suis arrétée là; la suite est à faire
+    abbreviation: 'FL',
   },
   {
     id: uuidv4(),

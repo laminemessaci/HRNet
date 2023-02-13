@@ -49,7 +49,7 @@ const DataListField: React.FC<IDatalist> = ({ list, value, onChange }: IDatalist
                       }
                       value={elt}
                     >
-                      {({ value, active }) => (
+                      {({ value, active }: any) => (
                         <>
                           <span className={classNames(value ? 'font-semibold' : 'font-normal', 'block truncate')}>
                             {elt.name}

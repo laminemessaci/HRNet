@@ -84,7 +84,7 @@ function NavMenu() {
 
             <Disclosure.Panel className='sm:hidden '>
               <div className='space-y-3 px-2 pt-2 pb-3 flex flex-col'>
-                {navigation.map((item) => (
+                {navigation.map((item: any) => (
                   <Disclosure.Button key={item.name}>
                     <NavLink
                       to={item.href}
@@ -93,6 +93,7 @@ function NavMenu() {
                           ? 'bg-green-200 text-green-500 sm:text-xl lg:text-2xl block p-2 w-full  mx-auto'
                           : 'text-green-500 hover:bg-green-200 hover:green-700 sm:text-xl lg:text-2xl p-2  mx-auto block'
                       }
+      
                       aria-current={item.current ? 'page' : undefined}
                       end
                     >

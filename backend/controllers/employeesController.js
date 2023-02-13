@@ -26,12 +26,14 @@ const createNewEmployee = async (req, res) => {
   const newEmployee = await new Employee({
     ...req.body,
   });
-  // console.log(color.cyan(newEmployee));
+  console.log(color.cyan(newEmployee));
 
   const {
+    user,
     firstName,
     lastName,
     birthDay,
+    startDay,
     street,
     city,
     state,
@@ -41,9 +43,11 @@ const createNewEmployee = async (req, res) => {
 
   // Confirm data
   if (
+    !user ||
     !lastName ||
     !firstName ||
     !birthDay ||
+    !startDay ||
     !street ||
     !city ||
     !state ||
