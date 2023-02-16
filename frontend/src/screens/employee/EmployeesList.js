@@ -1,7 +1,6 @@
+import { faEye, faTrashCan, faUserEdit } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCirclePlus, faEye, faSave, faTrashCan, faUserEdit } from '@fortawesome/free-solid-svg-icons'
-import { Table, Space } from 'antd'
-import React from 'react'
+import { Space, Table } from 'antd'
 import Loader from '../../components/Loader'
 import { useGetEmployeesQuery } from '../../features/employees/EmployeesApiSlice'
 import { useGetUsersQuery } from '../../features/users/usersApiSlice.js'
@@ -16,7 +15,7 @@ const EmployeesList = () => {
     isError,
     error,
   } = useGetEmployeesQuery('employeesList', {
-    pollingInterval: 50000,
+    pollingInterval: 15000,
     refetchOnFocus: true,
     refetchOnMountOrArgChange: true,
   })
@@ -40,9 +39,9 @@ const EmployeesList = () => {
       sorter: (a, b) => a.lastname.localeCompare(b.lastname),
     },
     {
-      key: 'stardate',
+      key: 'starDay',
       title: 'Start Date',
-      dataIndex: 'startdate',
+      dataIndex: 'startDay',
       defaultSortOrder: 'descend',
       sortDirections: ['descend', 'ascend'],
       sorter: (a, b) => new Date(a.startdate) - new Date(b.startdate),
@@ -57,13 +56,15 @@ const EmployeesList = () => {
       sorter: (a, b) => a.department.localeCompare(b.department),
     },
     {
-      key: 'birthdate',
+      key: 'birthDay',
       title: 'Date of Birth',
-      dataIndex: 'birthdate',
+      dataIndex: 'birthDay',
       defaultSortOrder: 'descend',
       sortDirections: ['descend', 'ascend'],
       sorter: (a, b) => new Date(a.birthdate) - new Date(b.birthdate),
-      render: (date) => date,
+      render: (date) => {
+        return date
+      },
     },
     {
       key: 'street',
@@ -101,15 +102,17 @@ const EmployeesList = () => {
       title: 'Action',
       key: 'action',
       render: (_, record) => (
-        <Space>
-          <FontAwesomeIcon
-            onClick={() => console.log('clicked')}
-            className='bg-green-600  rounded m-1'
-            icon={faEye}
-            color='white'
-          />
-          <FontAwesomeIcon className='m-1' onClick={() => console.log('clicked')} icon={faUserEdit} color='orange' />
-          <FontAwesomeIcon className='' onClick={() => console.log('clicked')} icon={faTrashCan} color='red' />
+        <Space className='m-1 '>
+          <div className='mx-1'>
+            <FontAwesomeIcon
+              onClick={() => console.log('clicked')}
+              className='bg-green-600  rounded ml-2 '
+              icon={faEye}
+              color='white'
+            />
+            <FontAwesomeIcon className='ml-4' onClick={() => console.log('clicked')} icon={faUserEdit} color='orange' />
+            <FontAwesomeIcon className='ml-4' onClick={() => console.log('clicked')} icon={faTrashCan} color='red' />
+          </div>
         </Space>
       ),
     },
@@ -149,8 +152,8 @@ const EmployeesList = () => {
     const employesToDisplay = filteredIds?.length && filteredIds.map((employeeId) => entities[employeeId])
     console.log('employesToDisplay', employesToDisplay)
     const tableContent = []
-    employesToDisplay.map((emp) => {
-      tableContent.push(new EmployeesFormat(emp))
+    employesToDisplay.map((employee) => {
+      tableContent.push(new EmployeesFormat(employee))
     })
     console.log('tableContent', tableContent)
 

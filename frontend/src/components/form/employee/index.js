@@ -39,7 +39,7 @@ const EmployeeForm = () => {
     }),
   })
 
-  if (!users?.length) return <Loader type='bubbles' color='green' width={200} height={200} />
+  if (!users?.length || isLoading) return <Loader type='spokes' color='green' width={200} height={200} />
 
   console.log('users', users)
   const currentUser = users.filter((user) => user.username === username)

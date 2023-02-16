@@ -153,13 +153,17 @@ const Login: React.FC = (): JSX.Element => {
             </a>
           </p>
         </div>
-        <div className=' flex flex-col  relative w-full h-full lg:flex  items-center justify-center m-auto bg-white  lg:max-w-xl '>
-          <img className='mx-0 h-12 w-auto' src='/logo192.png' alt='HrNet' />
+        <div className='p-2 m-auto  flex flex-col  relative w-full h-full lg:flex  items-center justify-center  bg-green-100  lg:max-w-xl rounded-md shadow-xl '>
           <img
-            src='https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp'
+            // src='https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp'
+            src='logingreen.jpg'
             className='w-full'
             alt='Sample image'
           />
+          <img className=' absolute  h-16  mb-16 w-auto' src='/logo192.ico' alt='HrNet' />
+          <strong className=' my-8 mb-0 max-w-md text-lg text-green-600 sm:text-xl md:mt-5 md:max-w-3xl'>
+            manage your employee
+          </strong>
         </div>
 
         {/* <div className=' flex flex-col hidden relative w-full h-full lg:flex  items-center justify-center m-auto bg-white  lg:max-w-xl min-h-screen '>

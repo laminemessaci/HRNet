@@ -26,9 +26,9 @@ export default class EmployeesFormat {
     this.key = employee.id
     this.firstname = employee.firstName
     this.lastname = employee.lastName
-    this.startDay = moment(employee?.startDate).format('DD/MM/YYYY')
+    this.startDay = moment(employee.startDate).format('DD/MM/YYYY')
     this.department = employee.department
-    this.birthDay = moment(employee?.birthDay).format('DD/MM/YYYY')
+    this.birthDay = moment(employee.birthDay).format('DD/MM/YYYY')
     this.street = employee.street
     this.city = employee.city
     this.state = employee.state
