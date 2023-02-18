@@ -9,7 +9,7 @@ const color = require('colors');
 const login = async (req, res) => {
   console.log(color.red('login:::'));
   const { username, password } = req.body;
-  // console.log(color.cyan(req.body));
+  console.log(color.cyan(req.body));
 
   if (!username || !password) {
     return res.status(400).json({ message: 'All fields are required' });

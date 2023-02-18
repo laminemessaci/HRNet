@@ -6,10 +6,10 @@ const Employee = require('../models/Employee');
 // @route GET /employees
 // @access Private
 const getAllEmployees = async (req, res) => {
-  console.log(color.cyan('Get all Employees'));
+  // console.log(color.cyan('Get all Employees', req.body));
   // Get all employees from MongoDB
   const employees = await Employee.find().lean();
-  console.log(color.cyan(employees));
+  // console.log(color.cyan(employees));
 
   // If no employees
   if (!employees?.length) {
@@ -28,10 +28,32 @@ const createNewEmployee = async (req, res) => {
   });
   console.log(color.cyan(newEmployee));
 
-  const { firstName, lastName, birthDay, address } = newEmployee;
+  const {
+    user,
+    firstName,
+    lastName,
+    birthDay,
+    startDay,
+    street,
+    city,
+    state,
+    zipCode,
+    department,
+  } = newEmployee;
 
   // Confirm data
-  if (!lastName || !firstName || !birthDay || !address) {
+  if (
+    !user ||
+    !lastName ||
+    !firstName ||
+    !birthDay ||
+    !startDay ||
+    !street ||
+    !city ||
+    !state ||
+    !zipCode ||
+    !department
+  ) {
     return res.status(400).json({ message: 'All fields are required' });
   }
 
@@ -98,7 +120,7 @@ const updateEmployee = async (req, res) => {
 // @route DELETE /employees
 // @access Private
 const deleteEmployee = async (req, res) => {
-  const  id  = req.params.id;
+  const id = req.params.id;
 
   // Confirm data
   if (!id) {

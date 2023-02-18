@@ -1,5 +1,9 @@
 import { Navigate, Outlet } from 'react-router'
 import { ActionFunction, LoaderFunction, ShouldRevalidateFunction } from 'react-router-dom'
+import { useSelector } from 'react-redux'
+import { selectCurrentToken } from '../features/auth/authSlice'
+import NavMenu from '../components/NavMenu'
+import Footer from './../components/Footer'
 
 interface RouteObject {
   path?: string
@@ -20,11 +24,19 @@ interface RouteObject {
  * @returns {JSX.Element}
  */
 const PrivateRoute: React.FC<RouteObject> = (): JSX.Element => {
-  const token = 'null'
+  const token = useSelector(selectCurrentToken)
+  // console.log('token private route ', token)
+
   if (!token) {
     return <Navigate to='/' />
   }
-  return <Outlet /> // Gets the children's routes
+  return (
+    <>
+      <NavMenu />
+      <Outlet />
+      <Footer />
+    </>
+  )
 }
 
 export default PrivateRoute
