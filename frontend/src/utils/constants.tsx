@@ -17,20 +17,23 @@ interface IColumn {
 
 export const columns: IColumn = [
   {
-    key: 'firstname',
-    title: 'Firstname',
-    dataIndex: 'firstname',
+    key: 'firstName',
+    title: 'FirstName',
+    dataIndex: 'firstName',
     defaultSortOrder: 'descend',
     sortDirections: ['descend', 'ascend'],
-    sorter: (a: { firstname: string }, b: { firstname: any }) => a.firstname.localeCompare(b.firstname),
+    sorter: (a: { firstName: string }, b: { firstName: any }) => {
+      console.log(a, b)
+      return a.firstName.localeCompare(b.firstName)
+    },
   },
   {
-    key: 'lastname',
-    title: 'Lastname',
-    dataIndex: 'lastname',
+    key: 'lastName',
+    title: 'LastName',
+    dataIndex: 'lastName',
     defaultSortOrder: 'descend',
     sortDirections: ['descend', 'ascend'],
-    sorter: (a: { lastname: string }, b: { lastname: any }) => a.lastname.localeCompare(b.lastname),
+    sorter: (a: { lastName: string }, b: { lastName: any }) => a.lastName.localeCompare(b.lastName),
   },
   {
     key: 'starDay',
@@ -53,7 +56,7 @@ export const columns: IColumn = [
   },
   {
     key: 'birthDay',
-    title: 'Date of Birth',
+    title: 'Birth Day',
     dataIndex: 'birthDay',
     defaultSortOrder: 'descend',
     sortDirections: ['descend', 'ascend'],
@@ -89,6 +92,7 @@ export const columns: IColumn = [
   {
     key: 'zip',
     title: 'Zip Code',
+    width: 90,
     dataIndex: 'zip',
     defaultSortOrder: 'descend',
     sortDirections: ['descend', 'ascend'],
@@ -97,7 +101,7 @@ export const columns: IColumn = [
   {
     title: 'Action',
     key: 'action',
-    render: (_: any, record: JSX.Element) => (
+    render: () => (
       <Space className='m-1 '>
         <div className='mx-1'>
           <FontAwesomeIcon

@@ -5,8 +5,12 @@ import { useGetUsersQuery } from '../../features/users/usersApiSlice.js'
 import useAuth from '../../hooks/useAuth'
 import EmployeesFormat from '../../utils/EmployeeFormater'
 import { columns } from './../../utils/constants'
+import { useState } from 'react'
+import { objectBuilder } from './../../utils/index'
 
 const EmployeesList = () => {
+  const [search, setSearch] = useState(null)
+
   const {
     data: employees,
     isLoading,
@@ -39,7 +43,6 @@ const EmployeesList = () => {
 
   if (isSuccess) {
     const { ids, entities } = employees
-    console.log('entities ', Object.values(entities))
 
     let filteredIds = []
     if (isManager || isAdmin) {
@@ -56,6 +59,31 @@ const EmployeesList = () => {
     employesToDisplay.map((employee) => {
       tableContent.push(new EmployeesFormat(employee))
     })
+
+    const onInputSearch = (value) => {
+      let formatedEmployee = []
+      const filterEmployee = employesToDisplay.filter((employee) =>
+        Object.keys(employee).some((k) => String(employee[k]).toLowerCase().includes(value.toLowerCase())),
+      )
+      filterEmployee?.forEach((element) => {
+        // console.log(element)
+        formatedEmployee.push(new EmployeesFormat(element))
+      })
+      setSearch(formatedEmployee)
+    }
+
+    // const handlSearch = (value) => {
+    //   // console.log('desp', employesToDisplay)
+    //   let f = []
+    //   const arraySearch = objectBuilder(employesToDisplay)
+    //   // console.log(arraySearch)
+    //   const e = arraySearch.filter((word) => word.searchInput.includes(value.toLowerCase()))
+    //   for (let elt of e) {
+    //     f.push(new EmployeesFormat(elt.employee))
+    //   }
+    //   // console.log(f)
+    //   setSearch(f)
+    // }
 
     content = (
       <>
@@ -74,7 +102,7 @@ const EmployeesList = () => {
               </label>
               <div className='mt-1'>
                 <input
-                  onChange={(e) => console.log(e.target.value)}
+                  onChange={(e) => onInputSearch(e.target.value)}
                   type='text'
                   name='firstname'
                   id='firstname'
@@ -88,7 +116,7 @@ const EmployeesList = () => {
           <section className='mb-20 w-full '>
             {' '}
             <Table
-              dataSource={[...tableContent]}
+              dataSource={search ? search : [...tableContent]}
               columns={columns}
               size='middle'
               rowKey={(data) => data.key}
