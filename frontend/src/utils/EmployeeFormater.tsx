@@ -10,8 +10,8 @@ import moment from 'moment'
 
 export default class EmployeesFormat {
   key: string
-  firstname: string
-  lastname: string
+  firstName: string
+  lastName: string
   startDay: string
   department: string
   birthDay: string
@@ -24,8 +24,8 @@ export default class EmployeesFormat {
   constructor(employee: IEmployee) {
     // console.log('employee===', employee?.birthDay)
     this.key = employee.id
-    this.firstname = employee.firstName
-    this.lastname = employee.lastName
+    this.firstName = employee.firstName
+    this.lastName = employee.lastName
     this.startDay = moment(employee.startDate).format('DD/MM/YYYY')
     this.department = employee.department
     this.birthDay = moment(employee.birthDay).format('DD/MM/YYYY')
@@ -44,8 +44,6 @@ interface IEmployee {
   zipCode: any
   id: string
   key: string
-  firstname: string
-  lastname: string
   startDay: Date
   department: string
   street: string
