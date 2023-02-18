@@ -1,11 +1,10 @@
-import { faEye, faTrashCan, faUserEdit } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { Space, Table } from 'antd'
+import { Table } from 'antd'
 import Loader from '../../components/Loader'
 import { useGetEmployeesQuery } from '../../features/employees/EmployeesApiSlice'
 import { useGetUsersQuery } from '../../features/users/usersApiSlice.js'
 import useAuth from '../../hooks/useAuth'
 import EmployeesFormat from '../../utils/EmployeeFormater'
+import { columns } from './../../utils/constants'
 
 const EmployeesList = () => {
   const {
@@ -19,104 +18,6 @@ const EmployeesList = () => {
     refetchOnFocus: true,
     refetchOnMountOrArgChange: true,
   })
-
-  // console.log(employees)
-  const columns = [
-    {
-      key: 'firstname',
-      title: 'Firstname',
-      dataIndex: 'firstname',
-      defaultSortOrder: 'descend',
-      sortDirections: ['descend', 'ascend'],
-      sorter: (a, b) => a.firstname.localeCompare(b.firstname),
-    },
-    {
-      key: 'lastname',
-      title: 'Lastname',
-      dataIndex: 'lastname',
-      defaultSortOrder: 'descend',
-      sortDirections: ['descend', 'ascend'],
-      sorter: (a, b) => a.lastname.localeCompare(b.lastname),
-    },
-    {
-      key: 'starDay',
-      title: 'Start Date',
-      dataIndex: 'startDay',
-      defaultSortOrder: 'descend',
-      sortDirections: ['descend', 'ascend'],
-      sorter: (a, b) => new Date(a.startdate) - new Date(b.startdate),
-      render: (date) => date,
-    },
-    {
-      key: 'department',
-      title: 'Department',
-      dataIndex: 'department',
-      defaultSortOrder: 'descend',
-      sortDirections: ['descend', 'ascend'],
-      sorter: (a, b) => a.department.localeCompare(b.department),
-    },
-    {
-      key: 'birthDay',
-      title: 'Date of Birth',
-      dataIndex: 'birthDay',
-      defaultSortOrder: 'descend',
-      sortDirections: ['descend', 'ascend'],
-      sorter: (a, b) => new Date(a.birthdate) - new Date(b.birthdate),
-      render: (date) => {
-        return date
-      },
-    },
-    {
-      key: 'street',
-      title: 'Street',
-      dataIndex: 'street',
-      defaultSortOrder: 'descend',
-      sortDirections: ['descend', 'ascend'],
-      sorter: (a, b) => a.street.localeCompare(b.street),
-    },
-    {
-      key: 'city',
-      title: 'City',
-      dataIndex: 'city',
-      defaultSortOrder: 'descend',
-      sortDirections: ['descend', 'ascend'],
-      sorter: (a, b) => a.city.localeCompare(b.city),
-    },
-    {
-      key: 'state',
-      title: 'State',
-      dataIndex: 'state',
-      defaultSortOrder: 'descend',
-      sortDirections: ['descend', 'ascend'],
-      sorter: (a, b) => a.state.localeCompare(b.state),
-    },
-    {
-      key: 'zip',
-      title: 'Zip Code',
-      dataIndex: 'zip',
-      defaultSortOrder: 'descend',
-      sortDirections: ['descend', 'ascend'],
-      sorter: (a, b) => a.zip - b.zip,
-    },
-    {
-      title: 'Action',
-      key: 'action',
-      render: (_, record) => (
-        <Space className='m-1 '>
-          <div className='mx-1'>
-            <FontAwesomeIcon
-              onClick={() => console.log('clicked')}
-              className='bg-green-600  rounded ml-2 '
-              icon={faEye}
-              color='white'
-            />
-            <FontAwesomeIcon className='ml-4' onClick={() => console.log('clicked')} icon={faUserEdit} color='orange' />
-            <FontAwesomeIcon className='ml-4' onClick={() => console.log('clicked')} icon={faTrashCan} color='red' />
-          </div>
-        </Space>
-      ),
-    },
-  ]
 
   // function dateFormat(seconds) {
   //   return new Date(seconds * 1000).toLocaleDateString('fr')
@@ -150,12 +51,11 @@ const EmployeesList = () => {
       })
     }
     const employesToDisplay = filteredIds?.length && filteredIds.map((employeeId) => entities[employeeId])
-    console.log('employesToDisplay', employesToDisplay)
+
     const tableContent = []
     employesToDisplay.map((employee) => {
       tableContent.push(new EmployeesFormat(employee))
     })
-    console.log('tableContent', tableContent)
 
     content = (
       <>

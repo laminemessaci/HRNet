@@ -22,7 +22,7 @@ export default class EmployeesFormat {
   zipcode: any
 
   constructor(employee: IEmployee) {
-    console.log('employee===', employee?.birthDay)
+    // console.log('employee===', employee?.birthDay)
     this.key = employee.id
     this.firstname = employee.firstName
     this.lastname = employee.lastName
