@@ -1,11 +1,11 @@
 import { v4 as uuidv4 } from 'uuid'
 
-export type IDepartement = {
+export type IDepartment = {
   id: string
   name: string
-}
+}[]
 
-export const departments = [
+export const departments: IDepartment = [
   {
     id: uuidv4(),
     name: 'Select Your Department',

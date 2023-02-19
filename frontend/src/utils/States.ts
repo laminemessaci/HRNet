@@ -1,12 +1,12 @@
 import { v4 as uuidv4 } from 'uuid'
 
 export type IState = {
-  id: string
+  id:  string
   name: string
   abbreviation: string
-}
+}[]
 
-export const states: IState[] = [
+export const states: IState = [
   {
     id: uuidv4(),
     name: 'Select Your State',

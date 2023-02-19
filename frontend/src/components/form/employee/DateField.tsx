@@ -9,6 +9,7 @@ interface IDatePicker {
   selectedField: Date
   callbackFn: (date: Date) => void
   text: string | null
+  name: string
 }
 interface ICalendarContainer {
   className: string

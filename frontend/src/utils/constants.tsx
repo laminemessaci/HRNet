@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEye, faUserEdit, faTrashCan } from '@fortawesome/free-solid-svg-icons'
 import { Space } from 'antd'
 
-interface IColumn {
+export interface IColumn {
   key: string
   title: string
   dataIndex: string

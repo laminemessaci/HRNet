@@ -11,7 +11,10 @@ interface IProps {
  */
 const Message: React.FC<IProps> = ({ variant, children }: IProps): JSX.Element => {
   return (
-    <div className='p-4 mb-4 text-sm text-red-700 bg-red-100 rounded-lg dark:bg-red-200 dark:text-red-800' role={variant}>
+    <div
+      className=' flex justify-center w-4/5 sm:w-2/5 mx-auto text-sm p-2 text-red-700 bg-red-100 rounded-lg dark:bg-red-200 dark:text-red-800'
+      role={variant}
+    >
       <span className='font-medium'>{children}</span>
     </div>
   )
