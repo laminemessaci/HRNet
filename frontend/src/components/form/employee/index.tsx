@@ -1,25 +1,40 @@
 /* eslint-disable react/prop-types */
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
 import { faAddressCard } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { useAddNewEmployeeMutation } from '../../../features/employees/EmployeesApiSlice.js'
 import { useGetUsersQuery } from '../../../features/users/usersApiSlice.js'
+import useAuth from '../../../hooks/useAuth'
+import { departments, IDepartment } from '../../../utils/Department'
+import { IState, states } from '../../../utils/States'
+import Loader from '../../Loader'
 import Message from '../../Message'
-import { departments } from './../../../utils/Department'
-import { states } from './../../../utils/States'
 import DataListField from './DataListField'
 import DateField from './DateField'
-import useAuth from './../../../hooks/useAuth'
-import Loader from './../../Loader'
+
+interface FormInputs {
+  firstName: string
+  lastName: string
+  startDay: Date
+  birthDay: Date
+  department: { name: string }
+  state: { name: string }
+  street: string
+  zipCode: string
+  city: string
+  country: string
+}
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
 const EmployeeForm = () => {
-  const [department, setDepartment] = useState(departments[0])
-  const [selctedState, setSelectedState] = useState(states[0])
+  const [department, setDepartment] = useState<IDepartment>(departments[0])
+  const [selctedState, setSelectedState] = useState<IState>(states[0])
 
   const {
     control,
@@ -27,7 +42,7 @@ const EmployeeForm = () => {
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm()
+  } = useForm<FormInputs>()
 
   const [addNewEmployee, { isLoading, isSuccess, isError, error }] = useAddNewEmployeeMutation()
   const { roles, username } = useAuth()
@@ -72,9 +87,10 @@ const EmployeeForm = () => {
 
   return (
     <>
-      {error && <Message>{error['message']}</Message>}
+      {error && <Message>{error.data['message']}</Message>}
       <form onSubmit={handleSubmit(onSubmit)} className='w-4/5 sm:w-2/5 mx-auto mt-8'>
         <div className='flex lg:flex-row  flex-col  justify-between'>
+          {/* <ErrorMessage errors={errors} name='firstName' render={({ message }) => <p>{message}</p>} /> */}
           <div className='lg:w-1/2 m-1'>
             <label htmlFor='firstName' className='block text-sm font-medium text-gray-700'>
               Firstname
@@ -136,8 +152,8 @@ const EmployeeForm = () => {
 
             <Controller
               name='startDay'
-              defaultValue={new Date()}
               control={control}
+              defaultValue={new Date()}
               render={({ field }) => (
                 <>
                   <DateField
@@ -159,7 +175,7 @@ const EmployeeForm = () => {
             control={control}
             defaultValue={departments[0]}
             render={({ field: { onChange } }) => (
-              <DataListField
+              <DataListField<IDepartment>
                 list={departments}
                 value={department}
                 onChange={(e) => {
@@ -214,7 +230,7 @@ const EmployeeForm = () => {
               <DataListField
                 list={states}
                 value={selctedState}
-                onChange={(e) => {
+                onChange={(e): void => {
                   onChange(e)
                   setSelectedState(e)
                 }}

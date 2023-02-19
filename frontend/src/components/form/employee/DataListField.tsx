@@ -1,19 +1,20 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
 import React, { Fragment } from 'react'
 
 import { Listbox, Transition } from '@headlessui/react'
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid'
 import { classNames } from '../../../utils'
-import { departments, IDepartement } from '../../../utils/Department'
+import { departments, IDepartment } from '../../../utils/Department'
 import { IState } from '../../../utils/States'
 
 interface IDatalist {
-  list: IState[] | IDepartement[]
-  value: IState
-  onChange: () => void
+  list: IState[] | IDepartment[]
+  value: IState[]
+  onChange: (e) => void
 }
 
 const DataListField: React.FC<IDatalist> = ({ list, value, onChange }: IDatalist): JSX.Element => {
-  console.log(list === departments)
   return (
     <Listbox value={value} onChange={onChange}>
       {({ open }) => (
