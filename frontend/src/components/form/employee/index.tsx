@@ -17,6 +17,7 @@ import DataListField from './DataListField'
 import DateField from './DateField'
 import { navigateTo } from './../../../utils/index'
 import { NavigateFunction, useNavigate } from 'react-router'
+import { ErrorMessage } from '@hookform/error-message'
 
 interface FormInputs {
   firstName: string
@@ -40,6 +41,7 @@ const EmployeeForm = () => {
   const [selctedState, setSelectedState] = useState<IState>(states[0])
   const [errorState, setErrorState] = useState<string>('')
   const [errorDept, setErrorDept] = useState<string>('')
+  const [globalError, setGlobalError] = useState<string>('')
   const navigate = useNavigate<NavigateFunction>()
 
   const {
@@ -50,7 +52,7 @@ const EmployeeForm = () => {
     formState: { errors },
   } = useForm<FormInputs>()
 
-  const [addNewEmployee, { isLoading, isSuccess, isError, error }] = useAddNewEmployeeMutation()
+  const [addNewEmployee, { isLoading, isSuccess, error }] = useAddNewEmployeeMutation()
   const { roles, username } = useAuth()
 
   // console.log('username', username, roles)
@@ -61,7 +63,7 @@ const EmployeeForm = () => {
   })
   useEffect(() => {
     console.log('errorDept', errorDept)
-  }, [errorDept, errorState, department, selctedState])
+  }, [errorDept, errorState, error, navigate])
 
   if (!users?.length || isLoading) return <Loader type='spokes' color='green' width={200} height={200} />
 
@@ -81,7 +83,7 @@ const EmployeeForm = () => {
     }
     try {
       window.scrollTo(0, 0)
-      await addNewEmployee({
+      const { isError, error } = await addNewEmployee({
         user: users[0].id,
         firstName,
         lastName,
@@ -96,18 +98,20 @@ const EmployeeForm = () => {
       reset()
       setSelectedState(states[0])
       setDepartment(departments[0])
+      if (error || isError) return
       navigateTo('/home/employees-list', navigate)
     } catch (error) {
       console.log(error)
+      setGlobalError(error)
     }
   }
 
   return (
     <>
       {error && <Message>{error.data['message']}</Message>}
+      {globalError && <p className='flex justify-center text-red-500'>{globalError}</p>}
       <form onSubmit={handleSubmit(onSubmit)} className='w-4/5 sm:w-2/5 mx-auto mt-8'>
         <div className='flex lg:flex-row  flex-col  justify-between'>
-          {/* <ErrorMessage errors={errors} name='firstName' render={({ message }) => <p>{message}</p>} /> */}
           <div className='lg:w-1/2 m-1'>
             <label htmlFor='firstName' className='block text-sm font-medium text-gray-700'>
               Firstname

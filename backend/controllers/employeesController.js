@@ -58,7 +58,7 @@ const createNewEmployee = async (req, res) => {
   }
 
   // Check for duplicate employee
-  const duplicate = await Employee.findOne({ lastName, firstName, birthDay })
+  const duplicate = await Employee.findOne({ lastName, firstName })
     .collation({ locale: 'en', strength: 2 })
     .lean()
     .exec();
