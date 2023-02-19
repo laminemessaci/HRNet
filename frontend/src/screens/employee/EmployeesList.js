@@ -1,12 +1,14 @@
-import { Table } from 'antd'
 import Loader from '../../components/Loader'
 import { useGetEmployeesQuery } from '../../features/employees/EmployeesApiSlice'
 import { useGetUsersQuery } from '../../features/users/usersApiSlice.js'
 import useAuth from '../../hooks/useAuth'
 import EmployeesFormat from '../../utils/EmployeeFormater'
-import { columns } from './../../utils/constants'
+
 import { useState } from 'react'
 import { objectBuilder } from './../../utils/index'
+import EmployeesTable from '../../components/EmployeesTable'
+import { Table } from 'antd'
+import { columns } from './../../utils/constants'
 
 const EmployeesList = () => {
   const [search, setSearch] = useState(null)
@@ -114,31 +116,7 @@ const EmployeesList = () => {
           </div>
 
           <section className='mb-20 w-full '>
-            {' '}
-            <Table
-              dataSource={search ? search : [...tableContent]}
-              columns={columns}
-              size='middle'
-              rowKey={(data) => data.key}
-              scroll={{ x: 'max-content', y: '500' }}
-              pagination={{
-                style: {
-                  width: '100%',
-                  marginBottom: '50px',
-                  backgroundColor: '#BBF7D0',
-                  borderRadius: '8px',
-                  padding: '10px',
-                  paddingLeft: '20px',
-                },
-                defaultPageSize: 10,
-                pageSizeOptions: ['10', '25', '50', '100'],
-
-                defaultCurrent: 1,
-                showSizeChanger: true,
-                position: ['topLeft'],
-                showTotal: (total, range) => `Showing ${range[0]} to ${range[1]} of ${total} entries`,
-              }}
-            />
+            <EmployeesTable searchResult={search} tableContent={[...tableContent]} columns={columns} />
           </section>
         </div>
       </>
