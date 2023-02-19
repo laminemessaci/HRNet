@@ -1,8 +1,7 @@
-import React from 'react'
-import { CalendarIcon } from '@heroicons/react/24/outline'
-import DatePicker from 'react-datepicker'
+import { faCalendarAlt } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCalendarAlt, faCalendarCheck, faCalendarDay, faSave } from '@fortawesome/free-solid-svg-icons'
+import React from 'react'
+import DatePicker from 'react-datepicker'
 
 interface IDatePicker {
   placeholderText: string
@@ -36,8 +35,10 @@ const DateField: React.FC<IDatePicker> = (props) => {
         placeholderText={placeholderText}
         selected={selectedField}
         onChange={callbackFn}
+        isClearable
         dateFormat='dd/MM/yyyy'
         peekNextMonth
+        // customInput={<p className='text-red-500'>{'errors.birthDay.message'}</p>}
         calendarContainer={calendarContainer}
         closeOnScroll={true}
         showMonthDropdown
@@ -45,6 +46,7 @@ const DateField: React.FC<IDatePicker> = (props) => {
         dropdownMode='select'
         popperClassName='some-custom-class'
         popperPlacement='bottom-start'
+        required
         popperModifiers={[
           {
             name: 'offset',
@@ -64,7 +66,7 @@ const DateField: React.FC<IDatePicker> = (props) => {
         className=' mt-1 w-full rounded border-gray-300 focus:border-green-500 focus:ring-green-500 placeholder:text-xs sm:placeholder:text-sm'
       />
 
-      <FontAwesomeIcon className='w-5 relative left-[90%] bottom-8' icon={faCalendarAlt} color='green' />
+      <FontAwesomeIcon className='w-5 relative left-[80%] bottom-8' icon={faCalendarAlt} color='green' />
     </>
   )
 }

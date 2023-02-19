@@ -3,7 +3,8 @@
 // @ts-nocheck
 import { faAddressCard } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { useState } from 'react'
+
+import { useState, useEffect } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { useAddNewEmployeeMutation } from '../../../features/employees/EmployeesApiSlice.js'
 import { useGetUsersQuery } from '../../../features/users/usersApiSlice.js'
@@ -14,6 +15,8 @@ import Loader from '../../Loader'
 import Message from '../../Message'
 import DataListField from './DataListField'
 import DateField from './DateField'
+import { navigateTo } from './../../../utils/index'
+import { NavigateFunction, useNavigate } from 'react-router'
 
 interface FormInputs {
   firstName: string
@@ -35,6 +38,9 @@ function classNames(...classes) {
 const EmployeeForm = () => {
   const [department, setDepartment] = useState<IDepartment>(departments[0])
   const [selctedState, setSelectedState] = useState<IState>(states[0])
+  const [errorState, setErrorState] = useState<string>('')
+  const [errorDept, setErrorDept] = useState<string>('')
+  const navigate = useNavigate<NavigateFunction>()
 
   const {
     control,
@@ -53,16 +59,26 @@ const EmployeeForm = () => {
       users: data?.ids.map((id) => data?.entities[id]),
     }),
   })
+  useEffect(() => {
+    console.log('errorDept', errorDept)
+  }, [errorDept, errorState, department, selctedState])
 
   if (!users?.length || isLoading) return <Loader type='spokes' color='green' width={200} height={200} />
 
-  console.log('users', users)
+  // console.log('users', users)
   const currentUser = users.filter((user) => user.username === username)
-  console.log('currentUser', currentUser[0]._id)
+  // console.log('currentUser', currentUser[0]._id)
 
   const onSubmit = async (data) => {
-    console.log(data)
     const { firstName, lastName, startDay, birthDay, department: department, state: state, street, zipCode, city } = data
+    if (department.name === 'Select Your Department') {
+      setErrorDept('Please select your department !')
+      return
+    }
+    if (state.name === 'Select Your State') {
+      setErrorState('Please select your state !')
+      return
+    }
     try {
       window.scrollTo(0, 0)
       await addNewEmployee({
@@ -80,6 +96,7 @@ const EmployeeForm = () => {
       reset()
       setSelectedState(states[0])
       setDepartment(departments[0])
+      navigateTo('/home/employees-list', navigate)
     } catch (error) {
       console.log(error)
     }
@@ -181,10 +198,12 @@ const EmployeeForm = () => {
                 onChange={(e) => {
                   onChange(e)
                   setDepartment(e)
+                  setErrorDept('')
                 }}
               />
             )}
           ></Controller>
+          {errorDept && <p className='text-red-500'>{errorDept}</p>}
         </div>
 
         <div className='adress border mt-8 bg-green-200 mb-8'>
@@ -233,10 +252,12 @@ const EmployeeForm = () => {
                 onChange={(e): void => {
                   onChange(e)
                   setSelectedState(e)
+                  setErrorState('')
                 }}
               />
             )}
           ></Controller>
+          {errorState && <p className='flex justify-center text-red-500'>{errorState}</p>}
 
           <div className='mt-8 w-11/12 sm:w-1/2 mx-auto mb-8'>
             <label htmlFor='zipCode' className='block text-sm font-medium text-gray-700'>

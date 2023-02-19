@@ -23,7 +23,6 @@ export const columns: IColumn = [
     defaultSortOrder: 'descend',
     sortDirections: ['descend', 'ascend'],
     sorter: (a: { firstName: string }, b: { firstName: any }) => {
-      console.log(a, b)
       return a.firstName.localeCompare(b.firstName)
     },
   },
@@ -102,7 +101,7 @@ export const columns: IColumn = [
     title: 'Action',
     key: 'action',
     render: () => (
-      <Space className='m-1 '>
+      <Space className='m-1 flex justify-around  '>
         <div className='mx-1'>
           <FontAwesomeIcon
             onClick={() => console.log('clicked')}
