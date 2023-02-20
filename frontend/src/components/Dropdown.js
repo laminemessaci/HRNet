@@ -40,13 +40,13 @@ export default function Dropdown() {
                   <button
                     onClick={() => navigateTo('/edit-profile', navigate)}
                     className={`${
-                      active ? 'bg-green-200 text-white' : 'text-gray-900'
+                      active ? 'bg-green-200 text-white' : 'text-lime-700'
                     } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
                   >
                     {active ? (
                       <EditActiveIcon className='mr-2 h-5 w-5' aria-hidden='true' />
                     ) : (
-                      <EditInactiveIcon className='mr-2 h-5 w-5' aria-hidden='true' />
+                      <EditInactiveIcon className='mr-2 h-5 w-5  color:green-200' aria-hidden='true' />
                     )}
                     Edit
                   </button>
@@ -57,7 +57,7 @@ export default function Dropdown() {
                   <button
                     onClick={() => navigateTo('/profile', navigate)}
                     className={`${
-                      active ? 'bg-green-200 text-white' : 'text-gray-900'
+                      active ? 'bg-green-200 text-white' : 'text-lime-700'
                     } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
                   >
                     {active ? (
@@ -74,7 +74,7 @@ export default function Dropdown() {
                   <button
                     onClick={sendLogout}
                     className={`${
-                      active ? 'bg-green-200 text-white' : 'text-gray-900'
+                      active ? 'bg-green-200 text-white' : 'text-lime-700'
                     } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
                   >
                     {active ? (
@@ -97,7 +97,7 @@ export default function Dropdown() {
 function EditInactiveIcon(props) {
   return (
     <svg {...props} viewBox='0 0 20 20' fill='none' xmlns='http://www.w3.org/2000/svg'>
-      <path d='M4 13V16H7L16 7L13 4L4 13Z' fill='#EDE9FE' stroke='#A78BFA' strokeWidth='2' />
+      <path d='M4 13V16H7L16 7L13 4L4 13Z' fill='#4d7c0f' stroke='#15803d' strokeWidth='2' />
     </svg>
   )
 }
@@ -105,27 +105,26 @@ function EditInactiveIcon(props) {
 function EditActiveIcon(props) {
   return (
     <svg {...props} viewBox='0 0 20 20' fill='none' xmlns='http://www.w3.org/2000/svg'>
-      <path d='M4 13V16H7L16 7L13 4L4 13Z' stroke='#C4B5FD' strokeWidth='2' />
+      <path d='M4 13V16H7L16 7L13 4L4 13Z' stroke='#15803d' strokeWidth='2' />
     </svg>
   )
 }
 function LogoutActiveIcon(props) {
   return (
     <svg {...props} fill='none' height='20' viewBox='0 0 24 24' width='20' xmlns='http://www.w3.org/2000/svg'>
-      <path clipRule='evenodd' d='M2 13H14V11H2V13Z' fill='#EDE9FE' fillRule='evenodd' stroke='#C4B5FD' />
+      <path clipRule='evenodd' d='M2 13H14V11H2V13Z' fillRule='evenodd' stroke='#15803d' />
       <path
         clipRule='evenodd'
         d='M4.79282 7.79289L1.29282 11.2929C0.902294 11.6834 0.902294 12.3166 1.29282 12.7071L4.79282 16.2071L6.20703 14.7929L3.41414 12L6.20703 9.20711L4.79282 7.79289Z'
-        fill='#EDE9FE'
+        fill='#4d7c0f'
         fillRule='evenodd'
-        stroke='#C4B5FD'
+        stroke='#15803d'
       />
       <path
         clipRule='evenodd'
         d='M14.5954 5.5C12.1159 5.5 9.95745 6.93099 8.89246 9.03855L7.10742 8.13653C8.49483 5.39092 11.3226 3.5 14.5954 3.5C19.2491 3.5 22.9999 7.31769 22.9999 12C22.9999 16.6823 19.2491 20.5 14.5954 20.5C11.3226 20.5 8.49483 18.6091 7.10742 15.8635L8.89246 14.9615C9.95745 17.069 12.1159 18.5 14.5954 18.5C18.1205 18.5 20.9999 15.602 20.9999 12C20.9999 8.39803 18.1205 5.5 14.5954 5.5Z'
-        fill='#EDE9FE'
         fillRule='evenodd'
-        stroke='#C4B5FD'
+        stroke='#15803d'
       />
     </svg>
   )
@@ -133,19 +132,19 @@ function LogoutActiveIcon(props) {
 function LogOutInactiveIcon(props) {
   return (
     <svg {...props} fill='none' height='20' viewBox='0 0 24 24' width='20' xmlns='http://www.w3.org/2000/svg'>
-      <path clipRule='evenodd' d='M2 13H14V11H2V13Z' fill='black' fillRule='evenodd' stroke='#A78BFA' />
+      <path clipRule='evenodd' d='M2 13H14V11H2V13Z' fill='#4d7c0f' fillRule='evenodd' stroke='#15803d' />
       <path
         clipRule='evenodd'
         d='M4.79282 7.79289L1.29282 11.2929C0.902294 11.6834 0.902294 12.3166 1.29282 12.7071L4.79282 16.2071L6.20703 14.7929L3.41414 12L6.20703 9.20711L4.79282 7.79289Z'
-        fill='black'
-        stroke='#A78BFA'
+        stroke='#15803d'
+        fill='#4d7c0f'
         fillRule='evenodd'
       />
       <path
         clipRule='evenodd'
         d='M14.5954 5.5C12.1159 5.5 9.95745 6.93099 8.89246 9.03855L7.10742 8.13653C8.49483 5.39092 11.3226 3.5 14.5954 3.5C19.2491 3.5 22.9999 7.31769 22.9999 12C22.9999 16.6823 19.2491 20.5 14.5954 20.5C11.3226 20.5 8.49483 18.6091 7.10742 15.8635L8.89246 14.9615C9.95745 17.069 12.1159 18.5 14.5954 18.5C18.1205 18.5 20.9999 15.602 20.9999 12C20.9999 8.39803 18.1205 5.5 14.5954 5.5Z'
-        fill='black'
-        stroke='#A78BFA'
+        stroke='#15803d'
+        fill='#4d7c0f'
         fillRule='evenodd'
       />
     </svg>
@@ -155,8 +154,8 @@ function LogOutInactiveIcon(props) {
 function DuplicateInactiveIcon(props) {
   return (
     <svg {...props} viewBox='0 0 20 20' fill='none' xmlns='http://www.w3.org/2000/svg'>
-      <path d='M4 4H12V12H4V4Z' fill='#EDE9FE' stroke='#A78BFA' strokeWidth='2' />
-      <path d='M8 8H16V16H8V8Z' fill='#EDE9FE' stroke='#A78BFA' strokeWidth='2' />
+      <path d='M4 4H12V12H4V4Z' fill='#4d7c0f' stroke='#15803d' strokeWidth='2' />
+      <path d='M8 8H16V16H8V8Z' fill='#4d7c0f' stroke='#15803d' strokeWidth='2' />
     </svg>
   )
 }
@@ -164,8 +163,8 @@ function DuplicateInactiveIcon(props) {
 function DuplicateActiveIcon(props) {
   return (
     <svg {...props} viewBox='0 0 20 20' fill='none' xmlns='http://www.w3.org/2000/svg'>
-      <path d='M4 4H12V12H4V4Z' fill='#8B5CF6' stroke='#C4B5FD' strokeWidth='2' />
-      <path d='M8 8H16V16H8V8Z' fill='#8B5CF6' stroke='#C4B5FD' strokeWidth='2' />
+      <path d='M4 4H12V12H4V4Z' stroke='#15803d' strokeWidth='2' />
+      <path d='M8 8H16V16H8V8Z' stroke='#15803d' strokeWidth='2' />
     </svg>
   )
 }
@@ -173,9 +172,9 @@ function DuplicateActiveIcon(props) {
 function ArchiveInactiveIcon(props) {
   return (
     <svg {...props} viewBox='0 0 20 20' fill='none' xmlns='http://www.w3.org/2000/svg'>
-      <rect x='5' y='8' width='10' height='8' fill='#EDE9FE' stroke='#A78BFA' strokeWidth='2' />
-      <rect x='4' y='4' width='12' height='4' fill='#EDE9FE' stroke='#A78BFA' strokeWidth='2' />
-      <path d='M8 12H12' stroke='#A78BFA' strokeWidth='2' />
+      <rect x='5' y='8' width='10' height='8' fill='#EDE9FE' stroke='#15803d' strokeWidth='2' />
+      <rect x='4' y='4' width='12' height='4' fill='#EDE9FE' stroke='#15803d' strokeWidth='2' />
+      <path d='M8 12H12' stroke='#15803d' strokeWidth='2' />
     </svg>
   )
 }
