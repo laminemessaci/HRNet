@@ -1,6 +1,11 @@
 const color = require('colors');
 const bcrypt = require('bcrypt');
 const Employee = require('../models/Employee');
+const Mongoose = require('mongoose');
+
+const toObjId = (id) => {
+  return Types.ObjectId(id);
+};
 
 // @desc Get all employees
 // @route GET /employees
@@ -26,7 +31,6 @@ const createNewEmployee = async (req, res) => {
   const newEmployee = await new Employee({
     ...req.body,
   });
-  console.log(color.cyan(newEmployee));
 
   const {
     user,
@@ -120,7 +124,9 @@ const updateEmployee = async (req, res) => {
 // @route DELETE /employees
 // @access Private
 const deleteEmployee = async (req, res) => {
-  const id = req.params.id;
+  const id = req.body.id;
+  const objId = Mongoose.Types.ObjectId(id);
+  console.log(color.cyan(id, objId));
 
   // Confirm data
   if (!id) {
@@ -128,7 +134,7 @@ const deleteEmployee = async (req, res) => {
   }
 
   // Does the employee exist to delete?
-  const employee = await Employee.findById(id).exec();
+  const employee = await Employee.findById(objId);
 
   if (!employee) {
     return res.status(400).json({ message: 'Employee not found' });

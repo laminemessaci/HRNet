@@ -9,10 +9,11 @@ router.use(verifyJWT);
 router
   .route('/')
   .get(employeesController.getAllEmployees)
-  .post(employeesController.createNewEmployee);
+  .post(employeesController.createNewEmployee)
+  .delete(employeesController.deleteEmployee);
 router
   .route('/:id')
   .patch(employeesController.updateEmployee)
-  .delete(employeesController.deleteEmployee);
+  
 
 module.exports = router;
