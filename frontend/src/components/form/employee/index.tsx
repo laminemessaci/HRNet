@@ -3,7 +3,8 @@
 // @ts-nocheck
 import { faAddressCard } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { useState } from 'react'
+
+import { useState, useEffect } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { useAddNewEmployeeMutation } from '../../../features/employees/EmployeesApiSlice.js'
 import { useGetUsersQuery } from '../../../features/users/usersApiSlice.js'
@@ -14,6 +15,9 @@ import Loader from '../../Loader'
 import Message from '../../Message'
 import DataListField from './DataListField'
 import DateField from './DateField'
+import { navigateTo } from './../../../utils/index'
+import { NavigateFunction, useNavigate } from 'react-router'
+import { ErrorMessage } from '@hookform/error-message'
 
 interface FormInputs {
   firstName: string
@@ -35,6 +39,10 @@ function classNames(...classes) {
 const EmployeeForm = () => {
   const [department, setDepartment] = useState<IDepartment>(departments[0])
   const [selctedState, setSelectedState] = useState<IState>(states[0])
+  const [errorState, setErrorState] = useState<string>('')
+  const [errorDept, setErrorDept] = useState<string>('')
+  const [globalError, setGlobalError] = useState<string>('')
+  const navigate = useNavigate<NavigateFunction>()
 
   const {
     control,
@@ -44,7 +52,7 @@ const EmployeeForm = () => {
     formState: { errors },
   } = useForm<FormInputs>()
 
-  const [addNewEmployee, { isLoading, isSuccess, isError, error }] = useAddNewEmployeeMutation()
+  const [addNewEmployee, { isLoading, isSuccess, error }] = useAddNewEmployeeMutation()
   const { roles, username } = useAuth()
 
   // console.log('username', username, roles)
@@ -53,19 +61,29 @@ const EmployeeForm = () => {
       users: data?.ids.map((id) => data?.entities[id]),
     }),
   })
+  useEffect(() => {
+    console.log('errorDept', errorDept)
+  }, [errorDept, errorState, error, navigate])
 
   if (!users?.length || isLoading) return <Loader type='spokes' color='green' width={200} height={200} />
 
-  console.log('users', users)
+  // console.log('users', users)
   const currentUser = users.filter((user) => user.username === username)
-  console.log('currentUser', currentUser[0]._id)
+  // console.log('currentUser', currentUser[0]._id)
 
   const onSubmit = async (data) => {
-    console.log(data)
     const { firstName, lastName, startDay, birthDay, department: department, state: state, street, zipCode, city } = data
+    if (department.name === 'Select Your Department') {
+      setErrorDept('Please select your department !')
+      return
+    }
+    if (state.name === 'Select Your State') {
+      setErrorState('Please select your state !')
+      return
+    }
     try {
       window.scrollTo(0, 0)
-      await addNewEmployee({
+      const { isError, error } = await addNewEmployee({
         user: users[0].id,
         firstName,
         lastName,
@@ -80,17 +98,20 @@ const EmployeeForm = () => {
       reset()
       setSelectedState(states[0])
       setDepartment(departments[0])
+      if (error || isError) return
+      navigateTo('/home/employees-list', navigate)
     } catch (error) {
       console.log(error)
+      setGlobalError(error)
     }
   }
 
   return (
     <>
       {error && <Message>{error.data['message']}</Message>}
+      {globalError && <p className='flex justify-center text-red-500'>{globalError}</p>}
       <form onSubmit={handleSubmit(onSubmit)} className='w-4/5 sm:w-2/5 mx-auto mt-8'>
         <div className='flex lg:flex-row  flex-col  justify-between'>
-          {/* <ErrorMessage errors={errors} name='firstName' render={({ message }) => <p>{message}</p>} /> */}
           <div className='lg:w-1/2 m-1'>
             <label htmlFor='firstName' className='block text-sm font-medium text-gray-700'>
               Firstname
@@ -181,10 +202,12 @@ const EmployeeForm = () => {
                 onChange={(e) => {
                   onChange(e)
                   setDepartment(e)
+                  setErrorDept('')
                 }}
               />
             )}
           ></Controller>
+          {errorDept && <p className='text-red-500'>{errorDept}</p>}
         </div>
 
         <div className='adress border mt-8 bg-green-200 mb-8'>
@@ -233,10 +256,12 @@ const EmployeeForm = () => {
                 onChange={(e): void => {
                   onChange(e)
                   setSelectedState(e)
+                  setErrorState('')
                 }}
               />
             )}
           ></Controller>
+          {errorState && <p className='flex justify-center text-red-500'>{errorState}</p>}
 
           <div className='mt-8 w-11/12 sm:w-1/2 mx-auto mb-8'>
             <label htmlFor='zipCode' className='block text-sm font-medium text-gray-700'>

@@ -2,6 +2,7 @@ import React from 'react'
 
 import { Table } from 'antd'
 import { ColumnsType } from 'antd/es/table'
+import { useDeleteEmployeeMutation } from '../features/employees/EmployeesApiSlice'
 
 interface ITableContent {
   key: string
@@ -23,7 +24,7 @@ interface ITable {
 }
 
 const EmployeesTable: React.FC<ITable> = ({ searchResult = null, tableContent = [], columns }: ITable): JSX.Element => {
-  console.log('searchResult', searchResult, tableContent)
+ 
   return (
     <>
       <Table<ITableContent>

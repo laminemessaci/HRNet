@@ -1,6 +1,11 @@
 const color = require('colors');
 const bcrypt = require('bcrypt');
 const Employee = require('../models/Employee');
+const Mongoose = require('mongoose');
+
+const toObjId = (id) => {
+  return Types.ObjectId(id);
+};
 
 // @desc Get all employees
 // @route GET /employees
@@ -9,7 +14,7 @@ const getAllEmployees = async (req, res) => {
   // console.log(color.cyan('Get all Employees', req.body));
   // Get all employees from MongoDB
   const employees = await Employee.find().lean();
-  // console.log(color.cyan(employees));
+   console.log(color.cyan(employees));
 
   // If no employees
   if (!employees?.length) {
@@ -26,7 +31,6 @@ const createNewEmployee = async (req, res) => {
   const newEmployee = await new Employee({
     ...req.body,
   });
-  console.log(color.cyan(newEmployee));
 
   const {
     user,
@@ -58,7 +62,7 @@ const createNewEmployee = async (req, res) => {
   }
 
   // Check for duplicate employee
-  const duplicate = await Employee.findOne({ lastName, firstName, birthDay })
+  const duplicate = await Employee.findOne({ lastName, firstName })
     .collation({ locale: 'en', strength: 2 })
     .lean()
     .exec();
@@ -120,7 +124,9 @@ const updateEmployee = async (req, res) => {
 // @route DELETE /employees
 // @access Private
 const deleteEmployee = async (req, res) => {
-  const id = req.params.id;
+  const id = req.body.id;
+  const objId = Mongoose.Types.ObjectId(id);
+  console.log(color.cyan(id, objId));
 
   // Confirm data
   if (!id) {
@@ -128,7 +134,7 @@ const deleteEmployee = async (req, res) => {
   }
 
   // Does the employee exist to delete?
-  const employee = await Employee.findById(id).exec();
+  const employee = await Employee.findById(objId);
 
   if (!employee) {
     return res.status(400).json({ message: 'Employee not found' });

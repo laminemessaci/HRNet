@@ -2,6 +2,8 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEye, faUserEdit, faTrashCan } from '@fortawesome/free-solid-svg-icons'
 import { Space } from 'antd'
+import { useDeleteEmployeeMutation } from '../features/employees/EmployeesApiSlice'
+import EmployeeActions from '../components/form/employee/EmployeeActions'
 
 export interface IColumn {
   key: string
@@ -13,6 +15,8 @@ export interface IColumn {
   render?: (date: any) => any
 }
 
+
+
 // @ts-ignore
 
 export const columns: IColumn = [
@@ -23,7 +27,6 @@ export const columns: IColumn = [
     defaultSortOrder: 'descend',
     sortDirections: ['descend', 'ascend'],
     sorter: (a: { firstName: string }, b: { firstName: any }) => {
-      console.log(a, b)
       return a.firstName.localeCompare(b.firstName)
     },
   },
@@ -101,29 +104,7 @@ export const columns: IColumn = [
   {
     title: 'Action',
     key: 'action',
-    render: () => (
-      <Space className='m-1 '>
-        <div className='mx-1'>
-          <FontAwesomeIcon
-            onClick={() => console.log('clicked')}
-            className='bg-green-600  border-2 w-6 rounded-md p-1 ml-2  shadow-md hover:bg-green-400'
-            icon={faEye}
-            color='white'
-          />
-          <FontAwesomeIcon
-            className='ml-2 border-2 rounded-md p-1 w-6  shadow-md hover:bg-green-400'
-            onClick={() => console.log('clicked')}
-            icon={faUserEdit}
-            color='orange'
-          />
-          <FontAwesomeIcon
-            className='ml-2 border-2 rounded-md p-1 w-6 shadow-md hover:bg-green-400'
-            onClick={() => console.log('clicked')}
-            icon={faTrashCan}
-            color='red'
-          />
-        </div>
-      </Space>
-    ),
+    dataIndex: 'key',
+    render: (id: string) => <EmployeeActions id={id} />,
   },
 ]
