@@ -19,7 +19,7 @@ import { navigateTo } from './../../../utils/index'
 import { NavigateFunction, useNavigate } from 'react-router'
 import { ErrorMessage } from '@hookform/error-message'
 
-interface FormInputs {
+export interface FormInputs {
   firstName: string
   lastName: string
   startDay: Date

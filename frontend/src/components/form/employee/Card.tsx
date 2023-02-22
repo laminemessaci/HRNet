@@ -40,8 +40,8 @@ const Card: React.FC<IProps> = ({ id }): JSX.Element => {
 
     const currentEmployee = entities[id]
     content = (
-      <div className='flex items-center h-screen w-full justify-center'>
-        <div className='max-w-xs'>
+      <div className='flex items-center h-screen w-full justify-center  mx-auto'>
+        <div className='md:w-2/3 '>
           <div className='bg-white shadow-xl rounded-lg py-3'>
             <div className='photo-wrapper p-2'>
               <img
@@ -59,13 +59,15 @@ const Card: React.FC<IProps> = ({ id }): JSX.Element => {
               </div>
               <table className='text-xs my-3'>
                 <tbody>
-                  <tr className='bg-gray-100 rounded-sm '>
+                  <tr className='bg-gray-100 rounded-sm'>
                     <td className='px-2 py-2 text-gray-400 font-semibold '>Address: </td>
                     <td className='px-2 py-3'>{currentEmployee.street}</td>
                   </tr>
                   <tr className='bg-gray-100 rounded-sm '>
                     <td></td>
-                    <td className='px-4 py-0 flex justify-center'>{currentEmployee.zipCode + ' ' + currentEmployee.city}</td>
+                    <td className='px-4 py-0 flex items-center justify-start'>
+                      {currentEmployee.zipCode + ' ' + currentEmployee.city}
+                    </td>
                   </tr>
 
                   <tr>
