@@ -14,7 +14,7 @@ const getAllEmployees = async (req, res) => {
   // console.log(color.cyan('Get all Employees', req.body));
   // Get all employees from MongoDB
   const employees = await Employee.find().lean();
-  // console.log(color.cyan(employees));
+   console.log(color.cyan(employees));
 
   // If no employees
   if (!employees?.length) {

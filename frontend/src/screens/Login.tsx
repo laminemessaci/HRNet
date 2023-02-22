@@ -61,9 +61,19 @@ const Login: React.FC = (): JSX.Element => {
   }
 
   const handleSubmit = async (values: IValues) => {
+    const userNameRegular = '^(?=[a-zA-Z0-9._]{8,20}$)(?!.*[_.]{2})[^_.].*[^_.]$'
+
     const { username, password } = values
+    const trimmedUsername: string = username.trim()
+    const trimmedPassword: string = password.trim()
+    // @ to  do control userName and password
+
+    // if (!trimmedUsername.match(userNameRegular)) {
+    //   setErrMsg('Invalid Username')
+    //   return
+    // }
     try {
-      const { accessToken }: IAuth = await login({ username, password }).unwrap()
+      const { accessToken }: IAuth = await login({ username: trimmedUsername, password: trimmedPassword }).unwrap()
       dispatch(setCredentials({ accessToken }))
       //   setUsername('')
       //   setPassword('')

@@ -11,6 +11,7 @@ const navigation = [
   // { name: 'Home', href: '/home' },
   { name: 'Add Employee', href: '/home/new-employee' },
   { name: 'View Employees', href: '/home/employees-list' },
+  { name: 'Add user', href: '/home/new-user' },
 ]
 
 function NavMenu() {
@@ -45,7 +46,7 @@ function NavMenu() {
                     <div className='flex space-x-8 border-4 '>
                       <NavLink to={'/home'} key='Home'>
                         <img
-                          className=' h-12 p-1 hover:bg-green-400 rounded-full border-2  border-green-700'
+                          className=' h-12 p-1 hover:bg-green-400 rounded-full'
                           loading='lazy'
                           src='/logo192.ico'
                           alt='HrNet-logo'
@@ -93,7 +94,6 @@ function NavMenu() {
                           ? 'bg-green-200 text-green-500 sm:text-xl lg:text-2xl block p-2 w-full  mx-auto'
                           : 'text-green-500 hover:bg-green-200 hover:green-700 sm:text-xl lg:text-2xl p-2  mx-auto block'
                       }
-      
                       aria-current={item.current ? 'page' : undefined}
                       end
                     >
