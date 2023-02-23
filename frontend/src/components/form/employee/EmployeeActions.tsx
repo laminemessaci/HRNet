@@ -8,6 +8,8 @@ import Drawer from './EmployeeDrawer'
 import Card from './Card'
 import ConfirmAction from '../../ConfirmAction'
 import UpdateForm from './UpdateForm'
+import { useGetUsersQuery } from '../../../features/users/usersApiSlice'
+import useAuth from './../../../hooks/useAuth'
 
 interface IProps {
   id: string
@@ -17,7 +19,10 @@ const EmployeeActions: React.FC<IProps> = ({ id }): JSX.Element => {
   const [deleteEmployee, { isSuccess: isDelSuccess, isError: isDelError, error: delerror }] = useDeleteEmployeeMutation()
   const [isOpen, setIsOpen] = React.useState(false)
   const [action, setAction] = React.useState(null)
-  // const [isValidate, setIsValidate] = React.useState(false)
+
+  // function dateFormat(seconds) {
+  //   return new Date(seconds * 1000).toLocaleDateString('fr')
+  // }
 
   const navigate = useNavigate()
 
@@ -72,7 +77,7 @@ const EmployeeActions: React.FC<IProps> = ({ id }): JSX.Element => {
       </Space>
 
       <Drawer isOpen={isOpen} setIsOpen={setIsOpen}>
-        {action == 'details' ? <Card id={id} /> : <UpdateForm />}
+        {action == 'details' ? <Card id={id} /> : <UpdateForm id={id} />}
       </Drawer>
     </>
   )

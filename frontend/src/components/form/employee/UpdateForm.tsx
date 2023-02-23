@@ -11,16 +11,50 @@ import { NavigateFunction, useNavigate } from 'react-router'
 import { IState, states } from '../../../utils/States'
 import { departments, IDepartment } from '../../../utils/Department'
 import { FormInputs } from './index'
-import { useUpdateEmployeeMutation } from '../../../features/employees/EmployeesApiSlice'
+import { useGetEmployeesQuery, useUpdateEmployeeMutation } from '../../../features/employees/EmployeesApiSlice'
 import useAuth from './../../../hooks/useAuth'
+import Loader from './../../Loader'
+import { useGetUsersQuery } from '../../../features/users/usersApiSlice'
+import { navigateTo } from './../../../utils/index'
 
-const UpdateForm: React.FC = (): JSX.Element => {
+interface IProps {
+  id: string
+}
+
+const UpdateForm: React.FC<IProps> = ({ id }): JSX.Element => {
   const [department, setDepartment] = useState<IDepartment>(departments[0])
   const [selctedState, setSelectedState] = useState<IState>(states[0])
   const [errorState, setErrorState] = useState<string>('')
   const [errorDept, setErrorDept] = useState<string>('')
   const [globalError, setGlobalError] = useState<string>('')
   const navigate = useNavigate<NavigateFunction>()
+  const { employee } = useGetEmployeesQuery('employeesList', {
+    selectFromResult: ({ data }) => ({
+      employee: data?.entities[id],
+    }),
+  })
+
+  const initialValues = {
+    department: departments[0],
+    state: states[0],
+    street: employee?.street,
+    zipCode: employee?.zipCode,
+    city: employee?.city,
+  }
+
+  const [formState, setFormState] = useState(initialValues)
+
+  //   const {
+  //     data: employees,
+  //     isLoading,
+  //     isSuccess,
+  //     isError,
+  //     error,
+  //   } = useGetEmployeesQuery('employeesList', {
+  //     pollingInterval: 15000,
+  //     refetchOnFocus: true,
+  //     refetchOnMountOrArgChange: true,
+  //   })
 
   const {
     control,
@@ -30,14 +64,57 @@ const UpdateForm: React.FC = (): JSX.Element => {
     formState: { errors },
   } = useForm<FormInputs>()
 
-  const [addNewEmployee, { isLoading, isSuccess, error }] = useUpdateEmployeeMutation()
+  const [updateEmployee, { isLoading: isUpdateLoading, isSuccess: isUpdateSuccess, error: isUpdatError }] =
+    useUpdateEmployeeMutation()
   // const { roles, username } = useAuth()
+  const { users } = useGetUsersQuery('usersList', {
+    selectFromResult: ({ data }) => ({
+      users: data?.ids.map((id) => data?.entities[id]),
+    }),
+  })
+
+  const onSubmit = async (data) => {
+    const { firstName, lastName, birthDay, startDay, id } = employee
+    console.log('user', id)
+    const { department: department, state: state, street, zipCode, city } = data
+    if (department.name === 'Select Your Department') {
+      setErrorDept('Please select your department !')
+      return
+    }
+    if (state.name === 'Select Your State') {
+      setErrorState('Please select your state !')
+      return
+    }
+    try {
+      window.scrollTo(0, 0)
+      const { isError, error } = await updateEmployee({
+        id,
+        firstName,
+        lastName,
+        startDay,
+        birthDay,
+        department: department.name,
+        state: state.name,
+        street: formState.street,
+        zipCode: formState.zipCode,
+        city: formState.city,
+      })
+      reset()
+      setSelectedState(states[0])
+      setDepartment(departments[0])
+      if (error || isError) return
+      navigateTo('/home/employees-list', navigate)
+    } catch (error) {
+      console.log(error)
+      setGlobalError(error)
+    }
+  }
 
   return (
     <>
       {/* {error && <Message>{error.data['message']}</Message>} */}
       {/* {globalError && <p className='flex justify-center text-red-500'>{globalError}</p>} */}
-      <form onSubmit={() => console.log('test')} className='w-4/5 sm:w-4/5 mx-auto mt-16 bg-zinc-200 p-4 rounded-md'>
+      <form onSubmit={handleSubmit(onSubmit)} className='w-4/5 sm:w-4/5 mx-auto mt-16 bg-zinc-200 p-4 rounded-md'>
         <div className='flex lg:flex-row  flex-col  justify-between'>
           <div className='lg:w-1/2 m-1'>
             <label htmlFor='firstName' className='block text-sm font-medium text-gray-700'>
@@ -49,7 +126,7 @@ const UpdateForm: React.FC = (): JSX.Element => {
               type='text'
               name='firstName'
               id='firstName'
-              value={'lamine'}
+              defaultValue={employee.firstName}
               className='mt-1 block w-full rounded-md bg-gray-300 border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm'
               placeholder='Firstname'
             />
@@ -62,7 +139,7 @@ const UpdateForm: React.FC = (): JSX.Element => {
               disabled
               type='text'
               name='lastName'
-              value={'messaci'}
+              defaultValue={employee.lastName}
               id='lastName'
               className='mt-1 block w-full bg-gray-300 rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm'
               placeholder='Lastname'
@@ -74,7 +151,7 @@ const UpdateForm: React.FC = (): JSX.Element => {
           <Controller
             name='department'
             control={control}
-            defaultValue={departments[0]}
+            defaultValue={initialValues.department}
             render={({ field: { onChange } }) => (
               <DataListField<IDepartment>
                 list={departments}
@@ -104,7 +181,13 @@ const UpdateForm: React.FC = (): JSX.Element => {
               {...register('street', { required: true })}
               type='text'
               name='street'
+              //   defaultValue={initialValues.street}
+              onChange={(e) => {
+                console.log(e.target.value)
+                setFormState({ ...formState, street: e.target.value })
+              }}
               id='street'
+              value={formState.street.trim()}
               className='mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm'
               placeholder='street'
             />
@@ -121,6 +204,12 @@ const UpdateForm: React.FC = (): JSX.Element => {
                 {...register('zipCode', { required: true, pattern: /^[0-9]+$/ })}
                 type='number'
                 name='zipCode'
+                // defaultValue={employee.zipCode}
+                onChange={(e) => {
+                  console.log(e.target.value)
+                  setFormState({ ...formState, zipCode: e.target.value.trim() })
+                }}
+                value={formState.zipCode.trim()}
                 id='zipCode'
                 className='mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm'
                 placeholder='zipCode'
@@ -137,6 +226,12 @@ const UpdateForm: React.FC = (): JSX.Element => {
                 {...register('city', { required: true })}
                 type='text'
                 name='city'
+                // defaultValue={employee.city}
+                onChange={(e) => {
+                  console.log(e.target.value)
+                  setFormState({ ...formState, city: e.target.value })
+                }}
+                value={formState.city.trim()}
                 id='city'
                 className='mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm'
                 placeholder='city'
