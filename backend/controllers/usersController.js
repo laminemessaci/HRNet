@@ -21,21 +21,21 @@ const getAllUsers = async (req, res) => {
 // @route POST /users
 // @access Private
 const createNewUser = async (req, res) => {
-  const { username, password, roles } = req.body;
+  const { email, password, roles, firstName, lastName, avatar } = req.body;
 
   // Confirm data
-  if (!username || !password) {
+  if (!email || !password || !lastName || !firstName) {
     return res.status(400).json({ message: 'All fields are required' });
   }
 
-  // Check for duplicate username
-  const duplicate = await User.findOne({ username })
+  // Check for duplicate email
+  const duplicate = await User.findOne({ email })
     .collation({ locale: 'en', strength: 2 })
     .lean()
     .exec();
 
   if (duplicate) {
-    return res.status(409).json({ message: 'Duplicate username' });
+    return res.status(409).json({ message: 'Duplicate email' });
   }
 
   // Hash password
@@ -43,15 +43,15 @@ const createNewUser = async (req, res) => {
 
   const userObject =
     !Array.isArray(roles) || !roles.length
-      ? { username, password: hashedPwd }
-      : { username, password: hashedPwd, roles };
+      ? { email, password: hashedPwd, firstName, lastName, avatar }
+      : { email, password: hashedPwd, roles, firstName, lastName, avatar  };
 
   // Create and store new user
   const user = await User.create(userObject);
 
   if (user) {
     //created
-    res.status(201).json({ message: `New user ${username} created` });
+    res.status(201).json({ message: `New user ${email} created` });
   } else {
     res.status(400).json({ message: 'Invalid user data received' });
   }
@@ -61,12 +61,12 @@ const createNewUser = async (req, res) => {
 // @route PATCH /users
 // @access Private
 const updateUser = async (req, res) => {
-  const { id, username, roles, active, password } = req.body;
+  const { id, email, roles, active, password } = req.body;
 
   // Confirm data
   if (
     !id ||
-    !username ||
+    !email ||
     !Array.isArray(roles) ||
     !roles.length ||
     typeof active !== 'boolean'
@@ -84,17 +84,17 @@ const updateUser = async (req, res) => {
   }
 
   // Check for duplicate
-  const duplicate = await User.findOne({ username })
+  const duplicate = await User.findOne({ email })
     .collation({ locale: 'en', strength: 2 })
     .lean()
     .exec();
 
   // Allow updates to the original user
   if (duplicate && duplicate?._id.toString() !== id) {
-    return res.status(409).json({ message: 'Duplicate username' });
+    return res.status(409).json({ message: 'Duplicate email' });
   }
 
-  user.username = username;
+  user.email = email;
   user.roles = roles;
   user.active = active;
 
@@ -105,7 +105,7 @@ const updateUser = async (req, res) => {
 
   const updatedUser = await user.save();
 
-  res.json({ message: `${updatedUser.username} updated` });
+  res.json({ message: `${updatedUser.email} updated` });
 };
 
 // @desc Delete a user
@@ -134,7 +134,7 @@ const deleteUser = async (req, res) => {
 
   const result = await user.deleteOne();
 
-  const reply = `Username ${result.username} with ID ${result._id} deleted`;
+  const reply = `Username ${result.email} with ID ${result._id} deleted`;
 
   res.json(reply);
 };

@@ -10,8 +10,8 @@ import { navigateTo } from './../utils/index'
 const navigation = [
   // { name: 'Home', href: '/home' },
   { name: 'Add Employee', href: '/home/new-employee' },
-  { name: 'View Employees', href: '/home/employees-list' },
-  { name: 'Add user', href: '/home/new-user' },
+  { name: 'Employees', href: '/home/employees-list' },
+  { name: 'Users', href: '/home/users-list' },
 ]
 
 function NavMenu() {

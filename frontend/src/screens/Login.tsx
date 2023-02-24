@@ -20,7 +20,7 @@ export interface IUserLogin {
   token: string | null
 }
 interface IValues {
-  username: string
+  email: string
   password: string
 }
 
@@ -48,7 +48,7 @@ const Login: React.FC = (): JSX.Element => {
   }, [])
 
   const validationSchema = Yup.object().shape({
-    username: Yup.string().required('username is required!.').min(3, 'Must be greater than 5 characters.'),
+    email: Yup.string().required('email is required!.').min(3, 'Must be greater than 5 characters.'),
     password: Yup.string()
       .required('Password is required.')
       .min(3, 'Must be greater than 5 characters.')
@@ -56,24 +56,26 @@ const Login: React.FC = (): JSX.Element => {
   })
 
   const initialValues: IValues = {
-    username: '',
+    email: '',
     password: '',
   }
 
   const handleSubmit = async (values: IValues) => {
-    const userNameRegular = '^(?=[a-zA-Z0-9._]{8,20}$)(?!.*[_.]{2})[^_.].*[^_.]$'
+    // const userNameRegular = '^(?=[a-zA-Z0-9._]{8,20}$)(?!.*[_.]{2})[^_.].*[^_.]$'
+    const userMail =
+      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 
-    const { username, password } = values
-    const trimmedUsername: string = username.trim()
+    const { email, password } = values
+    const trimmedUsername: string = email.trim()
     const trimmedPassword: string = password.trim()
     // @ to  do control userName and password
 
-    // if (!trimmedUsername.match(userNameRegular)) {
-    //   setErrMsg('Invalid Username')
-    //   return
-    // }
+    if (!trimmedUsername.match(userMail)) {
+      setErrMsg('Invalid Username')
+      return
+    }
     try {
-      const { accessToken }: IAuth = await login({ username: trimmedUsername, password: trimmedPassword }).unwrap()
+      const { accessToken }: IAuth = await login({ email: trimmedUsername, password: trimmedPassword }).unwrap()
       dispatch(setCredentials({ accessToken }))
       //   setUsername('')
       //   setPassword('')
@@ -112,17 +114,17 @@ const Login: React.FC = (): JSX.Element => {
             {({ resetForm }: any) => (
               <Form className='mt-6'>
                 <div className='mb-2'>
-                  <label htmlFor='username' className='block text-sm font-semibold text-gray-800'>
-                    UserName
+                  <label htmlFor='email' className='block text-sm font-semibold text-gray-800'>
+                    Email
                   </label>
                   <Field
-                    id='username'
-                    name='username'
-                    type='username'
-                    placeholder='Your userName'
+                    id='email'
+                    name='email'
+                    type='email'
+                    placeholder='Your Email address'
                     className='block w-full px-4 py-2 mt-2 text-teal-700 bg-white border rounded-md focus:border-teal-400 focus:ring-teal-300 focus:outline-none focus:ring focus:ring-opacity-40'
                   />
-                  <ErrorMessage name='username' component='small' className='text-red-700' />
+                  <ErrorMessage name='email' component='small' className='text-red-700' />
                 </div>
                 <div className='mb-2'>
                   <label htmlFor='password' className='block text-sm font-semibold text-gray-800'>

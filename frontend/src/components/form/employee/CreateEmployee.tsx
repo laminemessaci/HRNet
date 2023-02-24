@@ -15,7 +15,7 @@ import Loader from '../../Loader'
 import Message from '../../Message'
 import DataListField from './DataListField'
 import DateField from './DateField'
-import { navigateTo } from './../../../utils/index'
+import { navigateTo } from '../../../utils/index'
 import { NavigateFunction, useNavigate } from 'react-router'
 import { ErrorMessage } from '@hookform/error-message'
 
@@ -53,7 +53,7 @@ const EmployeeForm: React.FC = (): JSX.Element => {
   } = useForm<FormInputs>()
 
   const [addNewEmployee, { isLoading, isSuccess, error }] = useAddNewEmployeeMutation()
-  const { roles, username } = useAuth()
+  const { roles, email } = useAuth()
 
   // console.log('username', username, roles)
   const { users } = useGetUsersQuery('usersList', {
@@ -61,6 +61,8 @@ const EmployeeForm: React.FC = (): JSX.Element => {
       users: data?.ids.map((id) => data?.entities[id]),
     }),
   })
+
+  console.log('users', users)
   // useEffect(() => {
   //   console.log('errorDept', errorDept)
   // }, [errorDept, errorState, error, navigate])
@@ -68,10 +70,12 @@ const EmployeeForm: React.FC = (): JSX.Element => {
   if (!users?.length || isLoading) return <Loader type='spokes' color='green' width={200} height={200} />
 
   // console.log('users', users)
-  const currentUser = users.filter((user) => user.username === username)
+
   // console.log('currentUser', currentUser[0]._id)
 
   const onSubmit = async (data) => {
+    const userCreator = users.filter((user) => user.email == email)
+    console.log('creator: ', userCreator)
     const { firstName, lastName, startDay, birthDay, department: department, state: state, street, zipCode, city } = data
     if (department.name === 'Select Your Department') {
       setErrorDept('Please select your department !')
@@ -84,7 +88,7 @@ const EmployeeForm: React.FC = (): JSX.Element => {
     try {
       window.scrollTo(0, 0)
       const { isError, error } = await addNewEmployee({
-        user: users[0].id,
+        user: userCreator[0]._id,
         firstName,
         lastName,
         startDay,

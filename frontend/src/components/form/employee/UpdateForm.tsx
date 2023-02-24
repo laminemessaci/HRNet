@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Message from './../../Message'
 import { Controller, useForm } from 'react-hook-form'
 import DataListField from './DataListField'
@@ -10,7 +10,7 @@ import { faAddressCard } from '@fortawesome/free-solid-svg-icons'
 import { NavigateFunction, useNavigate } from 'react-router'
 import { IState, states } from '../../../utils/States'
 import { departments, IDepartment } from '../../../utils/Department'
-import { FormInputs } from './index'
+import { FormInputs } from './CreateEmployee'
 import { useGetEmployeesQuery, useUpdateEmployeeMutation } from '../../../features/employees/EmployeesApiSlice'
 import useAuth from './../../../hooks/useAuth'
 import Loader from './../../Loader'
@@ -26,7 +26,7 @@ const UpdateForm: React.FC<IProps> = ({ id }): JSX.Element => {
   const [selctedState, setSelectedState] = useState<IState>(states[0])
   const [errorState, setErrorState] = useState<string>('')
   const [errorDept, setErrorDept] = useState<string>('')
-  const [globalError, setGlobalError] = useState<string>('')
+  const [alert, setAlert] = useState<boolean>(false)
   const navigate = useNavigate<NavigateFunction>()
   const { employee } = useGetEmployeesQuery('employeesList', {
     selectFromResult: ({ data }) => ({
@@ -43,18 +43,6 @@ const UpdateForm: React.FC<IProps> = ({ id }): JSX.Element => {
   }
 
   const [formState, setFormState] = useState(initialValues)
-
-  //   const {
-  //     data: employees,
-  //     isLoading,
-  //     isSuccess,
-  //     isError,
-  //     error,
-  //   } = useGetEmployeesQuery('employeesList', {
-  //     pollingInterval: 15000,
-  //     refetchOnFocus: true,
-  //     refetchOnMountOrArgChange: true,
-  //   })
 
   const {
     control,
@@ -86,7 +74,6 @@ const UpdateForm: React.FC<IProps> = ({ id }): JSX.Element => {
       return
     }
     try {
-      window.scrollTo(0, 0)
       const { isError, error } = await updateEmployee({
         id,
         firstName,
@@ -99,22 +86,35 @@ const UpdateForm: React.FC<IProps> = ({ id }): JSX.Element => {
         zipCode: formState.zipCode,
         city: formState.city,
       })
+      setAlert(true)
       reset()
       setSelectedState(states[0])
       setDepartment(departments[0])
-      if (error || isError) return
+      // location.reload()
       navigateTo('/home/employees-list', navigate)
+      if (error || isError) return
     } catch (error) {
       console.log(error)
       setGlobalError(error)
     }
   }
-
+  //   if (isUpdateSuccess) {
+  //     return (
+  //       <div className='mb-4 rounded-lg bg-primary-100 py-5 px-6 text-base text-primary-600' role='alert'>
+  //         A simple primary alert—check it out!
+  //       </div>
+  //     )
+  //   }
   return (
     <>
-      {/* {error && <Message>{error.data['message']}</Message>} */}
       {/* {globalError && <p className='flex justify-center text-red-500'>{globalError}</p>} */}
+
       <form onSubmit={handleSubmit(onSubmit)} className='w-4/5 sm:w-4/5 mx-auto mt-16 bg-zinc-200 p-4 rounded-md'>
+        {alert ? (
+          <div className='mb-4 rounded-lg bg-green-600 py-5 px-6 text-base text-success-700' role='alert'>
+            {employee.lastName} has been updated successfully !
+          </div>
+        ) : null}
         <div className='flex lg:flex-row  flex-col  justify-between'>
           <div className='lg:w-1/2 m-1'>
             <label htmlFor='firstName' className='block text-sm font-medium text-gray-700'>
