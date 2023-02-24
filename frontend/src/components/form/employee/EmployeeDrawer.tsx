@@ -4,10 +4,9 @@ interface IPropsChild {
   children: React.ReactNode
   isOpen: boolean
   setIsOpen: (isOpen: boolean) => void
-  id: string
 }
 
-const Drawer: React.FC<IPropsChild> = ({ children, isOpen, setIsOpen, id }): JSX.Element => {
+const Drawer: React.FC<IPropsChild> = ({ children, isOpen, setIsOpen }): JSX.Element => {
   return (
     <main
       className={

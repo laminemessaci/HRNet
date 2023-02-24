@@ -3,7 +3,7 @@ import { IAuth, selectCurrentToken } from '../features/auth/authSlice'
 import jwtDecode from 'jwt-decode'
 
 export interface IUser {
-  username: string
+  email: string
   roles: string[]
 }
 
@@ -18,7 +18,8 @@ const useAuth = () => {
 
   if (token) {
     const decoded = jwtDecode<IUserInfos>(token)
-    const { username, roles } = decoded.UserInfo
+    const { email, roles } = decoded.UserInfo
+    // console.log('id', decoded)
 
     isManager = roles.includes('Manager')
     isAdmin = roles.includes('Admin')
@@ -26,9 +27,9 @@ const useAuth = () => {
     if (isManager) status = 'Manager'
     if (isAdmin) status = 'Admin'
 
-    return { username, roles, status, isManager, isAdmin }
+    return { email, roles, status, isManager, isAdmin }
   }
 
-  return { username: '', roles: [], isManager, isAdmin, status }
+  return { email: '', roles: [], isManager, isAdmin, status }
 }
 export default useAuth

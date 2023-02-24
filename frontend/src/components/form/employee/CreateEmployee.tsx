@@ -15,11 +15,11 @@ import Loader from '../../Loader'
 import Message from '../../Message'
 import DataListField from './DataListField'
 import DateField from './DateField'
-import { navigateTo } from './../../../utils/index'
+import { navigateTo } from '../../../utils/index'
 import { NavigateFunction, useNavigate } from 'react-router'
 import { ErrorMessage } from '@hookform/error-message'
 
-interface FormInputs {
+export interface FormInputs {
   firstName: string
   lastName: string
   startDay: Date
@@ -32,11 +32,11 @@ interface FormInputs {
   country: string
 }
 
-function classNames(...classes) {
-  return classes.filter(Boolean).join(' ')
-}
+// function classNames(...classes) {
+//   return classes.filter(Boolean).join(' ')
+// }
 
-const EmployeeForm = () => {
+const EmployeeForm: React.FC = (): JSX.Element => {
   const [department, setDepartment] = useState<IDepartment>(departments[0])
   const [selctedState, setSelectedState] = useState<IState>(states[0])
   const [errorState, setErrorState] = useState<string>('')
@@ -53,7 +53,7 @@ const EmployeeForm = () => {
   } = useForm<FormInputs>()
 
   const [addNewEmployee, { isLoading, isSuccess, error }] = useAddNewEmployeeMutation()
-  const { roles, username } = useAuth()
+  const { roles, email } = useAuth()
 
   // console.log('username', username, roles)
   const { users } = useGetUsersQuery('usersList', {
@@ -61,17 +61,21 @@ const EmployeeForm = () => {
       users: data?.ids.map((id) => data?.entities[id]),
     }),
   })
-  useEffect(() => {
-    console.log('errorDept', errorDept)
-  }, [errorDept, errorState, error, navigate])
+
+  console.log('users', users)
+  // useEffect(() => {
+  //   console.log('errorDept', errorDept)
+  // }, [errorDept, errorState, error, navigate])
 
   if (!users?.length || isLoading) return <Loader type='spokes' color='green' width={200} height={200} />
 
   // console.log('users', users)
-  const currentUser = users.filter((user) => user.username === username)
+
   // console.log('currentUser', currentUser[0]._id)
 
   const onSubmit = async (data) => {
+    const userCreator = users.filter((user) => user.email == email)
+    console.log('creator: ', userCreator)
     const { firstName, lastName, startDay, birthDay, department: department, state: state, street, zipCode, city } = data
     if (department.name === 'Select Your Department') {
       setErrorDept('Please select your department !')
@@ -84,7 +88,7 @@ const EmployeeForm = () => {
     try {
       window.scrollTo(0, 0)
       const { isError, error } = await addNewEmployee({
-        user: users[0].id,
+        user: userCreator[0]._id,
         firstName,
         lastName,
         startDay,

@@ -8,14 +8,14 @@ const color = require('colors');
 // @access Public
 const login = async (req, res) => {
   console.log(color.red('login:::'));
-  const { username, password } = req.body;
+  const { email, password } = req.body;
   console.log(color.cyan(req.body));
 
-  if (!username || !password) {
+  if (!email || !password) {
     return res.status(400).json({ message: 'All fields are required' });
   }
 
-  const foundUser = await User.findOne({ username }).exec();
+  const foundUser = await User.findOne({ email }).exec();
   console.log(color.cyan(foundUser));
 
   if (!foundUser || !foundUser.active) {
@@ -29,7 +29,7 @@ const login = async (req, res) => {
   const accessToken = jwt.sign(
     {
       UserInfo: {
-        username: foundUser.username,
+        email: foundUser.email,
         roles: foundUser.roles,
       },
     },
@@ -38,7 +38,7 @@ const login = async (req, res) => {
   );
 
   const refreshToken = jwt.sign(
-    { username: foundUser.username },
+    { email: foundUser.email },
     process.env.REFRESH_TOKEN_SECRET,
     { expiresIn: '7d' }
   );
@@ -51,7 +51,7 @@ const login = async (req, res) => {
     maxAge: 7 * 24 * 60 * 60 * 1000, //cookie expiry: set to match rT
   });
 
-  // Send accessToken containing username and roles
+  // Send accessToken containing email and roles
   res.json({ accessToken });
 };
 
@@ -59,7 +59,7 @@ const login = async (req, res) => {
 // @route GET /auth/refresh
 // @access Public - because access token has expired
 const refresh = (req, res) => {
-  console.log(color.red('refresh:::'));
+  // console.log(color.red('refresh:::'));
   const cookies = req.cookies;
 
   if (!cookies?.jwt) return res.status(401).json({ message: 'Unauthorized' });
@@ -73,7 +73,7 @@ const refresh = (req, res) => {
       if (err) return res.status(403).json({ message: 'Forbidden' });
 
       const foundUser = await User.findOne({
-        username: decoded.username,
+        email: decoded.email,
       }).exec();
 
       if (!foundUser) return res.status(401).json({ message: 'Unauthorized' });
@@ -81,7 +81,7 @@ const refresh = (req, res) => {
       const accessToken = jwt.sign(
         {
           UserInfo: {
-            username: foundUser.username,
+            email: foundUser.email,
             roles: foundUser.roles,
           },
         },

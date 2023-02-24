@@ -14,7 +14,7 @@ const getAllEmployees = async (req, res) => {
   // console.log(color.cyan('Get all Employees', req.body));
   // Get all employees from MongoDB
   const employees = await Employee.find().lean();
-   console.log(color.cyan(employees));
+  // console.log(color.cyan(employees));
 
   // If no employees
   if (!employees?.length) {
@@ -85,15 +85,29 @@ const createNewEmployee = async (req, res) => {
 // @route PATCH /employees
 // @access Private
 const updateEmployee = async (req, res) => {
-  const { _id, firstName, lastName, birthDay, address } = req.body;
+  //  console.log(color.cyan(req.body.id));
+
+  const {
+    firstName,
+    lastName,
+    birthDay,
+    street,
+    city,
+    state,
+    zipCode,
+    department,
+  } = req.body;
+  const id = req.body.id;
+  const objId = Mongoose.Types.ObjectId(id);
 
   // Confirm data
-  if (!firstName || !lastName || !birthDay || !address) {
+  if (!department || !street || !city || !zipCode) {
     return res.status(400).json({ message: 'All fields are required' });
   }
 
   // Does the employee exist to update?
-  const employee = await Employee.findById(_id).exec();
+  const employee = await Employee.findById(objId);
+  //console.log(color.green(employee));
 
   if (!employee) {
     return res.status(400).json({ message: 'Employee not found' });
@@ -106,18 +120,22 @@ const updateEmployee = async (req, res) => {
     .exec();
 
   // Allow updates to the original employee
-  if (duplicate && duplicate?._id.toString() !== _id) {
+  if (duplicate && duplicate?._id.toString() !== id) {
     return res.status(409).json({ message: 'Duplicate employee' });
   }
 
   employee.lastName = lastName;
   employee.firstName = firstName;
   employee.birthDay = birthDay;
-  employee.address = address;
+  employee.city = city;
+  employee.street = street;
+  employee.zipCode = zipCode;
+  employee.state = state;
+  employee.department = department;
 
-  const updatedUser = await employee.save();
+  const updatedEmployee = await employee.save();
 
-  res.json({ message: `${updatedUser.firstName} updated` });
+  res.json({ message: `${updatedEmployee.firstName} updated` });
 };
 
 // @desc Delete a employee
@@ -126,7 +144,7 @@ const updateEmployee = async (req, res) => {
 const deleteEmployee = async (req, res) => {
   const id = req.body.id;
   const objId = Mongoose.Types.ObjectId(id);
-  console.log(color.cyan(id, objId));
+  // console.log(color.cyan(id, objId));
 
   // Confirm data
   if (!id) {

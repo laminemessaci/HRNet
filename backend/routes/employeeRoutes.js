@@ -10,10 +10,8 @@ router
   .route('/')
   .get(employeesController.getAllEmployees)
   .post(employeesController.createNewEmployee)
-  .delete(employeesController.deleteEmployee);
-router
-  .route('/:id')
-  .patch(employeesController.updateEmployee)
-  
+  .delete(employeesController.deleteEmployee)
+  .patch(employeesController.updateEmployee);
+router.route('/:id');
 
 module.exports = router;

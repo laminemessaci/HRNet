@@ -6,12 +6,12 @@ import ErrorPage from './../screens/ErrorPage'
 import Loader from '../components/Loader'
 import Prefetch from '../features/auth/Prefetch'
 import PersistLogin from '../features/auth/PersistLogin'
-import UsersList from '../features/users/UsersList'
 
 import Layout from '../components/Layout'
 import EmployeesList from '../screens/employee/EmployeesList'
 import EditProfile from '../screens/user/EditProfile'
 import NewEmployee from '../screens/employee/NewEmployee'
+import UsersList from '../screens/user/UsersList'
 
 const Home = lazy(() => import('../screens/Home'))
 const Login = lazy(() => import('../screens/Login'))

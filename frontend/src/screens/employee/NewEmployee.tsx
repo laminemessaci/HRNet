@@ -1,5 +1,5 @@
 import React from 'react'
-import EmployeeForm from './../../components/form/employee/index'
+import EmployeeForm from '../../components/form/employee/CreateEmployee'
 
 const NewEmployee: React.FC = () => {
   return (

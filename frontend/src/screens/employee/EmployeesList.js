@@ -26,7 +26,7 @@ const EmployeesList = () => {
   // function dateFormat(seconds) {
   //   return new Date(seconds * 1000).toLocaleDateString('fr')
   // }
-  const { username, isManager, isAdmin } = useAuth()
+  const { email, isManager, isAdmin } = useAuth()
   const { users } = useGetUsersQuery('usersList', {
     selectFromResult: ({ data }) => ({
       users: data?.ids.map((id) => data?.entities[id]),
@@ -74,26 +74,34 @@ const EmployeesList = () => {
     )
   }
 
-  if (isSuccess) {
+  if (isSuccess && users?.length) {
     const { ids, entities } = employees
+    const currentUser = users?.find((user) => user.email === email)
+    const currentUserId = currentUser?.id
 
     let filteredIds = []
-    if (isManager || isAdmin) {
+    if (isAdmin) {
+      //  console.log('isAdmin: ', isAdmin)
       filteredIds = [...ids]
-    } else {
+    }
+    if (isManager) {
       filteredIds = ids.filter((employeeId) => {
-        const currentUser = entities[employeeId].firstName.toLowerCase()
-        return currentUser === username
+        // console.log(employeeId, entities[employeeId].user, email)
+        return entities[employeeId].user == currentUserId
       })
     }
+
     const employesToDisplay = filteredIds?.length && filteredIds.map((employeeId) => entities[employeeId])
+    // console.log('filtred: ', employesToDisplay, filteredIds)
 
     const tableContent = []
-    employesToDisplay.map((employee) => {
-      tableContent.push(new EmployeesFormat(employee))
-    })
+    if (employesToDisplay.length > 0) {
+      employesToDisplay?.map((employee) => {
+        tableContent.push(new EmployeesFormat(employee))
+      })
+    }
 
-    const onInputSearch = (value) => {
+    const onSearchInput = (value) => {
       let formatedEmployee = []
       const filterEmployee = employesToDisplay.filter((employee) =>
         Object.keys(employee).some((k) => String(employee[k]).toLowerCase().includes(value.toLowerCase())),
@@ -104,19 +112,6 @@ const EmployeesList = () => {
       })
       setSearch(formatedEmployee)
     }
-
-    // const handlSearch = (value) => {
-    //   // console.log('desp', employesToDisplay)
-    //   let f = []
-    //   const arraySearch = objectBuilder(employesToDisplay)
-    //   // console.log(arraySearch)
-    //   const e = arraySearch.filter((word) => word.searchInput.includes(value.toLowerCase()))
-    //   for (let elt of e) {
-    //     f.push(new EmployeesFormat(elt.employee))
-    //   }
-    //   // console.log(f)
-    //   setSearch(f)
-    // }
 
     content = (
       <>
@@ -135,7 +130,7 @@ const EmployeesList = () => {
               </label>
               <div className='mt-1'>
                 <input
-                  onChange={(e) => onInputSearch(e.target.value)}
+                  onChange={(e) => onSearchInput(e.target.value)}
                   type='text'
                   name='firstname'
                   id='firstname'
