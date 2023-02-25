@@ -15,7 +15,12 @@ export const columns: IColumn = [
     key: 'active',
     title: 'Active',
     dataIndex: 'active',
-    render: (active: boolean) => <p className= {active? 'bg-green-500' : 'bg-gray-400'}>active</p>
+    render: (active: boolean) => (
+      <span className='inline-flex items-center gap-1 rounded-full bg-gray-100 px-2 py-1 text-xs font-semibold text-green-600'>
+        <span className={active ? 'h-1.5 w-1.5 rounded-full  bg-green-600' : 'h-1.5 w-1.5 rounded-full  bg-gray-600'}></span>
+        Active
+      </span>
+    ),
   },
   {
     key: 'email',
