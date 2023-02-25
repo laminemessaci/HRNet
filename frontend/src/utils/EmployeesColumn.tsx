@@ -1,8 +1,4 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faEye, faUserEdit, faTrashCan } from '@fortawesome/free-solid-svg-icons'
-import { Space } from 'antd'
-import { useDeleteEmployeeMutation } from '../features/employees/EmployeesApiSlice'
 import EmployeeActions from '../components/form/employee/EmployeeActions'
 
 export interface IColumn {
@@ -11,11 +7,9 @@ export interface IColumn {
   dataIndex: string
   defaultSortOrder: 'descend' | 'ascend'
   sortDirections: ('descend' | 'ascend')[]
-  sorter: (a: { [key: string]: string | number | Date }, b: { [key: string]: string | number | Date }) => number
+  sorter: (a: { [key: string]: string | number | Date }, b: { [key: string]: string | number | Date }) => number 
   render?: (date: any) => any
 }
-
-
 
 // @ts-ignore
 
@@ -26,7 +20,7 @@ export const columns: IColumn = [
     dataIndex: 'firstName',
     defaultSortOrder: 'descend',
     sortDirections: ['descend', 'ascend'],
-    sorter: (a: { firstName: string }, b: { firstName: any }) => {
+    sorter: (a: { firstName: string }, b: { firstName: string }) => {
       return a.firstName.localeCompare(b.firstName)
     },
   },
@@ -36,7 +30,7 @@ export const columns: IColumn = [
     dataIndex: 'lastName',
     defaultSortOrder: 'descend',
     sortDirections: ['descend', 'ascend'],
-    sorter: (a: { lastName: string }, b: { lastName: any }) => a.lastName.localeCompare(b.lastName),
+    sorter: (a: { lastName: string }, b: { lastName: string }) => a.lastName.localeCompare(b.lastName),
   },
   {
     key: 'starDay',
@@ -55,7 +49,7 @@ export const columns: IColumn = [
     dataIndex: 'department',
     defaultSortOrder: 'descend',
     sortDirections: ['descend', 'ascend'],
-    sorter: (a: { department: string }, b: { department: any }) => a.department.localeCompare(b.department),
+    sorter: (a: { department: string }, b: { department: string }) => a.department.localeCompare(b.department),
   },
   {
     key: 'birthDay',
@@ -93,18 +87,19 @@ export const columns: IColumn = [
     sorter: (a: { state: string }, b: { state: any }) => a.state.localeCompare(b.state),
   },
   {
-    key: 'zip',
+    key: 'zipCode',
     title: 'Zip Code',
     width: 90,
-    dataIndex: 'zip',
+    dataIndex: 'zipCode',
     defaultSortOrder: 'descend',
     sortDirections: ['descend', 'ascend'],
-    sorter: (a: { zip: number }, b: { zip: number }) => a.zip - b.zip,
+    sorter: (a: { zipCode: number }, b: { zipCode: number }) => a.zipCode - b.zipCode,
   },
   {
     title: 'Action',
     key: 'action',
     dataIndex: 'key',
+    // @ts-ignore
     render: (id: string) => <EmployeeActions id={id} />,
   },
 ]

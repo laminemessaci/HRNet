@@ -6,7 +6,7 @@ const EmployeeDash: React.FC = (): JSX.Element => {
       <header className='sm:justify-center md:justify-center my-8'>
         <img className='mx-auto lg:h-32 md:h-24 sm:h-22  w-auto' loading='lazy' src='/logo192.ico' alt='HrNet-logo' />
       </header>
-      <main className=' h-screen overflow-hidden bg-gray-100 dark:bg-gray-800 rounded-2xl mt-16 z-10'>
+      <main className=' h-auto overflow-hidden bg-gray-100 dark:bg-gray-800 rounded-2xl mt-16'>
         <section className='flex items-start justify-between'>
           <section className='relative hidden h-screen my-4 ml-4 shadow-lg lg:block w-80'>
             <section className='h-full bg-white rounded-2xl dark:bg-gray-700'>
@@ -178,7 +178,7 @@ const EmployeeDash: React.FC = (): JSX.Element => {
               </nav>
             </section>
           </section>
-          <div className='flex flex-col w-full pl-0 md:p-4 md:space-y-4'>
+          <section className='flex flex-col w-full pl-0 md:p-4 md:space-y-4'>
             <header className='z-40 items-center w-full h-16 bg-white shadow-lg dark:bg-gray-700 rounded-2xl'>
               <div className='relative z-20 flex flex-col justify-center h-full px-3 mx-auto flex-center'>
                 <div className='relative flex items-center w-full pl-1 lg:max-w-68 sm:pr-2 sm:ml-0'>
@@ -218,7 +218,7 @@ const EmployeeDash: React.FC = (): JSX.Element => {
                     <a href='#' className='relative block'>
                       <img
                         alt='profil'
-                        src='/images/person/1.jpg'
+                        src='https://ui-avatars.com/api/?background=65a30d&color=fff&name=LAMINE+mess'
                         className='mx-auto object-cover rounded-full h-10 w-10 '
                       />
                     </a>
@@ -321,28 +321,28 @@ const EmployeeDash: React.FC = (): JSX.Element => {
                         <a href='#' className=''>
                           <img
                             className='inline-block h-10 w-10 rounded-full object-cover ring-2 ring-white'
-                            src='/images/person/1.jpg'
+                            src='https://ui-avatars.com/api/?background=65a30d&color=fff&name=LAMINE+mess'
                             alt='Guy'
                           />
                         </a>
                         <a href='#' className=''>
                           <img
                             className='inline-block h-10 w-10 rounded-full object-cover ring-2 ring-white'
-                            src='/images/person/2.jpeg'
+                            src='https://ui-avatars.com/api/?background=65a30d&color=fff&name=LAMINE+mess'
                             alt='Max'
                           />
                         </a>
                         <a href='#' className=''>
                           <img
                             className='inline-block h-10 w-10 rounded-full object-cover ring-2 ring-white'
-                            src='/images/person/3.jpg'
+                            src='https://ui-avatars.com/api/?background=65a30d&color=fff&name=LAMINE+mess'
                             alt='Charles'
                           />
                         </a>
                         <a href='#' className=''>
                           <img
                             className='inline-block h-10 w-10 rounded-full object-cover ring-2 ring-white'
-                            src='/images/person/4.jpg'
+                            src='https://ui-avatars.com/api/?background=65a30d&color=fff&name=LAMINE+mess'
                             alt='Jade'
                           />
                         </a>
@@ -440,28 +440,28 @@ const EmployeeDash: React.FC = (): JSX.Element => {
                         <a href='#' className=''>
                           <img
                             className='inline-block h-10 w-10 rounded-full object-cover ring-2 ring-white'
-                            src='/images/person/1.jpg'
+                            src='https://ui-avatars.com/api/?background=65a30d&color=fff&name=LAMINE+mess'
                             alt='Guy'
                           />
                         </a>
                         <a href='#' className=''>
                           <img
                             className='inline-block h-10 w-10 rounded-full object-cover ring-2 ring-white'
-                            src='/images/person/2.jpeg'
+                            src='https://ui-avatars.com/api/?background=65a30d&color=fff&name=LAMINE+mess'
                             alt='Max'
                           />
                         </a>
                         <a href='#' className=''>
                           <img
                             className='inline-block h-10 w-10 rounded-full object-cover ring-2 ring-white'
-                            src='/images/person/3.jpg'
+                            src='https://ui-avatars.com/api/?background=65a30d&color=fff&name=LAMINE+mess'
                             alt='Charles'
                           />
                         </a>
                         <a href='#' className=''>
                           <img
                             className='inline-block h-10 w-10 rounded-full object-cover ring-2 ring-white'
-                            src='/images/person/4.jpg'
+                            src='https://ui-avatars.com/api/?background=65a30d&color=fff&name=LAMINE+mess'
                             alt='Jade'
                           />
                         </a>
@@ -927,7 +927,7 @@ const EmployeeDash: React.FC = (): JSX.Element => {
                           <a href='#' className='relative block'>
                             <img
                               alt='profil'
-                              src='/images/person/1.jpg'
+                              src='https://ui-avatars.com/api/?background=65a30d&color=fff&name=LAMINE+mess'
                               className='mx-auto object-cover rounded-full h-10 w-10 '
                             />
                           </a>
@@ -944,7 +944,7 @@ const EmployeeDash: React.FC = (): JSX.Element => {
                           <a href='#' className='relative block'>
                             <img
                               alt='profil'
-                              src='/images/person/5.jpg'
+                              src='https://ui-avatars.com/api/?background=65a30d&color=fff&name=LAMINE+mess'
                               className='mx-auto object-cover rounded-full h-10 w-10 '
                             />
                           </a>
@@ -959,7 +959,7 @@ const EmployeeDash: React.FC = (): JSX.Element => {
                           <a href='#' className='relative block'>
                             <img
                               alt='profil'
-                              src='/images/person/6.jpg'
+                              src='https://ui-avatars.com/api/?background=65a30d&color=fff&name=LAMINE+mess'
                               className='mx-auto object-cover rounded-full h-10 w-10 '
                             />
                           </a>
@@ -974,7 +974,7 @@ const EmployeeDash: React.FC = (): JSX.Element => {
                           <a href='#' className='relative block'>
                             <img
                               alt='profil'
-                              src='/images/person/7.jpg'
+                              src='https://ui-avatars.com/api/?background=65a30d&color=fff&name=LAMINE+mess'
                               className='mx-auto object-cover rounded-full h-10 w-10 '
                             />
                           </a>
@@ -989,7 +989,7 @@ const EmployeeDash: React.FC = (): JSX.Element => {
                 </div>
               </div>
             </div>
-          </div>
+          </section>
         </section>
       </main>
     </>

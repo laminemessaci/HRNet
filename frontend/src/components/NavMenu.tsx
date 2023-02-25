@@ -3,25 +3,35 @@ import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 import React, { useEffect } from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
 import { useSendLogoutMutation } from '../features/auth/authApiSlice'
-import UserAvatar from './Avatar'
+import UserAvatar from './UserAvatar'
 import Dropdown from './Dropdown'
 import { navigateTo } from './../utils/index'
-
-const navigation = [
-  // { name: 'Home', href: '/home' },
-  { name: 'Add Employee', href: '/home/new-employee' },
-  { name: 'Employees', href: '/home/employees-list' },
-  { name: 'Users', href: '/home/users-list' },
-]
+import useAuth from '../hooks/useAuth'
 
 function NavMenu() {
   const navigate = useNavigate()
+  const { status } = useAuth()
+  let navigation = []
 
   const [sendLogout, { isLoading, isSuccess, isError, error }] = useSendLogoutMutation()
 
   useEffect(() => {
     if (isSuccess) navigate('/')
   }, [isSuccess, navigate])
+
+  if (status === 'Employee') {
+    navigation = [
+      { name: 'Profile', href: '/Profile' },
+      { name: 'edit your Profile', href: '/edit-profile' },
+    ]
+  } else {
+    navigation = [
+      // { name: 'Home', href: '/home' },
+      { name: 'Add Employee', href: '/home/new-employee' },
+      { name: 'Employees', href: '/home/employees-list' },
+      { name: 'Users', href: '/home/users-list' },
+    ]
+  }
 
   return (
     <header className=' flex flex-row w-full bg-gray-200 p-4 items-center justify-center'>

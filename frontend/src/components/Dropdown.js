@@ -3,7 +3,7 @@ import { ChevronDownIcon } from '@heroicons/react/20/solid'
 import { Fragment, useEffect } from 'react'
 import { useNavigate } from 'react-router'
 import { useSendLogoutMutation } from '../features/auth/authApiSlice'
-import UserAvatar from './Avatar'
+import UserAvatar from './UserAvatar'
 import { navigateTo } from './../utils/index'
 
 export default function Dropdown() {

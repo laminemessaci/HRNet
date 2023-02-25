@@ -1,6 +1,7 @@
+/* eslint-disable react/no-unescaped-entities */
 import React from 'react'
 
-const EditUser: React.FC = () => {
+const EditUser: React.FC = (): JSX.Element => {
   return (
     <main className='w-full h-screen flex flex-col justify-center gap-12 items-center my-16'>
       {' '}
