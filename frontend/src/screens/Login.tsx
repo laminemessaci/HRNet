@@ -13,6 +13,7 @@ import usePersist from '../hooks/usePersist'
 import Footer from '../components/Footer'
 import { useSelector } from 'react-redux'
 import { selectCurrentToken } from './../features/auth/authSlice'
+import useAuth from '../hooks/useAuth'
 
 export interface IUserLogin {
   loading: boolean
@@ -76,9 +77,11 @@ const Login: React.FC = (): JSX.Element => {
     }
     try {
       const { accessToken }: IAuth = await login({ email: trimmedUsername, password: trimmedPassword }).unwrap()
+      // console.log('accessToken', accessToken)
       dispatch(setCredentials({ accessToken }))
-      //   setUsername('')
-      //   setPassword('')
+   
+      //  setPersist('persist:auth', { accessToken })
+      console.log('status', status)
       navigate('/home')
     } catch (err: any) {
       if (!err.status) {

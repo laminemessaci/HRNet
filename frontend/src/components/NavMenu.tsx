@@ -24,7 +24,7 @@ function NavMenu() {
   }, [isSuccess, navigate])
 
   return (
-    <div className='flex flex-row w-full bg-gray-200 p-4 items-center justify-center'>
+    <header className=' flex flex-row w-full bg-gray-200 p-4 items-center justify-center'>
       <Disclosure as='nav' className='w-full flex flex-col justify-center items-center'>
         {({ open }) => (
           <>
@@ -75,7 +75,7 @@ function NavMenu() {
                     >
                       SignOut
                     </button> */}
-                    <div className='mr-0 justify-center mx-auto block  px-4 '>
+                    <div className='mr-0 justify-center mx-auto block  px-4 z-40'>
                       <Dropdown />
                     </div>
                   </div>
@@ -125,7 +125,7 @@ function NavMenu() {
           </>
         )}
       </Disclosure>
-    </div>
+    </header>
   )
 }
 
