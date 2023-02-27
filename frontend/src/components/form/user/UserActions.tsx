@@ -2,21 +2,17 @@ import React, { useEffect } from 'react'
 import { Space } from 'antd'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEye, faTrashCan, faUserEdit } from '@fortawesome/free-solid-svg-icons'
-import { useDeleteEmployeeMutation, useGetEmployeesQuery } from '../../../features/employees/EmployeesApiSlice'
 import { useNavigate } from 'react-router'
 import Drawer from '../../Drawer'
-import Card from './EmployeeCard'
-import ConfirmAction from '../../ConfirmAction'
-import UpdateForm from './UpdateEmployeeForm'
-import { useGetUsersQuery } from '../../../features/users/usersApiSlice'
-import useAuth from './../../../hooks/useAuth'
+import UserCard from './UserCard'
+import { useDeleteUserMutation } from '../../../features/users/usersApiSlice'
 
 interface IProps {
   id: string
 }
 
-const EmployeeActions: React.FC<IProps> = ({ id }): JSX.Element => {
-  const [deleteEmployee, { isSuccess: isDelSuccess, isError: isDelError, error: delerror }] = useDeleteEmployeeMutation()
+const UserActions: React.FC<IProps> = ({ id }): JSX.Element => {
+  const [deleteUser, { isSuccess: isDelSuccess, isError: isDelError, error: delerror }] = useDeleteUserMutation()
   const [isOpen, setIsOpen] = React.useState(false)
   const [action, setAction] = React.useState(null)
 
@@ -26,10 +22,10 @@ const EmployeeActions: React.FC<IProps> = ({ id }): JSX.Element => {
 
   const navigate = useNavigate()
 
-  const onDeleteEmployeeClicked = async (id) => {
-    // const deleteEmployee: (isOk: boolean) => boolean = confirm('Are you sure you want to delete this employee?')
+  const onDeleteUserClicked = async (id) => {
+    // const deleteUser: (isOk: boolean) => boolean = confirm('Are you sure you want to delete this user?')
 
-    await deleteEmployee({ id })
+    await deleteUser({ id })
 
     // return <ConfirmAction messageText={'toto'} title={'toto'} isValidate={isValidate} setIsValidate={setIsValidate} />
   }
@@ -41,7 +37,7 @@ const EmployeeActions: React.FC<IProps> = ({ id }): JSX.Element => {
 
   useEffect(() => {
     if (isDelSuccess) {
-      // navigate('/home/employees-list')
+      // navigate('/home/users-list')
       location.reload()
     }
   }, [isDelSuccess, navigate])
@@ -69,7 +65,7 @@ const EmployeeActions: React.FC<IProps> = ({ id }): JSX.Element => {
           />
           <FontAwesomeIcon
             className='ml-2 border-2 rounded-md p-1 w-6 shadow-md hover:bg-green-400'
-            onClick={() => onDeleteEmployeeClicked({ id: id })}
+            onClick={() => onDeleteUserClicked({ id: id })}
             icon={faTrashCan}
             color='red'
           />
@@ -77,10 +73,10 @@ const EmployeeActions: React.FC<IProps> = ({ id }): JSX.Element => {
       </Space>
 
       <Drawer isOpen={isOpen} setIsOpen={setIsOpen}>
-        {action == 'details' ? <Card id={id} /> : <UpdateForm id={id} />}
+        {action == 'details' ? <UserCard id={id} /> : <p id={id}>test</p>}
       </Drawer>
     </>
   )
 }
 
-export default EmployeeActions
+export default UserActions

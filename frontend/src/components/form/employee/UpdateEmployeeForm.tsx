@@ -10,7 +10,7 @@ import { useGetEmployeesQuery, useUpdateEmployeeMutation } from '../../../featur
 import { useGetUsersQuery } from '../../../features/users/usersApiSlice'
 import { departments, IDepartment } from '../../../utils/Department'
 import { IState, states } from '../../../utils/States'
-import { navigateTo } from './../../../utils/index'
+import { navigateTo } from '../../../utils/index'
 import { FormInputs } from './CreateEmployee'
 import DataListField from './DataListField'
 
@@ -95,7 +95,7 @@ const UpdateForm: React.FC<IProps> = ({ id }): JSX.Element => {
       setGlobalError(error)
     }
   }
- 
+
   return (
     <>
       {/* {globalError && <p className='flex justify-center text-red-500'>{globalError}</p>} */}

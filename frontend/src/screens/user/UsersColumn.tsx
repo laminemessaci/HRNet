@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import UserAvatar from '../components/UserAvatar'
-import EmployeeActions from '../components/form/employee/EmployeeActions'
-import { IColumn } from './EmployeesColumn'
+import UserActions from '../../components/form/user/UserActions'
+import UserAvatar from '../../components/UserAvatar'
+import { IColumn } from '../employee/EmployeesColumn'
 
 // @ts-ignore
 export const columns: IColumn = [
@@ -13,7 +13,7 @@ export const columns: IColumn = [
   },
   {
     key: 'active',
-    title: 'Active',
+    title: 'Status',
     dataIndex: 'active',
     render: (active: boolean) => (
       <span className='inline-flex items-center gap-1 rounded-full bg-gray-100 px-2 py-1 text-xs font-semibold text-green-600'>
@@ -76,10 +76,10 @@ export const columns: IColumn = [
     render: (date: any) => date,
   },
 
-  // {
-  //   title: 'Action',
-  //   key: 'action',
-  //   dataIndex: 'key',
-  //   render: (id: string) => <EmployeeActions id={id} />,
-  // },
+  {
+    title: 'Action',
+    key: 'action',
+    dataIndex: 'key',
+    render: (id: string) => <UserActions id={id} />,
+  },
 ]
