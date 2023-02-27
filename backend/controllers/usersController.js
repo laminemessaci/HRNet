@@ -1,4 +1,7 @@
 const User = require('../models/User');
+const color = require('colors');
+const Employee = require('../models/Employee.js');
+const Mongoose = require('mongoose');
 
 const bcrypt = require('bcrypt');
 
@@ -44,7 +47,7 @@ const createNewUser = async (req, res) => {
   const userObject =
     !Array.isArray(roles) || !roles.length
       ? { email, password: hashedPwd, firstName, lastName, avatar }
-      : { email, password: hashedPwd, roles, firstName, lastName, avatar  };
+      : { email, password: hashedPwd, roles, firstName, lastName, avatar };
 
   // Create and store new user
   const user = await User.create(userObject);
@@ -61,7 +64,17 @@ const createNewUser = async (req, res) => {
 // @route PATCH /users
 // @access Private
 const updateUser = async (req, res) => {
-  const { id, email, roles, active, password } = req.body;
+  const {
+    id,
+    email,
+    roles,
+    active,
+    password,
+    department,
+    phone,
+    firstName,
+    lastName,
+  } = req.body;
 
   // Confirm data
   if (
@@ -97,6 +110,13 @@ const updateUser = async (req, res) => {
   user.email = email;
   user.roles = roles;
   user.active = active;
+  user.department = department;
+  user.phone = phone;
+  user.password = password;
+  user.firstName = firstName;
+  user.lastName = lastName;
+
+  // Update the user
 
   if (password) {
     // Hash password
@@ -113,20 +133,22 @@ const updateUser = async (req, res) => {
 // @access Private
 const deleteUser = async (req, res) => {
   const { id } = req.body;
+  const objId = Mongoose.Types.ObjectId(id);
+  console.log(color.cyan(id));
 
   // Confirm data
   if (!id) {
     return res.status(400).json({ message: 'User ID Required' });
   }
 
-  // Does the user still have assigned notes?
-  // const note = await Note.findOne({ user: id }).lean().exec()
-  // if (note) {
-  //     return res.status(400).json({ message: 'User has assigned notes' })
-  // }
+  // Does the user still have assigned employees?
+  const employee = await Employee.findOne({ user: objId }).lean().exec();
+  if (employee) {
+    return res.status(400).json({ message: 'User has assigned employees' });
+  }
 
   // Does the user exist to delete?
-  const user = await User.findById(id).exec();
+  const user = await User.findById(objId);
 
   if (!user) {
     return res.status(400).json({ message: 'User not found' });

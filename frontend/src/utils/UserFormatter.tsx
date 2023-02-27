@@ -18,6 +18,7 @@ interface IUser {
   department: string
   avatar: string
   active: boolean
+  roles: string
 }
 
 export default class UserFormatter implements IUser {
@@ -31,7 +32,9 @@ export default class UserFormatter implements IUser {
     this.id = user.id
     this.avatar = user.avatar
     this.active = user.active
+    this.roles = user.roles
   }
+  roles: string
   firstName: string
   lastName: string
   email: string

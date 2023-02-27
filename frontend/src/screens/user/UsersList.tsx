@@ -11,7 +11,7 @@ import UsersTable from '../../components/TableList'
 import { useGetUsersQuery } from '../../features/users/usersApiSlice'
 import useAuth from '../../hooks/useAuth'
 import UserFormatter from '../../utils/UserFormatter'
-import { columns } from './UsersColumn'
+import { columns } from '../../features/users/UsersColumn'
 
 const UsersList: React.FC = (): JSX.Element => {
   const [search, setSearch] = useState(null)

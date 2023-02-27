@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import UserActions from '../../components/form/user/UserActions'
 import UserAvatar from '../../components/UserAvatar'
-import { IColumn } from '../employee/EmployeesColumn'
+import { IColumn } from '../../screens/employee/EmployeesColumn'
 
 // @ts-ignore
 export const columns: IColumn = [
@@ -9,18 +9,28 @@ export const columns: IColumn = [
     key: 'avatar',
     title: 'Avatar',
     dataIndex: 'avatar',
-    render: (avatar: string) => <UserAvatar imageSource={avatar} />,
+    render: (avatar: string, row) => {
+      console.log('object ==> ', row.active)
+      return <UserAvatar imageSource={avatar} active={row.active} />
+    },
   },
   {
     key: 'active',
     title: 'Status',
     dataIndex: 'active',
-    render: (active: boolean) => (
-      <span className='inline-flex items-center gap-1 rounded-full bg-gray-100 px-2 py-1 text-xs font-semibold text-green-600'>
-        <span className={active ? 'h-1.5 w-1.5 rounded-full  bg-green-600' : 'h-1.5 w-1.5 rounded-full  bg-gray-600'}></span>
-        Active
-      </span>
-    ),
+    render: (active: boolean) => {
+      return active ? (
+        <span className='inline-flex items-center gap-1 rounded-full bg-gray-100 px-2 py-1 text-xs font-semibold text-green-600'>
+          <span className={'h-1.5 w-1.5 rounded-full  bg-green-600'}></span>
+          Active
+        </span>
+      ) : (
+        <span className='inline-flex items-center gap-1 rounded-full bg-red-100 px-2 py-1 text-xs font-semibold text-gray-300'>
+          <span className={'h-1.5 w-1.5 rounded-full  bg-gray-600'}></span>
+          Inactive
+        </span>
+      )
+    },
   },
   {
     key: 'email',

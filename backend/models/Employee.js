@@ -84,6 +84,12 @@ const employeeSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  phone: {
+    type: String,
+  },
+  email: {
+    type: String,
+  },
 });
 
 module.exports = mongoose.model('Employee', employeeSchema);

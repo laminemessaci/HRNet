@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+/* eslint-disable react/jsx-no-comment-textnodes */
 import React, { useEffect } from 'react'
 import { Space } from 'antd'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -6,6 +8,7 @@ import { useNavigate } from 'react-router'
 import Drawer from '../../Drawer'
 import UserCard from './UserCard'
 import { useDeleteUserMutation } from '../../../features/users/usersApiSlice'
+import Message from '../../Message'
 
 interface IProps {
   id: string
@@ -23,11 +26,9 @@ const UserActions: React.FC<IProps> = ({ id }): JSX.Element => {
   const navigate = useNavigate()
 
   const onDeleteUserClicked = async (id) => {
-    // const deleteUser: (isOk: boolean) => boolean = confirm('Are you sure you want to delete this user?')
+    console.log('id', id)
 
     await deleteUser({ id })
-
-    // return <ConfirmAction messageText={'toto'} title={'toto'} isValidate={isValidate} setIsValidate={setIsValidate} />
   }
 
   const handlEyeClicked = (id) => {
@@ -46,9 +47,13 @@ const UserActions: React.FC<IProps> = ({ id }): JSX.Element => {
     setAction('update')
     setIsOpen(true)
   }
+  console.log('delerror', delerror)
 
   return (
     <>
+      {/* 
+// @ts-ignore */}
+      {isDelError && <Message>{delerror?.data['message']}</Message>}
       <Space className='m-1 flex justify-around  '>
         <div className='mx-1'>
           <FontAwesomeIcon
