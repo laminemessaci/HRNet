@@ -1,21 +1,18 @@
 /* eslint-disable react/prop-types */
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
-import React, { useEffect, useState } from 'react'
-import Message from './../../Message'
-import { Controller, useForm } from 'react-hook-form'
-import DataListField from './DataListField'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faAddressCard } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import React, { useState } from 'react'
+import { Controller, useForm } from 'react-hook-form'
 import { NavigateFunction, useNavigate } from 'react-router'
-import { IState, states } from '../../../utils/States'
-import { departments, IDepartment } from '../../../utils/Department'
-import { FormInputs } from './CreateEmployee'
 import { useGetEmployeesQuery, useUpdateEmployeeMutation } from '../../../features/employees/EmployeesApiSlice'
-import useAuth from './../../../hooks/useAuth'
-import Loader from './../../Loader'
 import { useGetUsersQuery } from '../../../features/users/usersApiSlice'
+import { departments, IDepartment } from '../../../utils/Department'
+import { IState, states } from '../../../utils/States'
 import { navigateTo } from './../../../utils/index'
+import { FormInputs } from './CreateEmployee'
+import DataListField from './DataListField'
 
 interface IProps {
   id: string
@@ -98,13 +95,7 @@ const UpdateForm: React.FC<IProps> = ({ id }): JSX.Element => {
       setGlobalError(error)
     }
   }
-  //   if (isUpdateSuccess) {
-  //     return (
-  //       <div className='mb-4 rounded-lg bg-primary-100 py-5 px-6 text-base text-primary-600' role='alert'>
-  //         A simple primary alert—check it out!
-  //       </div>
-  //     )
-  //   }
+ 
   return (
     <>
       {/* {globalError && <p className='flex justify-center text-red-500'>{globalError}</p>} */}

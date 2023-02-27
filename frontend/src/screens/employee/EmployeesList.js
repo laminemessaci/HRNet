@@ -2,11 +2,11 @@ import Loader from '../../components/Loader'
 import { useDeleteEmployeeMutation, useGetEmployeesQuery } from '../../features/employees/EmployeesApiSlice'
 import { useGetUsersQuery } from '../../features/users/usersApiSlice.js'
 import useAuth from '../../hooks/useAuth'
-import EmployeesFormat from '../../utils/EmployeeFormater'
+import EmployeesFormat from '../../utils/EmployeeFormatter'
 
 import { useState } from 'react'
-import EmployeesTable from '../../components/EmployeesTable'
-import { columns } from './../../utils/constants'
+import EmployeesTable from '../../components/TableList'
+import { columns } from '../../utils/EmployeesColumn'
 
 const EmployeesList = () => {
   const [search, setSearch] = useState(null)
@@ -33,7 +33,7 @@ const EmployeesList = () => {
     }),
   })
 
-  let content
+  let content = null
 
   if (isLoading || !users?.length) content = <Loader color={'green'} type='bubbles' />
 

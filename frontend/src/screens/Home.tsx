@@ -1,7 +1,14 @@
 import { faAdd, faEye } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import useAuth from '../hooks/useAuth'
+import EmployeeDash from './employee/EmployeeDash'
 
 const Home = () => {
+  const { status } = useAuth()
+  console.log(status)
+  if (status == 'Employee') {
+    return <EmployeeDash />
+  }
   return (
     <main className='w-full h-screen flex flex-col justify-start gap-12 items-center my-16'>
       <section className='w-11/12 lg:h-[500px] flex-1 gap-4 sm:flex lg:flex-row  flex flex-col  sm:justify-center items-center sm:border sm:border-gray-200 sm:rounded-lg '>

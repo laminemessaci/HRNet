@@ -18,8 +18,7 @@ export default class EmployeesFormat {
   street: string
   city: string
   state: string
-  zip: string
-  zipcode: any
+  zipCode: string
 
   constructor(employee: IEmployee) {
     // console.log('employee===', employee?.birthDay)
@@ -32,16 +31,16 @@ export default class EmployeesFormat {
     this.street = employee.street
     this.city = employee.city
     this.state = employee.state
-    this.zip = employee.zipCode
+    this.zipCode = employee.zipCode
   }
 }
 
 interface IEmployee {
+  zipCode: string
   firstName: string
   lastName: string
   startDate: Date
   birthDay: Date
-  zipCode: any
   id: string
   key: string
   startDay: Date
@@ -49,5 +48,4 @@ interface IEmployee {
   street: string
   city: string
   state: string
-  zipcode: string
 }

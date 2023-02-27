@@ -29,9 +29,13 @@ const userSchema = new mongoose.Schema({
     type: String,
     default: `https://ui-avatars.com/api/?background=65a30d&color=fff&name=John+Doe`,
   },
-  created: {
+  createdAt: {
     type: Date,
     default: Date.now,
+  },
+  department: {
+    type: String,
+    default: 'Marketing',
   },
 });
 
