@@ -6,7 +6,7 @@ import EmployeesFormat from '../../utils/EmployeeFormatter'
 
 import { useState } from 'react'
 import EmployeesTable from '../../components/TableList'
-import { columns } from '../../utils/EmployeesColumn'
+import { columns } from './EmployeesColumn'
 
 const EmployeesList = () => {
   const [search, setSearch] = useState(null)

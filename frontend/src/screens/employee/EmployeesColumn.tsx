@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import EmployeeActions from '../components/form/employee/EmployeeActions'
+import EmployeeActions from '../../components/form/employee/EmployeeActions'
 
 export interface IColumn {
   key: string
@@ -7,7 +7,7 @@ export interface IColumn {
   dataIndex: string
   defaultSortOrder: 'descend' | 'ascend'
   sortDirections: ('descend' | 'ascend')[]
-  sorter: (a: { [key: string]: string | number | Date }, b: { [key: string]: string | number | Date }) => number 
+  sorter: (a: { [key: string]: string | number | Date }, b: { [key: string]: string | number | Date }) => number
   render?: (date: any) => any
 }
 

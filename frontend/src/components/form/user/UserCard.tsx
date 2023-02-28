@@ -1,16 +1,18 @@
 import React from 'react'
-import { useGetEmployeesQuery } from '../../../features/employees/EmployeesApiSlice'
+import { useGetUsersQuery } from '../../../features/users/usersApiSlice'
 
 interface IProps {
   id: string
 }
 
-const Card: React.FC<IProps> = ({ id }): JSX.Element => {
-  const { employee } = useGetEmployeesQuery('employeesList', {
+const UserCard: React.FC<IProps> = ({ id }): JSX.Element => {
+  const { user } = useGetUsersQuery('usersList', {
     selectFromResult: ({ data }) => ({
-      employee: data?.entities[id],
+      user: data?.entities[id],
     }),
   })
+
+  //   console.log('user ::::', user)
 
   return (
     <div className='flex items-center h-screen w-full justify-center  mx-auto'>
@@ -25,30 +27,32 @@ const Card: React.FC<IProps> = ({ id }): JSX.Element => {
           </div>
           <div className='p-2'>
             <h3 className='text-center text-xl text-gray-900 font-medium leading-8'>
-              {employee.firstName + ' ' + employee.lastName}
+              {user.firstName + ' ' + user.lastName}
             </h3>
             <div className='text-center text-gray-400 text-xs font-semibold'>
-              <p>{employee?.department}</p>
+              <p>{user?.department}</p>
             </div>
+            
             <table className='text-xs my-3'>
               <tbody>
                 <tr className='bg-gray-100 rounded-sm'>
-                  <td className='px-2 py-2 text-gray-400 font-semibold '>Address: </td>
-                  <td className='px-2 py-3'>{employee.street}</td>
+                  <td className='px-2 py-2 text-gray-400 font-semibold '>Email: </td>
+                  <td className='px-2 py-3'>{user.email}</td>
                 </tr>
-                <tr className='bg-gray-100 rounded-sm '>
+                {/* <tr className='bg-gray-100 rounded-sm '>
                   <td></td>
-                  <td className='px-4 py-0 flex items-center justify-start'>{employee.zipCode + ' ' + employee.city}</td>
-                </tr>
+                  <td className='px-4 py-0 flex items-center justify-start'>{user.zipCode + ' ' + user.city}</td>
+                </tr> */}
 
                 <tr>
                   <td className='px-2 py-2 text-gray-500 font-semibold'>Phone: </td>
-                  <td className='px-2 py-2'>+977 9955221114</td>
+                  <td className='px-2 py-2'>{user.phone} </td>
                 </tr>
                 <tr className='bg-gray-100 rounded-sm '>
                   <td className='px-2 py-2 text-gray-500 font-semibold'>Email: </td>
-                  <td className='px-2 py-2'>john@exmaple.com</td>
+                  <td className='px-2 py-2'>{user?.email}</td>
                 </tr>
+               
               </tbody>
             </table>
 
@@ -64,4 +68,4 @@ const Card: React.FC<IProps> = ({ id }): JSX.Element => {
   )
 }
 
-export default Card
+export default UserCard

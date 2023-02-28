@@ -25,8 +25,8 @@ const ErrorPage: React.FC = (): JSX.Element => {
   //   </main>
   // )
   return (
-    <main className='relative h-screen overflow-hidden bg-green-900'>
-      <img src='/images/landscape/8.svg' className='absolute object-cover w-full h-full' />
+    <main className='relative h-screen overflow-hidden bg-green-900 flex justify-center items-center'>
+      <img src='logo192.ico' className='absolute object-center md:object-center' />
       <div className='absolute inset-0 bg-black opacity-25'></div>
       <div className='container relative z-10 flex items-center px-6 py-32 mx-auto md:px-12 xl:py-40'>
         <div className='relative z-10 flex flex-col items-center w-full font-mono'>
