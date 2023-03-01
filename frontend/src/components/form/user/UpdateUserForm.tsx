@@ -6,18 +6,18 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React, { useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { NavigateFunction, useNavigate } from 'react-router'
-import { useGetUsersQuery } from '../../../features/users/usersApiSlice'
+import { useGetUsersQuery, useUpdateUserMutation } from '../../../features/users/usersApiSlice'
 import { departments, IDepartment } from '../../../utils/Department'
 import { IState, states } from '../../../utils/States'
 import { navigateTo } from '../../../utils/index'
 import { FormInputs } from './CreateUser'
-import DataListField from './DataListField'
+import DataListField from '../employee/DataListField'
 
 interface IProps {
   id: string
 }
 
-const UpdateForm: React.FC<IProps> = ({ id }): JSX.Element => {
+const UpdateUserForm: React.FC<IProps> = ({ id }): JSX.Element => {
   const [department, setDepartment] = useState<IDepartment>(departments[0])
   const [selctedState, setSelectedState] = useState<IState>(states[0])
   const [errorState, setErrorState] = useState<string>('')
@@ -59,41 +59,41 @@ const UpdateForm: React.FC<IProps> = ({ id }): JSX.Element => {
   })
 
   const onSubmit = async (data) => {
-    const { firstName, lastName, birthDay, startDay, id } = user
-    console.log('user', id)
-    const { department: department, state: state, street, zipCode, city } = data
-    if (department.name === 'Select Your Department') {
-      setErrorDept('Please select your department !')
-      return
-    }
-    if (state.name === 'Select Your State') {
-      setErrorState('Please select your state !')
-      return
-    }
-    try {
-      const { isError, error } = await updateUser({
-        id,
-        firstName,
-        lastName,
-        startDay,
-        birthDay,
-        department: department.name,
-        state: state.name,
-        street: formState.street,
-        zipCode: formState.zipCode,
-        city: formState.city,
-      })
-      setAlert(true)
-      reset()
-      setSelectedState(states[0])
-      setDepartment(departments[0])
-      // location.reload()
-      navigateTo('/home/users-list', navigate)
-      if (error || isError) return
-    } catch (error) {
-      console.log(error)
-      setGlobalError(error)
-    }
+    // const { firstName, lastName, birthDay, startDay, id } = user
+    // console.log('user', id)
+    // const { department: department, state: state, street, zipCode, city } = data
+    // if (department.name === 'Select Your Department') {
+    //   setErrorDept('Please select your department !')
+    //   return
+    // }
+    // if (state.name === 'Select Your State') {
+    //   setErrorState('Please select your state !')
+    //   return
+    // }
+    // try {
+    //   const { isError, error } = await updateUser({
+    //     id,
+    //     firstName,
+    //     lastName,
+    //     startDay,
+    //     birthDay,
+    //     department: department.name,
+    //     state: state.name,
+    //     street: formState.street,
+    //     zipCode: formState.zipCode,
+    //     city: formState.city,
+    //   })
+    //   setAlert(true)
+    //   reset()
+    //   setSelectedState(states[0])
+    //   setDepartment(departments[0])
+    //   // location.reload()
+    //   navigateTo('/home/users-list', navigate)
+    //   if (error || isError) return
+    // } catch (error) {
+    //   console.log(error)
+    //   setGlobalError(error)
+    // }
   }
 
   return (
@@ -101,11 +101,11 @@ const UpdateForm: React.FC<IProps> = ({ id }): JSX.Element => {
       {/* {globalError && <p className='flex justify-center text-red-500'>{globalError}</p>} */}
 
       <form onSubmit={handleSubmit(onSubmit)} className='w-4/5 sm:w-4/5 mx-auto mt-16 bg-zinc-200 p-4 rounded-md'>
-        {alert ? (
+        {/* {alert ? (
           <div className='mb-4 rounded-lg bg-green-600 py-5 px-6 text-base text-success-700' role='alert'>
             {user.lastName} has been updated successfully !
           </div>
-        ) : null}
+        ) : null} */}
         <div className='flex lg:flex-row  flex-col  justify-between'>
           <div className='lg:w-1/2 m-1'>
             <label htmlFor='firstName' className='block text-sm font-medium text-gray-700'>
@@ -158,7 +158,7 @@ const UpdateForm: React.FC<IProps> = ({ id }): JSX.Element => {
           {errorDept && <p className='text-red-500'>{errorDept}</p>}
         </div>
 
-        <div className='adress border mt-8 bg-green-200 mb-8'>
+        {/* <div className='adress border mt-8 bg-green-200 mb-8'>
           <h1 className='text-green-600 text-center mt-8'>
             <FontAwesomeIcon icon={faAddressCard} className='mx-2' />
             Address
@@ -249,7 +249,7 @@ const UpdateForm: React.FC<IProps> = ({ id }): JSX.Element => {
             ></Controller>
             {errorState && <p className='flex justify-center text-red-500'>{errorState}</p>}
           </div>
-        </div>
+        </div> */}
 
         <div className='w-full flex justify-center mt-8 mb-8'>
           <button
@@ -270,4 +270,4 @@ const UpdateForm: React.FC<IProps> = ({ id }): JSX.Element => {
   )
 }
 
-export default UpdateForm
+export default UpdateUserForm

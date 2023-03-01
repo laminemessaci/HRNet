@@ -13,6 +13,7 @@ import { IState, states } from '../../../utils/States'
 import { navigateTo } from '../../../utils/index'
 import { FormInputs } from './CreateEmployee'
 import DataListField from './DataListField'
+import { useToast } from '../../../notifications/ToastProvider'
 
 interface IProps {
   id: string
@@ -30,6 +31,8 @@ const UpdateForm: React.FC<IProps> = ({ id }): JSX.Element => {
       employee: data?.entities[id],
     }),
   })
+
+  const toast = useToast()
 
   const initialValues = {
     department: departments[0],
@@ -84,6 +87,7 @@ const UpdateForm: React.FC<IProps> = ({ id }): JSX.Element => {
         city: formState.city,
       })
       setAlert(true)
+      toast?.pushSuccess(` ${employee.lastName} has been updated successfully !`)
       reset()
       setSelectedState(states[0])
       setDepartment(departments[0])
@@ -101,11 +105,11 @@ const UpdateForm: React.FC<IProps> = ({ id }): JSX.Element => {
       {/* {globalError && <p className='flex justify-center text-red-500'>{globalError}</p>} */}
 
       <form onSubmit={handleSubmit(onSubmit)} className='w-4/5 sm:w-4/5 mx-auto mt-16 bg-zinc-200 p-4 rounded-md'>
-        {alert ? (
+        {/* {alert ? (
           <div className='mb-4 rounded-lg bg-green-600 py-5 px-6 text-base text-success-700' role='alert'>
             {employee.lastName} has been updated successfully !
           </div>
-        ) : null}
+        ) : null} */}
         <div className='flex lg:flex-row  flex-col  justify-between'>
           <div className='lg:w-1/2 m-1'>
             <label htmlFor='firstName' className='block text-sm font-medium text-gray-700'>

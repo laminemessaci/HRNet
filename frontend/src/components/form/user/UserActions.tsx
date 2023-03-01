@@ -9,6 +9,7 @@ import Drawer from '../../Drawer'
 import UserCard from './UserCard'
 import { useDeleteUserMutation } from '../../../features/users/usersApiSlice'
 import Message from '../../Message'
+import UpdateUserForm from './UpdateUserForm'
 
 interface IProps {
   id: string
@@ -78,7 +79,7 @@ const UserActions: React.FC<IProps> = ({ id }): JSX.Element => {
       </Space>
 
       <Drawer isOpen={isOpen} setIsOpen={setIsOpen}>
-        {action == 'details' ? <UserCard id={id} /> : <p id={id}>test</p>}
+        {action == 'details' ? <UserCard id={id} /> : <UpdateUserForm id={id} />}
       </Drawer>
     </>
   )
