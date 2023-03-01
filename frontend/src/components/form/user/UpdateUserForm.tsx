@@ -1,43 +1,45 @@
 /* eslint-disable react/prop-types */
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
-import { faAddressCard } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React, { useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { NavigateFunction, useNavigate } from 'react-router'
+import { ROLES } from '../../../config/roles'
 import { useGetUsersQuery, useUpdateUserMutation } from '../../../features/users/usersApiSlice'
 import { departments, IDepartment } from '../../../utils/Department'
-import { IState, states } from '../../../utils/States'
-import { navigateTo } from '../../../utils/index'
-import { FormInputs } from './CreateUser'
 import DataListField from '../employee/DataListField'
+import { FormInputs } from './CreateUser'
 
 interface IProps {
   id: string
 }
 
+export interface IRoles {
+  id: number
+  name: string
+}
 const UpdateUserForm: React.FC<IProps> = ({ id }): JSX.Element => {
-  const [department, setDepartment] = useState<IDepartment>(departments[0])
-  const [selctedState, setSelectedState] = useState<IState>(states[0])
-  const [errorState, setErrorState] = useState<string>('')
-  const [errorDept, setErrorDept] = useState<string>('')
-  const [alert, setAlert] = useState<boolean>(false)
-  const navigate = useNavigate<NavigateFunction>()
   const { user } = useGetUsersQuery('usersList', {
     selectFromResult: ({ data }) => ({
       user: data?.entities[id],
     }),
   })
-
   const initialValues = {
-    department: departments[0],
-    state: states[0],
-    email: user?.street,
+    department: departments.find((dept) => dept.name === user?.department),
     active: user?.active,
+    roles: { id: 0, name: user?.roles[0] },
+    email: user?.email,
     phone: user?.phone,
     avatar: user?.avatar,
   }
+  // console.log('user', user)
+  const [department, setDepartment] = useState<IDepartment>(initialValues.department)
+  const [active, setActive] = useState<string>(initialValues.active)
+  const [roles, setRoles] = useState<IRoles[]>(initialValues.roles)
+  const [errorRole, setErrorRole] = useState<string>('')
+  const [errorDept, setErrorDept] = useState<string>('')
+  // const [alert, setAlert] = useState<boolean>(false)
+  const navigate = useNavigate<NavigateFunction>()
 
   const [formState, setFormState] = useState(initialValues)
 
@@ -49,15 +51,29 @@ const UpdateUserForm: React.FC<IProps> = ({ id }): JSX.Element => {
     formState: { errors },
   } = useForm<FormInputs>()
 
+  const roleOptions = () => {
+    const rolesObject = []
+    Object.keys(ROLES).map((role, index) => {
+      const obj = { id: index, name: role }
+      rolesObject.push(obj)
+    })
+    return rolesObject
+  }
+  const options = roleOptions()
+  // console.log('options', options)
+
   const [updateUser, { isLoading: isUpdateLoading, isSuccess: isUpdateSuccess, error: isUpdatError }] =
     useUpdateUserMutation()
-  // const { roles, username } = useAuth()
-  const { users } = useGetUsersQuery('usersList', {
-    selectFromResult: ({ data }) => ({
-      users: data?.ids.map((id) => data?.entities[id]),
-    }),
-  })
 
+  const onActiveChanged = () => {
+    // console.log('Active', active)
+    setActive((prev) => !prev)
+  }
+
+  const onRolesChanged = (e) => {
+    const values = Array.from(e.target.selectedOptions, (option) => option.value)
+    setRoles(values)
+  }
   const onSubmit = async (data) => {
     // const { firstName, lastName, birthDay, startDay, id } = user
     // console.log('user', id)
@@ -137,25 +153,59 @@ const UpdateUserForm: React.FC<IProps> = ({ id }): JSX.Element => {
             />
           </div>
         </div>
+        <div className='flex lg:flex-row  flex-col  justify-between'>
+          <div className='mt-6  lg:w-2/3'>
+            <Controller
+              name='department'
+              control={control}
+              defaultValue={department}
+              render={({ field: { onChange } }) => (
+                <DataListField<IDepartment>
+                  list={departments}
+                  value={department}
+                  onChange={(e) => {
+                    onChange(e)
+                    setDepartment(e)
+                    setErrorDept('')
+                  }}
+                />
+              )}
+            ></Controller>
+            {errorDept && <p className='text-red-500'>{errorDept}</p>}
+          </div>
+          <div className='mt-6 lg:w-2/3'>
+            <Controller
+              name='roles'
+              control={control}
+              defaultValue={roles}
+              render={({ field: { onChange } }) => (
+                <DataListField
+                  list={options}
+                  value={roles}
+                  onChange={(e) => {
+                    // console.log('e ===== ', e)
+                    onChange(e)
+                    setRoles(e)
+                    setErrorRole('')
+                  }}
+                />
+              )}
+            ></Controller>
+            {errorRole && <p className='text-red-500'>{errorRole}</p>}
+          </div>
+        </div>
 
-        <div className='mt-8'>
-          <Controller
-            name='department'
-            control={control}
-            defaultValue={initialValues.department}
-            render={({ field: { onChange } }) => (
-              <DataListField<IDepartment>
-                list={departments}
-                value={department}
-                onChange={(e) => {
-                  onChange(e)
-                  setDepartment(e)
-                  setErrorDept('')
-                }}
-              />
-            )}
-          ></Controller>
-          {errorDept && <p className='text-red-500'>{errorDept}</p>}
+        <div className='flex items-center mt-4'>
+          <label htmlFor='user-active' className='ml-2 text-sm font-medium text-gray-900 dark:text-gray-300'>
+            Active
+          </label>
+          <input
+            id='user-active'
+            type='checkbox'
+            checked={active}
+            onChange={onActiveChanged}
+            className='w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-lime-500 dark:focus:ring-lime-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600'
+          />
         </div>
 
         {/* <div className='adress border mt-8 bg-green-200 mb-8'>

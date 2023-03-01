@@ -6,22 +6,24 @@ import { Listbox, Transition } from '@headlessui/react'
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid'
 import { classNames } from '../../../utils'
 import { departments, IDepartment } from '../../../utils/Department'
-import { IState } from '../../../utils/States'
+import { IState, states } from '../../../utils/States'
+import { IRoles } from '../user/UpdateUserForm'
 
 interface IDatalist {
-  list: IState[] | IDepartment[]
+  list: IState[] | IDepartment[] | IRoles
   value: IState[]
   onChange: (e) => void
 }
 
 const DataListField: React.FC<IDatalist> = ({ list, value, onChange }: IDatalist): JSX.Element => {
+  console.log('list :', list, 'val: ', value)
   return (
     <Listbox value={value} onChange={onChange}>
       {({ open }) => (
         <>
           <div className={classNames(list === departments ? 'w-full sm:w-full mx-auto' : 'w-11/12 sm:w-1/2 mx-auto')}>
             <Listbox.Label className='block text-sm font-medium text-gray-700'>
-              {list === departments ? 'Department' : 'State'}
+              {list === departments ? 'Department' : list === states ? 'State' : 'roles'}
             </Listbox.Label>
             <div className='relative mt-1'>
               <Listbox.Button className='relative w-full cursor-default rounded-md border border-gray-300 bg-white py-2 pl-3 pr-10 text-left shadow-sm focus:border-green-500 focus:outline-none focus:ring-1 focus:ring-green-500 sm:text-sm'>

@@ -79,10 +79,10 @@ const UsersList: React.FC = (): JSX.Element => {
         tableContent.push(new UserFormatter(user))
       })
     }
-    console.log('tableContent: ', tableContent)
+   // console.log('tableContent: ', tableContent)
 
     const onSearchInput = (value) => {
-      console.log(value)
+     // console.log(value)
       const formatedUser = []
       const filterUser = users.filter((user) =>
         Object.keys(user).some((k) => String(user[k]).toLowerCase().includes(value.toLowerCase())),

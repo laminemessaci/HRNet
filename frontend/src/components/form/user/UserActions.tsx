@@ -10,6 +10,7 @@ import UserCard from './UserCard'
 import { useDeleteUserMutation } from '../../../features/users/usersApiSlice'
 import Message from '../../Message'
 import UpdateUserForm from './UpdateUserForm'
+import { useToast } from '../../../notifications/ToastProvider'
 
 interface IProps {
   id: string
@@ -19,6 +20,7 @@ const UserActions: React.FC<IProps> = ({ id }): JSX.Element => {
   const [deleteUser, { isSuccess: isDelSuccess, isError: isDelError, error: delerror }] = useDeleteUserMutation()
   const [isOpen, setIsOpen] = React.useState(false)
   const [action, setAction] = React.useState(null)
+  const toast = useToast()
 
   // function dateFormat(seconds) {
   //   return new Date(seconds * 1000).toLocaleDateString('fr')
@@ -27,9 +29,12 @@ const UserActions: React.FC<IProps> = ({ id }): JSX.Element => {
   const navigate = useNavigate()
 
   const onDeleteUserClicked = async (id) => {
-    console.log('id', id)
-
     await deleteUser({ id })
+    if (isDelError) {
+      //   toast?.error(delerror?.data['message'], 5000)
+      // @ts-ignore
+      toast?.pushError(`This ${delerror?.data?.message}`)
+    }
   }
 
   const handlEyeClicked = (id) => {
@@ -42,19 +47,19 @@ const UserActions: React.FC<IProps> = ({ id }): JSX.Element => {
       // navigate('/home/users-list')
       location.reload()
     }
-  }, [isDelSuccess, navigate])
+  }, [navigate, isDelSuccess,id])
 
   function handlUpdate(id: string): void {
     setAction('update')
     setIsOpen(true)
   }
-  console.log('delerror', delerror)
+ // console.log('delerror', delerror)
 
   return (
     <>
       {/* 
 // @ts-ignore */}
-      {isDelError && <Message>{delerror?.data['message']}</Message>}
+      {/* {isDelError && <Message>{delerror?.data['message']}</Message>} */}
       <Space className='m-1 flex justify-around  '>
         <div className='mx-1'>
           <FontAwesomeIcon
