@@ -19,17 +19,24 @@ function NavMenu() {
     if (isSuccess) navigate('/')
   }, [isSuccess, navigate])
 
-  if (status === 'Employee') {
-    navigation = [
-      { name: 'Profile', href: '/Profile' },
-      { name: 'edit your Profile', href: '/edit-profile' },
-    ]
-  } else {
+  if (status === 'Admin') {
     navigation = [
       // { name: 'Home', href: '/home' },
       { name: 'Add Employee', href: '/home/new-employee' },
       { name: 'Employees', href: '/home/employees-list' },
       { name: 'Users', href: '/home/users-list' },
+    ]
+  }
+  if (status === 'Manager') {
+    navigation = [
+      { name: 'Add Employee', href: '/home/new-employee' },
+      { name: 'Employees', href: '/home/employees-list' },
+    ]
+  }
+  if (status === 'Employee') {
+    navigation = [
+      { name: 'Profile', href: '/Profile' },
+      { name: 'edit your Profile', href: '/edit-profile' },
     ]
   }
 

@@ -16,7 +16,7 @@ interface IDatalist {
 }
 
 const DataListField: React.FC<IDatalist> = ({ list, value, onChange }: IDatalist): JSX.Element => {
-  console.log('list :', list, 'val: ', value)
+  // console.log('list :', list, 'val: ', value)
   return (
     <Listbox value={value} onChange={onChange}>
       {({ open }) => (

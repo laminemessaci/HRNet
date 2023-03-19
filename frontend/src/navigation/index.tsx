@@ -1,6 +1,6 @@
 import React, { lazy, Suspense } from 'react'
 import { ActionFunction, LoaderFunction, Route, Routes, ShouldRevalidateFunction } from 'react-router-dom'
-import Profile from '../screens/user/Profile'
+
 import PrivateRoute from './PrivateRoute'
 import ErrorPage from './../screens/ErrorPage'
 import Loader from '../components/Loader'
@@ -8,13 +8,14 @@ import Prefetch from '../features/auth/Prefetch'
 import PersistLogin from '../features/auth/PersistLogin'
 
 import Layout from '../components/Layout'
-import EmployeesList from '../screens/employee/EmployeesList'
 import EditProfile from '../screens/user/EditProfile'
 import NewEmployee from '../screens/employee/NewEmployee'
-import UsersList from '../screens/user/UsersList'
 
 const Home = lazy(() => import('../screens/Home'))
 const Login = lazy(() => import('../screens/Login'))
+const EmployeesList = lazy(() => import('../screens/employee/EmployeesList'))
+const UsersList = lazy(() => import('../screens/user/UsersList'))
+const Profile = lazy(() => import('../screens/user/Profile'))
 
 interface RouteObject {
   path?: string
@@ -36,7 +37,7 @@ interface RouteObject {
 
 const Navigation: React.FC<RouteObject> = (): JSX.Element => {
   return (
-    <Suspense fallback={<Loader type={'blank'} color={''} />}>
+    <Suspense fallback={<Loader type='bubbles' color='green' height={200} width={200} />}>
       <Routes>
         <Route path='/' element={<Layout />}>
           {/* Protected Routes */}

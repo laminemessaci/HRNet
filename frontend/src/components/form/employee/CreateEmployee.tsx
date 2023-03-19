@@ -62,7 +62,7 @@ const EmployeeForm: React.FC = (): JSX.Element => {
     }),
   })
 
-  console.log('users', users)
+  // console.log('users', users)
   // useEffect(() => {
   //   console.log('errorDept', errorDept)
   // }, [errorDept, errorState, error, navigate])
