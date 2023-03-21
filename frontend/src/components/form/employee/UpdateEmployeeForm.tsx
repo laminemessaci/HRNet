@@ -3,9 +3,10 @@
 // @ts-nocheck
 import { faAddressCard } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { NavigateFunction, useNavigate } from 'react-router'
+import isEqual from 'lodash/isEqual'
 import { useGetEmployeesQuery, useUpdateEmployeeMutation } from '../../../features/employees/EmployeesApiSlice'
 import { useGetUsersQuery } from '../../../features/users/usersApiSlice'
 import { departments, IDepartment } from '../../../utils/Department'
@@ -13,31 +14,35 @@ import { IState, states } from '../../../utils/States'
 import { navigateTo } from '../../../utils/index'
 import { FormInputs } from './CreateEmployee'
 import DataListField from './DataListField'
+import { useToast } from '../../../notifications/ToastProvider'
 
 interface IProps {
   id: string
+  setIsOpen: (isOpen: boolean) => void
 }
 
-const UpdateForm: React.FC<IProps> = ({ id }): JSX.Element => {
-  const [department, setDepartment] = useState<IDepartment>(departments[0])
-  const [selctedState, setSelectedState] = useState<IState>(states[0])
-  const [errorState, setErrorState] = useState<string>('')
-  const [errorDept, setErrorDept] = useState<string>('')
-  const [alert, setAlert] = useState<boolean>(false)
-  const navigate = useNavigate<NavigateFunction>()
+const UpdateForm: React.FC<IProps> = ({ id, setIsOpen }): JSX.Element => {
   const { employee } = useGetEmployeesQuery('employeesList', {
     selectFromResult: ({ data }) => ({
       employee: data?.entities[id],
     }),
   })
 
+  const toast = useToast()
+
   const initialValues = {
-    department: departments[0],
-    state: states[0],
+    department: departments.find((dept) => dept.name === employee?.department),
+    state: states.find((state) => state.name === employee?.state),
     street: employee?.street,
     zipCode: employee?.zipCode,
     city: employee?.city,
   }
+  const [department, setDepartment] = useState<IDepartment>(initialValues.department)
+  const [selctedState, setSelectedState] = useState<IState>(initialValues.state)
+  const [errorState, setErrorState] = useState<string>('')
+  const [errorDept, setErrorDept] = useState<string>('')
+  const [alert, setAlert] = useState<boolean>(false)
+  const navigate = useNavigate<NavigateFunction>()
 
   const [formState, setFormState] = useState(initialValues)
 
@@ -60,7 +65,7 @@ const UpdateForm: React.FC<IProps> = ({ id }): JSX.Element => {
 
   const onSubmit = async (data) => {
     const { firstName, lastName, birthDay, startDay, id } = employee
-    console.log('user', id)
+
     const { department: department, state: state, street, zipCode, city } = data
     if (department.name === 'Select Your Department') {
       setErrorDept('Please select your department !')
@@ -68,6 +73,10 @@ const UpdateForm: React.FC<IProps> = ({ id }): JSX.Element => {
     }
     if (state.name === 'Select Your State') {
       setErrorState('Please select your state !')
+      return
+    }
+    if (isEqual(initialValues, { department, state, zipCode, city, street })) {
+      toast?.pushError('No changes detected !')
       return
     }
     try {
@@ -83,29 +92,42 @@ const UpdateForm: React.FC<IProps> = ({ id }): JSX.Element => {
         zipCode: formState.zipCode,
         city: formState.city,
       })
-      setAlert(true)
-      reset()
-      setSelectedState(states[0])
-      setDepartment(departments[0])
+      // setAlert(true)
+      // toast?.pushSuccess(` ${employee.lastName} ${employee.firstName} is updated successfully !`)
+      // reset()
+      setSelectedState(selctedState)
+      setDepartment(department)
+      setIsOpen(false)
       // location.reload()
-      navigateTo('/home/employees-list', navigate)
-      if (error || isError) return
+      //  navigateTo('/home/employees-list', navigate)
+      if (error || isError) {
+        console.log(error)
+        toast?.pushError(error)
+      }
     } catch (error) {
       console.log(error)
-      setGlobalError(error)
+      // setGlobalError(error)
+      toast?.pushError(error)
     }
   }
+  useEffect(() => {
+    if (isUpdateSuccess) {
+      toast?.pushSuccess('Employee updated successfully !')
+      navigateTo('/home/employees-list', navigate)
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isUpdateSuccess])
 
   return (
     <>
       {/* {globalError && <p className='flex justify-center text-red-500'>{globalError}</p>} */}
 
       <form onSubmit={handleSubmit(onSubmit)} className='w-4/5 sm:w-4/5 mx-auto mt-16 bg-zinc-200 p-4 rounded-md'>
-        {alert ? (
+        {/* {alert ? (
           <div className='mb-4 rounded-lg bg-green-600 py-5 px-6 text-base text-success-700' role='alert'>
             {employee.lastName} has been updated successfully !
           </div>
-        ) : null}
+        ) : null} */}
         <div className='flex lg:flex-row  flex-col  justify-between'>
           <div className='lg:w-1/2 m-1'>
             <label htmlFor='firstName' className='block text-sm font-medium text-gray-700'>
@@ -142,7 +164,7 @@ const UpdateForm: React.FC<IProps> = ({ id }): JSX.Element => {
           <Controller
             name='department'
             control={control}
-            defaultValue={initialValues.department}
+            defaultValue={department}
             render={({ field: { onChange } }) => (
               <DataListField<IDepartment>
                 list={departments}
@@ -234,7 +256,7 @@ const UpdateForm: React.FC<IProps> = ({ id }): JSX.Element => {
             <Controller
               name='state'
               control={control}
-              defaultValue={states[0]}
+              defaultValue={selctedState}
               render={({ field: { onChange } }) => (
                 <DataListField
                   list={states}

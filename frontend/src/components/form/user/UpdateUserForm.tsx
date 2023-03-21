@@ -1,43 +1,45 @@
 /* eslint-disable react/prop-types */
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
-import { faAddressCard } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React, { useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { NavigateFunction, useNavigate } from 'react-router'
-import { useGetUsersQuery } from '../../../features/users/usersApiSlice'
+import { ROLES } from '../../../config/roles'
+import { useGetUsersQuery, useUpdateUserMutation } from '../../../features/users/usersApiSlice'
 import { departments, IDepartment } from '../../../utils/Department'
-import { IState, states } from '../../../utils/States'
-import { navigateTo } from '../../../utils/index'
+import DataListField from '../employee/DataListField'
 import { FormInputs } from './CreateUser'
-import DataListField from './DataListField'
 
 interface IProps {
   id: string
 }
 
-const UpdateForm: React.FC<IProps> = ({ id }): JSX.Element => {
-  const [department, setDepartment] = useState<IDepartment>(departments[0])
-  const [selctedState, setSelectedState] = useState<IState>(states[0])
-  const [errorState, setErrorState] = useState<string>('')
-  const [errorDept, setErrorDept] = useState<string>('')
-  const [alert, setAlert] = useState<boolean>(false)
-  const navigate = useNavigate<NavigateFunction>()
+export interface IRoles {
+  id: number
+  name: string
+}
+const UpdateUserForm: React.FC<IProps> = ({ id }): JSX.Element => {
   const { user } = useGetUsersQuery('usersList', {
     selectFromResult: ({ data }) => ({
       user: data?.entities[id],
     }),
   })
-
   const initialValues = {
-    department: departments[0],
-    state: states[0],
-    email: user?.street,
+    department: departments.find((dept) => dept.name === user?.department),
     active: user?.active,
+    roles: { id: 0, name: user?.roles[0] },
+    email: user?.email,
     phone: user?.phone,
     avatar: user?.avatar,
   }
+  // console.log('user', user)
+  const [department, setDepartment] = useState<IDepartment>(initialValues.department)
+  const [active, setActive] = useState<string>(initialValues.active)
+  const [roles, setRoles] = useState<IRoles[]>(initialValues.roles)
+  const [errorRole, setErrorRole] = useState<string>('')
+  const [errorDept, setErrorDept] = useState<string>('')
+  // const [alert, setAlert] = useState<boolean>(false)
+  const navigate = useNavigate<NavigateFunction>()
 
   const [formState, setFormState] = useState(initialValues)
 
@@ -49,51 +51,65 @@ const UpdateForm: React.FC<IProps> = ({ id }): JSX.Element => {
     formState: { errors },
   } = useForm<FormInputs>()
 
+  const roleOptions = () => {
+    const rolesObject = []
+    Object.keys(ROLES).map((role, index) => {
+      const obj = { id: index, name: role }
+      rolesObject.push(obj)
+    })
+    return rolesObject
+  }
+  const options = roleOptions()
+  // console.log('options', options)
+
   const [updateUser, { isLoading: isUpdateLoading, isSuccess: isUpdateSuccess, error: isUpdatError }] =
     useUpdateUserMutation()
-  // const { roles, username } = useAuth()
-  const { users } = useGetUsersQuery('usersList', {
-    selectFromResult: ({ data }) => ({
-      users: data?.ids.map((id) => data?.entities[id]),
-    }),
-  })
 
+  const onActiveChanged = () => {
+    // console.log('Active', active)
+    setActive((prev) => !prev)
+  }
+
+  const onRolesChanged = (e) => {
+    const values = Array.from(e.target.selectedOptions, (option) => option.value)
+    setRoles(values)
+  }
   const onSubmit = async (data) => {
-    const { firstName, lastName, birthDay, startDay, id } = user
-    console.log('user', id)
-    const { department: department, state: state, street, zipCode, city } = data
-    if (department.name === 'Select Your Department') {
-      setErrorDept('Please select your department !')
-      return
-    }
-    if (state.name === 'Select Your State') {
-      setErrorState('Please select your state !')
-      return
-    }
-    try {
-      const { isError, error } = await updateUser({
-        id,
-        firstName,
-        lastName,
-        startDay,
-        birthDay,
-        department: department.name,
-        state: state.name,
-        street: formState.street,
-        zipCode: formState.zipCode,
-        city: formState.city,
-      })
-      setAlert(true)
-      reset()
-      setSelectedState(states[0])
-      setDepartment(departments[0])
-      // location.reload()
-      navigateTo('/home/users-list', navigate)
-      if (error || isError) return
-    } catch (error) {
-      console.log(error)
-      setGlobalError(error)
-    }
+    // const { firstName, lastName, birthDay, startDay, id } = user
+    // console.log('user', id)
+    // const { department: department, state: state, street, zipCode, city } = data
+    // if (department.name === 'Select Your Department') {
+    //   setErrorDept('Please select your department !')
+    //   return
+    // }
+    // if (state.name === 'Select Your State') {
+    //   setErrorState('Please select your state !')
+    //   return
+    // }
+    // try {
+    //   const { isError, error } = await updateUser({
+    //     id,
+    //     firstName,
+    //     lastName,
+    //     startDay,
+    //     birthDay,
+    //     department: department.name,
+    //     state: state.name,
+    //     street: formState.street,
+    //     zipCode: formState.zipCode,
+    //     city: formState.city,
+    //   })
+    //   setAlert(true)
+    //   reset()
+    //   setSelectedState(states[0])
+    //   setDepartment(departments[0])
+    //   // location.reload()
+    //   navigateTo('/home/users-list', navigate)
+    //   if (error || isError) return
+    // } catch (error) {
+    //   console.log(error)
+    //   setGlobalError(error)
+    // }
   }
 
   return (
@@ -101,11 +117,11 @@ const UpdateForm: React.FC<IProps> = ({ id }): JSX.Element => {
       {/* {globalError && <p className='flex justify-center text-red-500'>{globalError}</p>} */}
 
       <form onSubmit={handleSubmit(onSubmit)} className='w-4/5 sm:w-4/5 mx-auto mt-16 bg-zinc-200 p-4 rounded-md'>
-        {alert ? (
+        {/* {alert ? (
           <div className='mb-4 rounded-lg bg-green-600 py-5 px-6 text-base text-success-700' role='alert'>
             {user.lastName} has been updated successfully !
           </div>
-        ) : null}
+        ) : null} */}
         <div className='flex lg:flex-row  flex-col  justify-between'>
           <div className='lg:w-1/2 m-1'>
             <label htmlFor='firstName' className='block text-sm font-medium text-gray-700'>
@@ -137,28 +153,62 @@ const UpdateForm: React.FC<IProps> = ({ id }): JSX.Element => {
             />
           </div>
         </div>
-
-        <div className='mt-8'>
-          <Controller
-            name='department'
-            control={control}
-            defaultValue={initialValues.department}
-            render={({ field: { onChange } }) => (
-              <DataListField<IDepartment>
-                list={departments}
-                value={department}
-                onChange={(e) => {
-                  onChange(e)
-                  setDepartment(e)
-                  setErrorDept('')
-                }}
-              />
-            )}
-          ></Controller>
-          {errorDept && <p className='text-red-500'>{errorDept}</p>}
+        <div className='flex lg:flex-row  flex-col  justify-between'>
+          <div className='mt-6  lg:w-2/3'>
+            <Controller
+              name='department'
+              control={control}
+              defaultValue={department}
+              render={({ field: { onChange } }) => (
+                <DataListField<IDepartment>
+                  list={departments}
+                  value={department}
+                  onChange={(e) => {
+                    onChange(e)
+                    setDepartment(e)
+                    setErrorDept('')
+                  }}
+                />
+              )}
+            ></Controller>
+            {errorDept && <p className='text-red-500'>{errorDept}</p>}
+          </div>
+          <div className='mt-6 lg:w-2/3'>
+            <Controller
+              name='roles'
+              control={control}
+              defaultValue={roles}
+              render={({ field: { onChange } }) => (
+                <DataListField
+                  list={options}
+                  value={roles}
+                  onChange={(e) => {
+                    // console.log('e ===== ', e)
+                    onChange(e)
+                    setRoles(e)
+                    setErrorRole('')
+                  }}
+                />
+              )}
+            ></Controller>
+            {errorRole && <p className='text-red-500'>{errorRole}</p>}
+          </div>
         </div>
 
-        <div className='adress border mt-8 bg-green-200 mb-8'>
+        <div className='flex items-center mt-4'>
+          <label htmlFor='user-active' className='ml-2 text-sm font-medium text-gray-900 dark:text-gray-300'>
+            Active
+          </label>
+          <input
+            id='user-active'
+            type='checkbox'
+            checked={active}
+            onChange={onActiveChanged}
+            className='w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-lime-500 dark:focus:ring-lime-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600'
+          />
+        </div>
+
+        {/* <div className='adress border mt-8 bg-green-200 mb-8'>
           <h1 className='text-green-600 text-center mt-8'>
             <FontAwesomeIcon icon={faAddressCard} className='mx-2' />
             Address
@@ -249,7 +299,7 @@ const UpdateForm: React.FC<IProps> = ({ id }): JSX.Element => {
             ></Controller>
             {errorState && <p className='flex justify-center text-red-500'>{errorState}</p>}
           </div>
-        </div>
+        </div> */}
 
         <div className='w-full flex justify-center mt-8 mb-8'>
           <button
@@ -270,4 +320,4 @@ const UpdateForm: React.FC<IProps> = ({ id }): JSX.Element => {
   )
 }
 
-export default UpdateForm
+export default UpdateUserForm

@@ -1,13 +1,23 @@
+import React, { Fragment, useEffect } from 'react'
 import { Menu, Transition } from '@headlessui/react'
 import { ChevronDownIcon } from '@heroicons/react/20/solid'
-import { Fragment, useEffect } from 'react'
+
 import { useNavigate } from 'react-router'
 import { useSendLogoutMutation } from '../features/auth/authApiSlice'
 import UserAvatar from './UserAvatar'
-import { navigateTo } from './../utils/index'
+import { navigateTo } from '../utils/index'
+import { useGetUsersQuery } from '../features/users/usersApiSlice.js'
+import useAuth from '../hooks/useAuth'
 
-export default function Dropdown() {
+const Dropdown: React.FC = (): JSX.Element => {
   const navigate = useNavigate()
+  const { email, status } = useAuth()
+
+  const { users } = useGetUsersQuery('usersList', {
+    selectFromResult: ({ data }) => ({
+      users: data?.ids.map((id) => data?.entities[id]),
+    }),
+  })
 
   const [sendLogout, { isLoading, isSuccess, isError, error }] = useSendLogoutMutation()
 
@@ -20,7 +30,11 @@ export default function Dropdown() {
       <Menu as='div' className='relative inline-block text-left'>
         <div>
           <Menu.Button className='inline-flex w-full justify-center rounded-full items-center  bg-lime-900 bg-opacity-20 px-2 py-2 text-sm font-medium text-white hover:bg-opacity-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75'>
-            <UserAvatar /> Options
+            <UserAvatar
+              imageSource={users?.length > 0 ? users.find((user) => user.email === email).avatar : null}
+              active={users?.length > 0 && users.find((user) => user.email === email).active}
+            />{' '}
+            Options
             <ChevronDownIcon className='ml-2 -mr-1 h-5 w-5 text-violet-200 hover:text-violet-100' aria-hidden='true' />
           </Menu.Button>
         </div>
@@ -228,3 +242,5 @@ function DeleteActiveIcon(props) {
     </svg>
   )
 }
+
+export default Dropdown

@@ -140,7 +140,13 @@ const EditEmployeeForm = ({ employee, users }) => {
             <label className='form__label form__checkbox-container' htmlFor='employee-username'>
               ASSIGNED TO:
             </label>
-            <select id='employee-username' name='username' className='form__select' value={userId} onChange={onUserIdChanged}>
+            <select
+              id='employee-username'
+              name='username'
+              className='form__select'
+              value={userId}
+              onChange={onUserIdChanged}
+            >
               {options}
             </select>
           </div>

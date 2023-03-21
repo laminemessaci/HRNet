@@ -77,7 +77,7 @@ const EmployeeActions: React.FC<IProps> = ({ id }): JSX.Element => {
       </Space>
 
       <Drawer isOpen={isOpen} setIsOpen={setIsOpen}>
-        {action == 'details' ? <Card id={id} /> : <UpdateForm id={id} />}
+        {action == 'details' ? <Card id={id} /> : <UpdateForm id={id} setIsOpen={setIsOpen} />}
       </Drawer>
     </>
   )

@@ -1,5 +1,15 @@
 const mongoose = require('mongoose');
 
+const generatePassword = () => {
+  var length = 5,
+    charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789',
+    retVal = '';
+  for (var i = 0, n = charset.length; i < length; ++i) {
+    retVal += charset.charAt(Math.floor(Math.random() * n));
+  }
+  return retVal;
+};
+
 const userSchema = new mongoose.Schema({
   email: {
     type: String,
@@ -15,7 +25,7 @@ const userSchema = new mongoose.Schema({
   },
   password: {
     type: String,
-    required: true,
+    default: generatePassword(),
   },
   roles: {
     type: [String],
@@ -39,19 +49,22 @@ const userSchema = new mongoose.Schema({
   },
   phone: {
     type: String,
+    default: '+33652012898',
   },
   department: {
     type: String,
+    required: true,
     default: 'Marketing',
   },
 });
 
-userSchema.pre('save', async function (next) {
-  //   if (!this.isModified('password')) {
-  //     next();
-  //   }
-  this.avatar = `https://ui-avatars.com/api/?background=65a30d&color=fff&name=${this.firstName}+${this.lastName}`;
-  next();
-});
+// userSchema.pre('save', async function (next) {
+//   //   if (!this.isModified('password')) {
+//   //     next();
+//   //   }
+//   // this.avatar = `https://ui-avatars.com/api/?background=65a30d&color=fff&name=${this.firstName}+${this.lastName}`;
+//   // this.password = await generatePassword();
+//   next();
+// });
 
 module.exports = mongoose.model('User', userSchema);
