@@ -79,10 +79,10 @@ const UsersList: React.FC = (): JSX.Element => {
         tableContent.push(new UserFormatter(user))
       })
     }
-   // console.log('tableContent: ', tableContent)
+    // console.log('tableContent: ', tableContent)
 
     const onSearchInput = (value) => {
-     // console.log(value)
+      // console.log(value)
       const formatedUser = []
       const filterUser = users.filter((user) =>
         Object.keys(user).some((k) => String(user[k]).toLowerCase().includes(value.toLowerCase())),
@@ -125,7 +125,7 @@ const UsersList: React.FC = (): JSX.Element => {
           <section className='mb-20 w-full '>
             <div className=' rounded-md border-2  shadow sm:mt-0 bordered w-fit'>
               <NavLink
-                to='/add-user'
+                to='/admin/new-user'
                 className='flex w-fit items-center justify-center rounded-md border border-transparent bg-white px-8 py-3 text-base font-medium text-green-600 hover:bg-green-200 md:py-1 md:px-10 md:text-lg'
               >
                 <FontAwesomeIcon className='bg-green-600  rounded' icon={faAdd} color='white' />

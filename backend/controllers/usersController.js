@@ -24,10 +24,23 @@ const getAllUsers = async (req, res) => {
 // @route POST /users
 // @access Private
 const createNewUser = async (req, res) => {
-  const { email, password, roles, firstName, lastName, avatar } = req.body;
+  const newUser = await new User({
+    ...req.body,
+  });
+
+  const { email, password, roles, firstName, lastName, avatar, department } =
+    newUser;
+  console.log(color.cyan(newUser));
 
   // Confirm data
-  if (!email || !password || !lastName || !firstName) {
+  if (
+    !email ||
+    !password ||
+    !lastName ||
+    !firstName ||
+    !avatar ||
+    !department
+  ) {
     return res.status(400).json({ message: 'All fields are required' });
   }
 
@@ -46,8 +59,23 @@ const createNewUser = async (req, res) => {
 
   const userObject =
     !Array.isArray(roles) || !roles.length
-      ? { email, password: hashedPwd, firstName, lastName, avatar }
-      : { email, password: hashedPwd, roles, firstName, lastName, avatar };
+      ? {
+          email,
+          password: hashedPwd,
+          firstName,
+          lastName,
+          avatar,
+          department,
+        }
+      : {
+          email,
+          password: hashedPwd,
+          roles,
+          firstName,
+          lastName,
+          avatar,
+          department,
+        };
 
   // Create and store new user
   const user = await User.create(userObject);
@@ -134,7 +162,7 @@ const updateUser = async (req, res) => {
 const deleteUser = async (req, res) => {
   const { id } = req.body;
   const objId = Mongoose.Types.ObjectId(id);
-  console.log(color.cyan(id));
+  // console.log(color.cyan(id));
 
   // Confirm data
   if (!id) {

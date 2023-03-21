@@ -17,7 +17,7 @@ function NavMenu() {
 
   useEffect(() => {
     if (isSuccess) navigate('/')
-  }, [isSuccess, navigate])
+  }, [isSuccess, navigate, status])
 
   if (status === 'Admin') {
     navigation = [

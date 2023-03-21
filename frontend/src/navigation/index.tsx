@@ -10,6 +10,7 @@ import PersistLogin from '../features/auth/PersistLogin'
 import Layout from '../components/Layout'
 import EditProfile from '../screens/user/EditProfile'
 import NewEmployee from '../screens/employee/NewEmployee'
+import NewUser from '../screens/user/NewUser'
 
 const Home = lazy(() => import('../screens/Home'))
 const Login = lazy(() => import('../screens/Login'))
@@ -51,6 +52,7 @@ const Navigation: React.FC<RouteObject> = (): JSX.Element => {
                 <Route path='/home/users-list' element={<UsersList />} />
                 <Route path='/profile' element={<Profile />} />
                 <Route path='/edit-profile' element={<EditProfile />} />
+                <Route path='/admin/new-user' element={<NewUser />} />
               </Route>
             </Route>
             {/* End Protected Routes */}

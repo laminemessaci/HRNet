@@ -30,6 +30,7 @@ app.use('/api', require('./routes/root'));
 app.use('/api/employees', require('./routes/employeeRoutes'));
 app.use('/api/auth', require('./routes/authRoutes'));
 app.use('/api/users', require('./routes/userRoutes'));
+app.use('/api/upload', require('./routes/uploadRoutes'));
 
 app.all('*', (req, res) => {
   res.status(404);
@@ -43,6 +44,9 @@ app.all('*', (req, res) => {
 });
 
 app.use(errorHandler);
+
+// __dirname = path.resolve();
+app.use('/uploads', express.static(path.join(__dirname, '/uploads')));
 
 mongoose.connection.once('open', () => {
   console.log('Connected to MongoDB');

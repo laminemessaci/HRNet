@@ -7,6 +7,9 @@ import EmployeesFormat from '../../utils/EmployeeFormatter'
 import { useState } from 'react'
 import EmployeesTable from '../../components/TableList'
 import { columns } from './EmployeesColumn'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { NavLink } from 'react-router-dom'
+import { faAdd } from '@fortawesome/free-solid-svg-icons'
 
 const EmployeesList = () => {
   const [search, setSearch] = useState(null)
@@ -142,6 +145,15 @@ const EmployeesList = () => {
           </div>
 
           <section className='mb-20 w-full '>
+            <div className=' rounded-md border-2  shadow sm:mt-0 bordered w-fit'>
+              <NavLink
+                to='/home/new-employee'
+                className='flex w-fit items-center justify-center rounded-md border border-transparent bg-white px-8 py-3 text-base font-medium text-green-600 hover:bg-green-200 md:py-1 md:px-10 md:text-lg'
+              >
+                <FontAwesomeIcon className='bg-green-600  rounded' icon={faAdd} color='white' />
+                &nbsp;Add Employee
+              </NavLink>
+            </div>
             <EmployeesTable searchResult={search} tableContent={[...tableContent]} columns={columns} />
           </section>
         </div>
