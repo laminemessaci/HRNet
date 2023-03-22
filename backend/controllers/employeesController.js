@@ -1,7 +1,7 @@
-const color = require('colors');
-const bcrypt = require('bcrypt');
-const Employee = require('../models/Employee');
-const Mongoose = require('mongoose');
+import color from 'cli-color';
+import bcrypt from 'bcrypt';
+import Mongoose from 'mongoose';
+import Employee from '../models/Employee.js';
 
 const toObjId = (id) => {
   return Types.ObjectId(id);
@@ -165,9 +165,4 @@ const deleteEmployee = async (req, res) => {
   res.json(reply);
 };
 
-module.exports = {
-  getAllEmployees,
-  createNewEmployee,
-  updateEmployee,
-  deleteEmployee,
-};
+export { getAllEmployees, createNewEmployee, updateEmployee, deleteEmployee };

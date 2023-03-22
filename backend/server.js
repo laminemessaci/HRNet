@@ -1,15 +1,23 @@
-require('dotenv').config();
-require('express-async-errors');
-const express = require('express');
+
+import mongoose from 'mongoose';
+import connectDB from './config/dbConn.js';
+import dotenv from 'dotenv/config.js';
+import path from 'path';
+import express from 'express';
+import colors from 'colors';
+import corsOptions from './config/corsOptions.js';
+import { logger, logEvents } from './middleware/logger.js';
+import cookieParser from 'cookie-parser';
+import cors from 'cors';
+import root from './routes/root.js';
+import employeeRoutes from './routes/employeeRoutes.js';
+import authRoutes from './routes/authRoutes.js';
+import userRoutes from './routes/userRoutes.js';
+import uploadRoutes from './routes/uploadRoutes.js';
+import errorHandler from './middleware/errorHandler.js';
+
 const app = express();
-const path = require('path');
-const { logger, logEvents } = require('./middleware/logger');
-const errorHandler = require('./middleware/errorHandler');
-const cookieParser = require('cookie-parser');
-const cors = require('cors');
-const corsOptions = require('./config/corsOptions');
-const connectDB = require('./config/dbConn');
-const mongoose = require('mongoose');
+
 const PORT = process.env.PORT || 3500;
 
 console.log(process.env.NODE_ENV);
@@ -23,14 +31,15 @@ app.use(cors(corsOptions));
 app.use(express.json());
 
 app.use(cookieParser());
+const __dirname = path.resolve();
 
-app.use('/', express.static(path.join(__dirname, 'public')));
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-app.use('/api', require('./routes/root'));
-app.use('/api/employees', require('./routes/employeeRoutes'));
-app.use('/api/auth', require('./routes/authRoutes'));
-app.use('/api/users', require('./routes/userRoutes'));
-app.use('/api/upload', require('./routes/uploadRoutes'));
+app.use('/api', root);
+app.use('/api/employees', employeeRoutes);
+app.use('/api/auth', authRoutes);
+app.use('/api/users', userRoutes);
+app.use('/api/upload', uploadRoutes);
 
 app.all('*', (req, res) => {
   res.status(404);
@@ -45,8 +54,8 @@ app.all('*', (req, res) => {
 
 app.use(errorHandler);
 
-// __dirname = path.resolve();
-app.use('/uploads', express.static(path.join(__dirname, '/uploads')));
+// const __dirname = path.resolve();
+// app.use('/uploads', express.static(path.join(__dirname, '/uploads')));
 
 mongoose.connection.once('open', () => {
   console.log('Connected to MongoDB');

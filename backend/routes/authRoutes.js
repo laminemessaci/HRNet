@@ -1,15 +1,12 @@
-const express = require('express')
-const router = express.Router()
-const authController = require('../controllers/authController')
-const loginLimiter = require('../middleware/loginLimiter')
+import express from 'express';
+import loginLimiter from './../middleware/loginLimiter.js';
+import { login, refresh, logout } from '../controllers/authController.js';
+const router = express.Router();
 
-router.route('/')
-    .post(loginLimiter, authController.login)
+router.route('/').post(loginLimiter, login);
 
-router.route('/refresh')
-    .get(authController.refresh)
+router.route('/refresh').get(refresh);
 
-router.route('/logout')
-    .post(authController.logout)
+router.route('/logout').post(logout);
 
-module.exports = router
+export default router;

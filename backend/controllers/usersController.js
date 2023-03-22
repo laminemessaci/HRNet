@@ -1,9 +1,8 @@
-const User = require('../models/User');
-const color = require('colors');
-const Employee = require('../models/Employee.js');
-const Mongoose = require('mongoose');
-
-const bcrypt = require('bcrypt');
+import bcrypt from 'bcrypt';
+import color from 'colors';
+import User from '../models/User.js';
+import Employee from '../models/Employee.js';
+import Mongoose from 'mongoose';
 
 // @desc Get all users
 // @route GET /users
@@ -189,9 +188,4 @@ const deleteUser = async (req, res) => {
   res.json(reply);
 };
 
-module.exports = {
-  getAllUsers,
-  createNewUser,
-  updateUser,
-  deleteUser,
-};
+export { getAllUsers, createNewUser, updateUser, deleteUser };

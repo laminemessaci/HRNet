@@ -1,5 +1,5 @@
-const rateLimit = require('express-rate-limit');
-const { logEvents } = require('./logger');
+import rateLimit from 'express-rate-limit';
+import { logEvents } from './logger.js'
 
 const loginLimiter = rateLimit({
   windowMs: 60 * 1000, // 1 minute
@@ -19,4 +19,4 @@ const loginLimiter = rateLimit({
   legacyHeaders: false, // Disable the `X-RateLimit-*` headers
 });
 
-module.exports = loginLimiter;
+export default loginLimiter;

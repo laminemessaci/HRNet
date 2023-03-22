@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const generatePassword = () => {
   var length = 5,
@@ -67,4 +67,5 @@ const userSchema = new mongoose.Schema({
 //   next();
 // });
 
-module.exports = mongoose.model('User', userSchema);
+const User = mongoose.model('User', userSchema);
+export default User;
