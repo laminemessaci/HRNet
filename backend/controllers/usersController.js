@@ -32,14 +32,7 @@ const createNewUser = async (req, res) => {
   console.log(color.cyan(newUser));
 
   // Confirm data
-  if (
-    !email ||
-    !password ||
-    !lastName ||
-    !firstName ||
-    !avatar ||
-    !department
-  ) {
+  if (!email || !password || !lastName || !firstName || !department) {
     return res.status(400).json({ message: 'All fields are required' });
   }
 
