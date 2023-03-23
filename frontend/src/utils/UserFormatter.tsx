@@ -23,7 +23,6 @@ interface IUser {
 
 export default class UserFormatter implements IUser {
   constructor(user: IUser) {
-    console.log('user=== ', user)
     this.key = user.id
     this.firstName = user.firstName
     this.lastName = user.lastName

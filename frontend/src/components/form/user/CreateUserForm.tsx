@@ -55,12 +55,11 @@ const UserForm: React.FC = (): JSX.Element => {
   const [lastName, setLastName] = useState<string>('')
   const [image, setImage] = useState<string>('')
   const [phone, setPhone] = useState<string>('')
-
   const [uploading, setUploading] = useState(false)
-
   const [errorRole, setErrorRole] = useState<string>('')
   const [errorDept, setErrorDept] = useState<string>('')
   const [globalError, setGlobalError] = useState<string>('')
+
   const navigate = useNavigate<NavigateFunction>()
 
   const {
@@ -83,8 +82,8 @@ const UserForm: React.FC = (): JSX.Element => {
 
   // console.log('users', users)
   useEffect(() => {
-    console.log('errorDept', errorDept)
-    console.log('role====', role)
+    if (errorDept) setErrorDept('')
+    if (errorRole) setErrorRole('')
   }, [errorDept, error, navigate, role])
 
   if (!users?.length || isLoading) return <Loader type='spokes' color='green' width={200} height={200} />
@@ -139,7 +138,7 @@ const UserForm: React.FC = (): JSX.Element => {
         lastName,
         phone,
         department: department.name,
-        roles: [...role.name],
+        roles: [role.name],
       })
       if (isSuccess) {
         reset()
@@ -171,7 +170,10 @@ const UserForm: React.FC = (): JSX.Element => {
               <div className='mb-4'>
                 <img
                   className='w-auto mx-auto rounded-full object-cover object-center'
-                  src='https://i1.pngguru.com/preview/137/834/449/cartoon-cartoon-character-avatar-drawing-film-ecommerce-facial-expression-png-clipart.jpg'
+                  src={
+                    image ||
+                    'https://i1.pngguru.com/preview/137/834/449/cartoon-cartoon-character-avatar-drawing-film-ecommerce-facial-expression-png-clipart.jpg'
+                  }
                   alt='Avatar Upload'
                 />
               </div>

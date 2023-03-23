@@ -37,7 +37,10 @@ const upload = multer({
   },
 });
 
+console.log(color.red(upload.fileFilter));
+
 router.post('/', upload.single('image'), (req, res) => {
+  console.log(color.red(upload));
   console.log(color.red(req.file.path));
   res.send(`/${req.file.path}`);
 });

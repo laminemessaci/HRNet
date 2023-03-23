@@ -10,7 +10,7 @@ export const columns: IColumn = [
     title: 'Avatar',
     dataIndex: 'avatar',
     render: (avatar: string, row) => {
-      console.log('object ==> ', row.active)
+      // console.log('object ==> ', row.active)
       return <UserAvatar imageSource={avatar} active={row.active} />
     },
   },
