@@ -1,17 +1,23 @@
-const express = require('express');
-const router = express.Router();
-const employeesController = require('../controllers/employeesController');
+import express from 'express';
 
-const verifyJWT = require('../middleware/verifyJWT');
+const router = express.Router();
+import {
+  createNewEmployee,
+  deleteEmployee,
+  getAllEmployees,
+  updateEmployee,
+} from '../controllers/employeesController.js';
+
+import verifyJWT from '../middleware/verifyJWT.js';
 
 router.use(verifyJWT);
 
 router
   .route('/')
-  .get(employeesController.getAllEmployees)
-  .post(employeesController.createNewEmployee)
-  .delete(employeesController.deleteEmployee)
-  .patch(employeesController.updateEmployee);
+  .get(getAllEmployees)
+  .post(createNewEmployee)
+  .delete(deleteEmployee)
+  .patch(updateEmployee);
 router.route('/:id');
 
-module.exports = router;
+export default router;

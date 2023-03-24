@@ -44,16 +44,15 @@ const UserActions: React.FC<IProps> = ({ id }): JSX.Element => {
 
   useEffect(() => {
     if (isDelSuccess) {
-      // navigate('/home/users-list')
+      toast?.pushSuccess('User deleted successfully')
       location.reload()
     }
-  }, [navigate, isDelSuccess,id])
+  }, [navigate, isDelSuccess, id])
 
   function handlUpdate(id: string): void {
     setAction('update')
     setIsOpen(true)
   }
- // console.log('delerror', delerror)
 
   return (
     <>
@@ -84,7 +83,7 @@ const UserActions: React.FC<IProps> = ({ id }): JSX.Element => {
       </Space>
 
       <Drawer isOpen={isOpen} setIsOpen={setIsOpen}>
-        {action == 'details' ? <UserCard id={id} /> : <UpdateUserForm id={id} />}
+        {action == 'details' ? <UserCard id={id} /> : <UpdateUserForm id={id} setIsOpen={setIsOpen} />}
       </Drawer>
     </>
   )

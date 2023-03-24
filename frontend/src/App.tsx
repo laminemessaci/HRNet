@@ -1,5 +1,7 @@
-import Navigation from './navigation'
-import ToastProvider from './notifications/ToastProvider'
+import { lazy } from 'react'
+
+const Navigation = lazy(() => import('./navigation'))
+const ToastProvider = lazy(() => import('./notifications/ToastProvider'))
 
 const App: React.FC = (): JSX.Element => {
   return (

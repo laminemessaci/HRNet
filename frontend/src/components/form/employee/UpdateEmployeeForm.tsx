@@ -65,6 +65,7 @@ const UpdateForm: React.FC<IProps> = ({ id, setIsOpen }): JSX.Element => {
 
   const onSubmit = async (data) => {
     const { firstName, lastName, birthDay, startDay, id } = employee
+  
 
     const { department: department, state: state, street, zipCode, city } = data
     if (department.name === 'Select Your Department') {
@@ -99,7 +100,7 @@ const UpdateForm: React.FC<IProps> = ({ id, setIsOpen }): JSX.Element => {
       setDepartment(department)
       setIsOpen(false)
       // location.reload()
-      //  navigateTo('/home/employees-list', navigate)
+      navigateTo('/home/employees-list', navigate)
       if (error || isError) {
         console.log(error)
         toast?.pushError(error)
@@ -115,8 +116,8 @@ const UpdateForm: React.FC<IProps> = ({ id, setIsOpen }): JSX.Element => {
       toast?.pushSuccess('Employee updated successfully !')
       navigateTo('/home/employees-list', navigate)
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isUpdateSuccess])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isUpdateSuccess, navigate])
 
   return (
     <>

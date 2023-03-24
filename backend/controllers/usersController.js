@@ -1,9 +1,8 @@
-const User = require('../models/User');
-const color = require('colors');
-const Employee = require('../models/Employee.js');
-const Mongoose = require('mongoose');
-
-const bcrypt = require('bcrypt');
+import bcrypt from 'bcrypt';
+import color from 'colors';
+import User from '../models/User.js';
+import Employee from '../models/Employee.js';
+import Mongoose from 'mongoose';
 
 // @desc Get all users
 // @route GET /users
@@ -28,19 +27,20 @@ const createNewUser = async (req, res) => {
     ...req.body,
   });
 
-  const { email, password, roles, firstName, lastName, avatar, department } =
-    newUser;
+  const {
+    email,
+    password,
+    roles,
+    firstName,
+    lastName,
+    avatar,
+    department,
+    phone,
+  } = newUser;
   console.log(color.cyan(newUser));
 
   // Confirm data
-  if (
-    !email ||
-    !password ||
-    !lastName ||
-    !firstName ||
-    !avatar ||
-    !department
-  ) {
+  if (!email || !password || !lastName || !firstName || !department) {
     return res.status(400).json({ message: 'All fields are required' });
   }
 
@@ -57,25 +57,16 @@ const createNewUser = async (req, res) => {
   // Hash password
   const hashedPwd = await bcrypt.hash(password, 10); // salt rounds
 
-  const userObject =
-    !Array.isArray(roles) || !roles.length
-      ? {
-          email,
-          password: hashedPwd,
-          firstName,
-          lastName,
-          avatar,
-          department,
-        }
-      : {
-          email,
-          password: hashedPwd,
-          roles,
-          firstName,
-          lastName,
-          avatar,
-          department,
-        };
+  const userObject = {
+    email,
+    password: hashedPwd,
+    roles,
+    firstName,
+    lastName,
+    avatar,
+    department,
+    phone,
+  };
 
   // Create and store new user
   const user = await User.create(userObject);
@@ -100,9 +91,11 @@ const updateUser = async (req, res) => {
     password,
     department,
     phone,
+    avatar,
     firstName,
     lastName,
   } = req.body;
+  console.log(color.cyan(req.body));
 
   // Confirm data
   if (
@@ -143,6 +136,7 @@ const updateUser = async (req, res) => {
   user.password = password;
   user.firstName = firstName;
   user.lastName = lastName;
+  user.avatar = avatar;
 
   // Update the user
 
@@ -189,9 +183,4 @@ const deleteUser = async (req, res) => {
   res.json(reply);
 };
 
-module.exports = {
-  getAllUsers,
-  createNewUser,
-  updateUser,
-  deleteUser,
-};
+export { getAllUsers, createNewUser, updateUser, deleteUser };

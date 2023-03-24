@@ -1,7 +1,8 @@
-const path = require('path');
-const express = require('express');
-const multer = require('multer');
-const color = require('colors');
+import multer from 'multer';
+
+import path from 'path';
+import express from 'express';
+import color from 'colors';
 
 const router = express.Router();
 
@@ -36,9 +37,12 @@ const upload = multer({
   },
 });
 
+console.log(color.red(upload.fileFilter));
+
 router.post('/', upload.single('image'), (req, res) => {
+  console.log(color.red(upload));
   console.log(color.red(req.file.path));
   res.send(`/${req.file.path}`);
 });
 
-module.exports = router;
+export default router;

@@ -3,16 +3,19 @@
   "version": "1.0.0",
   "description": "OPC Project 14 HRNet",
   "main": "server.js",
+  "type": "module",
   "scripts": {
-    "back:install": "npm install --prefix backend",
-    "front:install": "npm install --prefix frontend",
-    "install": "concurrently \"npm run back:install\" \"npm run front:install\"",
-    "doc": "cd frontend && npm run jsdoc && cd..",
-    "server": "npm run dev --prefix backend",
+    "start": "node backend/server",
+    "server": "nodemon backend/server",
     "client": "npm start --prefix frontend",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "linter": "npm run lint --prefix frontend",
-    "fix:linter": "npm run lint:fix --prefix frontend"
+    "fix:linter": "npm run lint:fix --prefix frontend",
+    "lint:fix": "eslint --fix \"src/**/*.{js,jsx,ts,tsx,json}\"",
+    "format": "prettier --write 'src/**/*.{js,jsx,ts,tsx,css,md,json}' --config ./.prettierrc",
+    "jsdoc": "jsdoc -c jsdoc.json",
+    "clean": "rm -rf build dist docs",
+    "clean:all": "rm -fr node_modules build dist docs package-lock.json"
   },
   "repository": {
     "type": "git",
@@ -22,6 +25,25 @@
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/laminemessaci/HRNet/issues"
+  },
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "cli-color": "^2.0.3",
+    "colors": "^1.4.0",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "date-fns": "^2.29.1",
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1",
+    "express-async-errors": "^3.1.1",
+    "express-rate-limit": "^6.5.1",
+    "hrnet": "file:..",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^6.5.0",
+    "mongoose-sequence": "^5.3.1",
+    "multer": "^1.4.5-lts.1",
+    "path": "^0.12.7",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "concurrently": "^7.4.0",

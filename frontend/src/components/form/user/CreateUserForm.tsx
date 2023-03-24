@@ -19,6 +19,7 @@ import { navigateTo } from '../../../utils/index'
 import { NavigateFunction, useNavigate } from 'react-router'
 import { ErrorMessage } from '@hookform/error-message'
 import ReactLoading from 'react-loading'
+import { ROLES } from './../../../config/roles'
 
 export interface FormInputs {
   firstName: string
@@ -36,18 +37,29 @@ export interface FormInputs {
 // function classNames(...classes) {
 //   return classes.filter(Boolean).join(' ')
 // }
+const roleOptions = () => {
+  const rolesObject = []
+  Object.keys(ROLES).map((role, index) => {
+    const obj = { id: index, name: role }
+    rolesObject.push(obj)
+  })
+  return rolesObject
+}
 
 const UserForm: React.FC = (): JSX.Element => {
+  const options = roleOptions()
+
   const [department, setDepartment] = useState<IDepartment>(departments[0])
+  const [role, setRoles] = useState(options[0])
   const [firstName, setFirstName] = useState<string>('')
   const [lastName, setLastName] = useState<string>('')
   const [image, setImage] = useState<string>('')
   const [phone, setPhone] = useState<string>('')
-  const [mailAddress, setMailAddress] = useState<string>('')
   const [uploading, setUploading] = useState(false)
-  const [errorState, setErrorState] = useState<string>('')
+  const [errorRole, setErrorRole] = useState<string>('')
   const [errorDept, setErrorDept] = useState<string>('')
   const [globalError, setGlobalError] = useState<string>('')
+
   const navigate = useNavigate<NavigateFunction>()
 
   const {
@@ -69,15 +81,22 @@ const UserForm: React.FC = (): JSX.Element => {
   })
 
   // console.log('users', users)
-  // useEffect(() => {
-  //   console.log('errorDept', errorDept)
-  // }, [errorDept, errorState, error, navigate])
+  useEffect(() => {
+    if (errorDept) setErrorDept('')
+    if (errorRole) setErrorRole('')
+  }, [errorDept, error, navigate, role])
 
   if (!users?.length || isLoading) return <Loader type='spokes' color='green' width={200} height={200} />
 
-  // console.log('users', users)
-
-  // console.log('currentUser', currentUser[0]._id)
+  const onRolesChanged = (e) => {
+    console.log('e.target.value', e.name)
+    // const values = Array.from(
+    //   e, // HTMLCollection
+    //   (option) => option,
+    // )
+    // console.log('values', values)
+    setRoles(e.name)
+  }
 
   const uploadFileHandler = async (e) => {
     const file = e.target.files[0]
@@ -93,7 +112,6 @@ const UserForm: React.FC = (): JSX.Element => {
       }
 
       const { data } = await axios.post('/api/upload', formData, config)
-      // console.log('data image :::', data)
 
       setImage(data)
       setUploading(false)
@@ -104,8 +122,6 @@ const UserForm: React.FC = (): JSX.Element => {
   }
 
   const onSubmit = async (data) => {
-    // const userCreator = users.filter((user) => user.email == email)
-    // console.log('Image : ', image)
     const { firstName, lastName, department: department, phone, email } = data
     if (department.name === 'Select Your Department') {
       setErrorDept('Please select your department !')
@@ -122,10 +138,13 @@ const UserForm: React.FC = (): JSX.Element => {
         lastName,
         phone,
         department: department.name,
+        roles: [role.name],
       })
-      reset()
-
-      setDepartment(departments[0])
+      if (isSuccess) {
+        reset()
+        setRoles(options[0])
+        setDepartment(departments[0])
+      }
       if (error || isError) return
       navigateTo('/home/users-list', navigate)
     } catch (error) {
@@ -151,7 +170,10 @@ const UserForm: React.FC = (): JSX.Element => {
               <div className='mb-4'>
                 <img
                   className='w-auto mx-auto rounded-full object-cover object-center'
-                  src='https://i1.pngguru.com/preview/137/834/449/cartoon-cartoon-character-avatar-drawing-film-ecommerce-facial-expression-png-clipart.jpg'
+                  src={
+                    image ||
+                    'https://i1.pngguru.com/preview/137/834/449/cartoon-cartoon-character-avatar-drawing-film-ecommerce-facial-expression-png-clipart.jpg'
+                  }
                   alt='Avatar Upload'
                 />
               </div>
@@ -248,90 +270,27 @@ const UserForm: React.FC = (): JSX.Element => {
               ></Controller>
               {errorDept && <p className='text-red-500'>{errorDept}</p>}
             </div>
-
-            {/* <div className='lg:w-1/2 ml-2 mt-7 mr-0'>
-              <label htmlFor='image' className='block text-sm font-medium text-gray-700'>
-                Image
-              </label>
-              <input
-                type='file'
-                name='image'
-                id='image'
-                className='file-input file-input-bordered file-input-success w-full  max-w-xs'
-              />
-              {errors.image && <p className='text-red-500'>Please upload a true format!</p>}
-            </div> */}
+            <div className='mt-6 lg:w-1/2'>
+              <Controller
+                name='roles'
+                control={control}
+                defaultValue={options[0].name}
+                render={({ field: { onChange } }) => (
+                  <DataListField
+                    list={options}
+                    value={role}
+                    onChange={(e) => {
+                      onChange(e)
+                      onRolesChanged(e)
+                      setRoles(e)
+                      setErrorRole('')
+                    }}
+                  />
+                )}
+              ></Controller>
+              {errorRole && <p className='text-red-500'>{errorRole}</p>}
+            </div>
           </div>
-
-          {/* <div className=' border mt-8 bg-green-200 mb-8'>
-          <h1 className='text-green-600 text-center mt-8'>
-            <FontAwesomeIcon icon={faAddressCard} className='mx-2' />
-            Address
-          </h1>
-          <div className='mt-8 w-11/12 sm:w-1/2 mx-auto'>
-            <label htmlFor='street' className='block text-sm font-medium text-gray-700'>
-              Street
-            </label>
-
-            <input
-              {...register('street', { required: true })}
-              type='text'
-              name='street'
-              id='street'
-              className='mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm'
-              placeholder='street'
-            />
-            {errors.street && <p className='text-red-500'>This field is required</p>}
-          </div>
-          <div className='mt-8 w-11/12 sm:w-1/2 mx-auto mb-8'>
-            <label htmlFor='city' className='block text-sm font-medium text-gray-700'>
-              City
-            </label>
-
-            <input
-              {...register('city', { required: true })}
-              type='text'
-              name='city'
-              id='city'
-              className='mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm'
-              placeholder='city'
-            />
-            {errors.city && <p className='text-red-500'>This field is required</p>}
-          </div>
-          <Controller
-            name='state'
-            control={control}
-            defaultValue={states[0]}
-            render={({ field: { onChange } }) => (
-              <DataListField
-                list={states}
-                value={selctedState}
-                onChange={(e): void => {
-                  onChange(e)
-                  setSelectedState(e)
-                  setErrorState('')
-                }}
-              />
-            )}
-          ></Controller>
-          {errorState && <p className='flex justify-center text-red-500'>{errorState}</p>}
-
-          <div className='mt-8 w-11/12 sm:w-1/2 mx-auto mb-8'>
-            <label htmlFor='zipCode' className='block text-sm font-medium text-gray-700'>
-              Zip Code
-            </label>
-
-            <input
-              {...register('zipCode', { required: true, pattern: /^[0-9]+$/ })}
-              type='number'
-              name='zipCode'
-              id='zipCode'
-              className='mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm'
-              placeholder='zipCode'
-            />
-            {errors.zipCode && <p className='text-red-500'>Please enter a valid zipCode code</p>}
-          </div>
-        </div> */}
 
           <div className='w-full flex justify-center mt-8 mb-8'>
             <button

@@ -1,5 +1,5 @@
-const mongoose = require('mongoose');
-const color = require('cli-color');
+import mongoose from 'mongoose';
+import color from 'cli-color';
 
 mongoose.set('strictQuery', true);
 const connectDB = async () => {
@@ -8,11 +8,13 @@ const connectDB = async () => {
       useUnifiedTopology: true,
       useNewUrlParser: true,
     });
-    console.log(`MongoDB Connected to ${color.cyan(conn.connection.host)}`);
+    console.log(
+      `MongoDB Connected to ${color.cyanBright(conn.connection.host)}`
+    );
   } catch (error) {
-    console.error(`Error: ${color.red(error.message)}`);
+    console.error(`Error: ${color.redBright(error.message)}`);
     process.exit(1);
   }
 };
 
-module.exports = connectDB;
+export default connectDB;

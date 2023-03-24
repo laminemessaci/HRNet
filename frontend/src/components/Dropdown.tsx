@@ -18,12 +18,14 @@ const Dropdown: React.FC = (): JSX.Element => {
       users: data?.ids.map((id) => data?.entities[id]),
     }),
   })
+  const currentUser = users?.find((user) => user.email === email) || null
+  const userId = currentUser?.id
 
   const [sendLogout, { isLoading, isSuccess, isError, error }] = useSendLogoutMutation()
 
   useEffect(() => {
     if (isSuccess) navigate('/')
-  }, [isSuccess, navigate])
+  }, [isSuccess, navigate, currentUser])
 
   return (
     <div className='w-auto text-right justify-center   rounded-full '>
@@ -52,7 +54,7 @@ const Dropdown: React.FC = (): JSX.Element => {
               <Menu.Item>
                 {({ active }) => (
                   <button
-                    onClick={() => navigateTo('/edit-profile', navigate)}
+                    onClick={() => navigateTo(`/edit-profile/${userId}`, navigate)}
                     className={`${
                       active ? 'bg-green-200 text-white' : 'text-lime-700'
                     } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
@@ -66,7 +68,7 @@ const Dropdown: React.FC = (): JSX.Element => {
                   </button>
                 )}
               </Menu.Item>
-              <Menu.Item>
+              {/* <Menu.Item>
                 {({ active }) => (
                   <button
                     onClick={() => navigateTo('/profile', navigate)}
@@ -82,7 +84,7 @@ const Dropdown: React.FC = (): JSX.Element => {
                     Details
                   </button>
                 )}
-              </Menu.Item>
+              </Menu.Item> */}
               <Menu.Item>
                 {({ active }) => (
                   <button

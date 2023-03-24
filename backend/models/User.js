@@ -1,13 +1,23 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
+import colors from 'cli-color';
 
 const generatePassword = () => {
-  var length = 5,
-    charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789',
+  var length = 3,
+    charset = 'abcdefghijklmnopqrstuvwxyz0123456789',
     retVal = '';
   for (var i = 0, n = charset.length; i < length; ++i) {
     retVal += charset.charAt(Math.floor(Math.random() * n));
   }
+  console.log(colors.red(retVal));
   return retVal;
+};
+const color = function getRandomColor() {
+  var letters = '0123456789ABCDEF';
+  var color = '';
+  for (var i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)];
+  }
+  return color;
 };
 
 const userSchema = new mongoose.Schema({
@@ -37,7 +47,7 @@ const userSchema = new mongoose.Schema({
   },
   avatar: {
     type: String,
-    default: `https://ui-avatars.com/api/?background=65a30d&color=fff&name=John+Doe`,
+    // default: `https://ui-avatars.com/api/?background=65a30d&color=fff&name=John+Doe`,
   },
   createdAt: {
     type: Date,
@@ -58,13 +68,17 @@ const userSchema = new mongoose.Schema({
   },
 });
 
-// userSchema.pre('save', async function (next) {
-//   //   if (!this.isModified('password')) {
-//   //     next();
-//   //   }
-//   // this.avatar = `https://ui-avatars.com/api/?background=65a30d&color=fff&name=${this.firstName}+${this.lastName}`;
-//   // this.password = await generatePassword();
-//   next();
-// });
+userSchema.pre('save', async function (next) {
+  //   if (!this.isModified('password')) {
+  //     next();
+  //   }
+  if (!this.avatar)
+    this.avatar = `https://ui-avatars.com/api/?background=${color()}&color=fff&name=${
+      this.firstName
+    }+${this.lastName}`;
+  // this.password = await generatePassword();
+  next();
+});
 
-module.exports = mongoose.model('User', userSchema);
+const User = mongoose.model('User', userSchema);
+export default User;
