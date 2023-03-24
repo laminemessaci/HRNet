@@ -14,10 +14,13 @@ import axios from 'axios'
 import Message from './../../Message'
 import { useToast } from './../../../notifications/ToastProvider'
 import { navigateTo } from './../../../utils/index'
+import { faBullseye } from '@fortawesome/free-solid-svg-icons'
+import Loader from '../../Loader'
 
 interface IProps {
   id: string
   setIsOpen: (isOpen: boolean) => void
+  fromUser?: boolean | true
 }
 
 export interface IRoles {
@@ -25,15 +28,17 @@ export interface IRoles {
   name: string
 }
 
-const roleOptions = () => {
-  const rolesObject = []
-  Object.keys(ROLES).map((role, index) => {
-    const obj = { id: index, name: role }
-    rolesObject.push(obj)
-  })
-  return rolesObject
-}
-const UpdateUserForm: React.FC<IProps> = ({ id, setIsOpen }): JSX.Element => {
+const UpdateUserForm: React.FC<IProps> = ({ id, setIsOpen, fromUser = false }): JSX.Element => {
+  console.log(id, 'from UpdateUserForm ')
+  const roleOptions = () => {
+    const rolesObject = []
+    Object.keys(ROLES).map((role, index) => {
+      const obj = { id: index, name: role }
+      rolesObject.push(obj)
+    })
+    return rolesObject
+  }
+
   const { user } = useGetUsersQuery('usersList', {
     selectFromResult: ({ data }) => ({
       user: data?.entities[id],
@@ -60,8 +65,6 @@ const UpdateUserForm: React.FC<IProps> = ({ id, setIsOpen }): JSX.Element => {
 
   const navigate = useNavigate<NavigateFunction>()
 
-  const [formState, setFormState] = useState(initialValues)
-
   const toast = useToast()
 
   const {
@@ -81,7 +84,14 @@ const UpdateUserForm: React.FC<IProps> = ({ id, setIsOpen }): JSX.Element => {
     useUpdateUserMutation()
 
   const uploadFileHandler = async (e) => {
+    const acceptedImageTypes = ['image/gif', 'image/jpg', 'image/jpeg', 'image/png']
     const file = e.target.files[0]
+    // console.log('file Type:: ', file['type'])
+    if (!acceptedImageTypes.includes(file['type'])) {
+      setErrorAvatar(true)
+      return
+    }
+    setErrorAvatar(false)
     const formData = new FormData()
     formData.append('image', file)
     setUploading(true)
@@ -94,6 +104,7 @@ const UpdateUserForm: React.FC<IProps> = ({ id, setIsOpen }): JSX.Element => {
       }
 
       const { data, status } = await axios.post('/api/upload', formData, config)
+      // console.log('image::: ', data)
 
       // setImage(data)
       setAvatar(data)
@@ -122,6 +133,7 @@ const UpdateUserForm: React.FC<IProps> = ({ id, setIsOpen }): JSX.Element => {
       setErrorDept('Please select your department !')
       return
     }
+    if (errorAvatar) return
 
     try {
       const { isError, error } = await updateUser({
@@ -140,7 +152,7 @@ const UpdateUserForm: React.FC<IProps> = ({ id, setIsOpen }): JSX.Element => {
       reset()
 
       setDepartment(departments[0])
-      setIsOpen(false)
+      if (!fromUser) setIsOpen(false)
 
       if (error || isError) return
     } catch (error) {
@@ -150,15 +162,20 @@ const UpdateUserForm: React.FC<IProps> = ({ id, setIsOpen }): JSX.Element => {
   }
 
   useEffect(() => {
-    console.log('USER++ ', user)
     if (errorDept) setErrorDept('')
     if (errorRole) setErrorRole('')
     if (isUpdateSuccess) {
       toast?.pushSuccess('User updated successfully !')
-      navigateTo('/home/users-list', navigate)
+      if (!fromUser) {
+        navigateTo('/home/users-list', navigate)
+      } else {
+        navigateTo('/home', navigate)
+      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [navigate, isUpdateSuccess, avatar])
+  }, [navigate, isUpdateSuccess, id])
+
+  if (!user || !departments || !avatar) return <Loader type='bubbles' color='green' height={200} width={200} />
 
   return (
     <>
@@ -414,7 +431,8 @@ const UpdateUserForm: React.FC<IProps> = ({ id, setIsOpen }): JSX.Element => {
         <div className='w-full flex justify-center mt-8 mb-8'>
           <button
             type='submit'
-            className='inline-flex mr-2 items-center  rounded-md border border-transparent bg-green-700 px-6 py-3 text-base font-medium text-green-200 hover:bg-green-200 hover:text-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2'
+            disabled={errorAvatar}
+            className='inline-flex mr-2 items-center rounded-md border border-transparent bg-green-700 px-6 py-3 text-base font-medium text-green-200 hover:bg-green-200 hover:text-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2'
           >
             Save
           </button>

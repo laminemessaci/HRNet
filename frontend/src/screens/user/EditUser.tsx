@@ -11,7 +11,7 @@ const EditUser: React.FC = (): JSX.Element => {
             <div className='relative flex flex-col min-w-0 break-words bg-white border-0 shadow-xl dark:bg-slate-850 dark:shadow-dark-xl rounded-2xl bg-clip-border'>
               <div className='border-black/12.5 rounded-t-2xl border-b-0 border-solid p-6 pb-0'>
                 <div className='flex items-center'>
-                  <p className='mb-0 dark:text-white/80'>Edit Profile</p>
+                  <h3 className='mb-0 dark:text-white/80'>Edit Profile</h3>
                   <button
                     type='button'
                     className='inline-block px-8 py-2 mb-4 ml-auto font-bold leading-normal text-center text-white align-middle transition-all ease-in bg-blue-500 border-0 rounded-lg shadow-md cursor-pointer text-xs tracking-tight-rem hover:shadow-xs hover:-translate-y-px active:opacity-85'

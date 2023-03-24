@@ -51,7 +51,7 @@ const Navigation: React.FC<RouteObject> = (): JSX.Element => {
                 <Route path='/home/new-employee' element={<NewEmployee />} />
                 <Route path='/home/users-list' element={<UsersList />} />
                 <Route path='/profile' element={<Profile />} />
-                <Route path='/edit-profile' element={<EditProfile />} />
+                <Route path='/edit-profile/:userId' element={<EditProfile />} />
                 <Route path='/admin/new-user' element={<NewUser />} />
               </Route>
             </Route>
