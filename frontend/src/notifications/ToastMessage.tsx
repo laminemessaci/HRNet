@@ -1,10 +1,10 @@
 /* Author: Dalibor Kundrat  https://github.com/damikun */
 
-import React, { useEffect } from 'react'
-import { Toast } from './ToastProvider'
+import { faCheck, faExclamationCircle, faInfoCircle, faTimes } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTimes, faExclamationCircle, faCheck, faInfoCircle } from '@fortawesome/free-solid-svg-icons'
 import clsx from 'clsx'
+import { useEffect } from 'react'
+import { Toast } from './ToastProvider'
 
 const VARIANTS = {
   Info: {

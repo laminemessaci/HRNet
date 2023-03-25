@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import UserActions from '../../components/form/user/UserActions'
 import UserAvatar from '../../components/UserAvatar'
-import { IColumn } from '../../screens/employee/EmployeesColumn'
+import { IColumn } from '../employee/EmployeesColumn'
 
 // @ts-ignore
 export const columns: IColumn = [
@@ -64,7 +64,7 @@ export const columns: IColumn = [
     dataIndex: 'roles',
     defaultSortOrder: 'descend',
     sortDirections: ['descend', 'ascend'],
-    sorter: (a: { roles: string }, b: { roles: string }) => a.roles.localeCompare(b.roles),
+    sorter: (a: { roles: [string] }, b: { roles: [string] }) => a.roles[0].localeCompare(b.roles[0]),
   },
   {
     key: 'department',

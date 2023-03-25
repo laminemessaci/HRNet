@@ -4,20 +4,19 @@
 import { faAddressCard } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
-import { useAddNewEmployeeMutation } from '../../../features/employees/EmployeesApiSlice.js'
-import { useGetUsersQuery } from '../../../features/users/usersApiSlice.js'
+import { NavigateFunction, useNavigate } from 'react-router'
+import { useAddNewEmployeeMutation } from '../../../features/EmployeesApiSlice.js'
+import { useGetUsersQuery } from '../../../features/usersApiSlice.js'
 import useAuth from '../../../hooks/useAuth'
 import { departments, IDepartment } from '../../../utils/Department'
+import { navigateTo } from '../../../utils/index'
 import { IState, states } from '../../../utils/States'
 import Loader from '../../Loader'
 import Message from '../../Message'
 import DataListField from './DataListField'
 import DateField from './DateField'
-import { navigateTo } from '../../../utils/index'
-import { NavigateFunction, useNavigate } from 'react-router'
-import { ErrorMessage } from '@hookform/error-message'
 
 export interface FormInputs {
   firstName: string

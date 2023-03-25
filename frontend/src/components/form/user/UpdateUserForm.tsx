@@ -1,21 +1,21 @@
 /* eslint-disable react/prop-types */
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
-import React, { useState, useEffect } from 'react'
+import axios from 'axios'
+import React, { useEffect, useState, useCallback } from 'react'
 import { Controller, useForm } from 'react-hook-form'
+import ReactLoading from 'react-loading'
 import { NavigateFunction, useNavigate } from 'react-router'
 import { ROLES } from '../../../config/roles'
-import { useGetUsersQuery, useUpdateUserMutation } from '../../../features/users/usersApiSlice'
+import { useGetUsersQuery, useUpdateUserMutation } from '../../../features/usersApiSlice'
 import { departments, IDepartment } from '../../../utils/Department'
+import Loader from '../../Loader'
 import DataListField from '../employee/DataListField'
-import { FormInputs } from './CreateUser'
-import ReactLoading from 'react-loading'
-import axios from 'axios'
-import Message from './../../Message'
 import { useToast } from './../../../notifications/ToastProvider'
 import { navigateTo } from './../../../utils/index'
-import { faBullseye } from '@fortawesome/free-solid-svg-icons'
-import Loader from '../../Loader'
+import Message from './../../Message'
+import { FormInputs } from './CreateUser'
+import useAuth from './../../../hooks/useAuth'
 
 interface IProps {
   id: string
@@ -29,7 +29,6 @@ export interface IRoles {
 }
 
 const UpdateUserForm: React.FC<IProps> = ({ id, setIsOpen, fromUser = false }): JSX.Element => {
-  console.log(id, 'from UpdateUserForm ')
   const roleOptions = () => {
     const rolesObject = []
     Object.keys(ROLES).map((role, index) => {
@@ -45,9 +44,9 @@ const UpdateUserForm: React.FC<IProps> = ({ id, setIsOpen, fromUser = false }): 
     }),
   })
   const initialValues = {
-    department: departments.find((dept) => dept.name === user?.department),
+    department: departments?.find((dept) => dept.name === user?.department),
     active: user?.active,
-    roles: { id: 0, name: user?.roles[0] },
+    roles: { id: 0, name: user?.roles[0] }, // Employee by default
     email: user?.email,
     phone: user?.phone,
     avatar: user?.avatar,
@@ -66,6 +65,7 @@ const UpdateUserForm: React.FC<IProps> = ({ id, setIsOpen, fromUser = false }): 
   const navigate = useNavigate<NavigateFunction>()
 
   const toast = useToast()
+  const { roles: userRoles } = useAuth()
 
   const {
     control,
@@ -78,7 +78,6 @@ const UpdateUserForm: React.FC<IProps> = ({ id, setIsOpen, fromUser = false }): 
   } = useForm<FormInputs>({ mode: 'onTouched' })
 
   const options = roleOptions()
-  // console.log('options', options)
 
   const [updateUser, { isLoading: isUpdateLoading, isSuccess: isUpdateSuccess, error: isUpdatError }] =
     useUpdateUserMutation()
@@ -104,9 +103,7 @@ const UpdateUserForm: React.FC<IProps> = ({ id, setIsOpen, fromUser = false }): 
       }
 
       const { data, status } = await axios.post('/api/upload', formData, config)
-      // console.log('image::: ', data)
 
-      // setImage(data)
       setAvatar(data)
       setUploading(false)
     } catch (error) {
@@ -125,7 +122,7 @@ const UpdateUserForm: React.FC<IProps> = ({ id, setIsOpen, fromUser = false }): 
   //   const values = Array.from(e.target.selectedOptions, (option) => option.value)
   //   setRoles(values)
   // }
-  const onSubmit = async (data) => {
+  const onSubmit = useCallback(async (data) => {
     const { id, firstName, lastName } = user
     const { email, phone, password } = data
 
@@ -159,7 +156,7 @@ const UpdateUserForm: React.FC<IProps> = ({ id, setIsOpen, fromUser = false }): 
       console.log(error)
       toast?.pushError(error)
     }
-  }
+  })
 
   useEffect(() => {
     if (errorDept) setErrorDept('')
@@ -167,7 +164,7 @@ const UpdateUserForm: React.FC<IProps> = ({ id, setIsOpen, fromUser = false }): 
     if (isUpdateSuccess) {
       toast?.pushSuccess('User updated successfully !')
       if (!fromUser) {
-        navigateTo('/home/users-list', navigate)
+        navigateTo('/admin/users-list', navigate)
       } else {
         navigateTo('/home', navigate)
       }
@@ -175,7 +172,7 @@ const UpdateUserForm: React.FC<IProps> = ({ id, setIsOpen, fromUser = false }): 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [navigate, isUpdateSuccess, id])
 
-  if (!user || !departments || !avatar) return <Loader type='bubbles' color='green' height={200} width={200} />
+  if (!department) return <Loader type='bubbles' color='green' height={200} width={200} />
 
   return (
     <>
@@ -263,7 +260,6 @@ const UpdateUserForm: React.FC<IProps> = ({ id, setIsOpen, fromUser = false }): 
           />
           {errors.phone && <p className='text-red-500'>Please enter a Phone number</p>}
         </div>
-
         <div className='lg:w-auto m-1'>
           <label htmlFor='password' className='block text-sm font-medium text-gray-700'>
             Password
@@ -279,13 +275,12 @@ const UpdateUserForm: React.FC<IProps> = ({ id, setIsOpen, fromUser = false }): 
           />
           {errors.password && <p className='text-red-500'>Please enter your new password!</p>}
         </div>
-
         <div className='flex lg:flex-row  flex-col   justify-between'>
           <div className='mt-6  lg:w-1/2'>
             <Controller
               name='department'
               control={control}
-              defaultValue={department}
+              defaultValue={user ? department : null}
               render={({ field: { onChange } }) => (
                 <DataListField<IDepartment>
                   list={departments}
@@ -300,134 +295,44 @@ const UpdateUserForm: React.FC<IProps> = ({ id, setIsOpen, fromUser = false }): 
             ></Controller>
             {errorDept && <p className='text-red-500'>{errorDept}</p>}
           </div>
-          <div className='mt-6 lg:w-1/2'>
-            <Controller
-              name='roles'
-              control={control}
-              defaultValue={roles}
-              render={({ field: { onChange } }) => (
-                <DataListField
-                  list={options}
-                  value={roles}
-                  onChange={(e) => {
-                    // console.log('e ===== ', e)
-                    onChange(e)
-                    setRoles(e)
-                    setErrorRole('')
-                  }}
-                />
-              )}
-            ></Controller>
-            {errorRole && <p className='text-red-500'>{errorRole}</p>}
-          </div>
+          {userRoles.includes('Admin', 'Manager') && (
+            <div className='mt-6 lg:w-1/2'>
+              <Controller
+                name='roles'
+                control={control}
+                defaultValue={roles}
+                render={({ field: { onChange } }) => (
+                  <DataListField
+                    list={options}
+                    value={roles}
+                    onChange={(e) => {
+                      // console.log('e ===== ', e)
+                      onChange(e)
+                      setRoles(e)
+                      setErrorRole('')
+                    }}
+                  />
+                )}
+              ></Controller>
+              {errorRole && <p className='text-red-500'>{errorRole}</p>}
+            </div>
+          )}
         </div>
-
-        <div className='flex items-center mt-4'>
-          <label htmlFor='user-active' className='ml-2 text-sm font-medium text-gray-900 dark:text-gray-300'>
-            Active
-          </label>
-          <input
-            id='user-active'
-            type='checkbox'
-            checked={active}
-            onChange={onActiveChanged}
-            className='w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-lime-500 dark:focus:ring-lime-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600'
-          />
-        </div>
-
-        {/* <div className='adress border mt-8 bg-green-200 mb-8'>
-          <h1 className='text-green-600 text-center mt-8'>
-            <FontAwesomeIcon icon={faAddressCard} className='mx-2' />
-            Address
-          </h1>
-          <div className='mt-8 w-11/12 sm:w-2/2 mx-auto'>
-            <label htmlFor='street' className='block text-sm font-medium text-gray-700'>
-              Street
+        {userRoles.includes('Admin', 'Manager') && (
+          <div className='flex items-center mt-4'>
+            <label htmlFor='user-active' className='ml-2 text-sm font-medium text-gray-900 dark:text-gray-300'>
+              Active
             </label>
-
             <input
-              {...register('street', { required: true })}
-              type='text'
-              name='street'
-              //   defaultValue={initialValues.street}
-              onChange={(e) => {
-                console.log(e.target.value)
-                setFormState({ ...formState, street: e.target.value })
-              }}
-              id='street'
-              value={formState.street.trim()}
-              className='mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm'
-              placeholder='street'
+              id='user-active'
+              type='checkbox'
+              checked={active}
+              onChange={onActiveChanged}
+              className='w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-lime-500 dark:focus:ring-lime-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600'
             />
-            {errors.street && <p className='text-red-500'>This field is required</p>}
           </div>
-
-          <div className='flex lg:flex-row  flex-col '>
-            <div className=' sm:w-1/2 mx-4 mb-8 mt-8'>
-              <label htmlFor='zipCode' className='block text-sm font-medium text-gray-700'>
-                Zip Code
-              </label>
-
-              <input
-                {...register('zipCode', { required: true, pattern: /^[0-9]+$/ })}
-                type='number'
-                name='zipCode'
-                // defaultValue={user.zipCode}
-                onChange={(e) => {
-                  console.log(e.target.value)
-                  setFormState({ ...formState, zipCode: e.target.value.trim() })
-                }}
-                value={formState.zipCode.trim()}
-                id='zipCode'
-                className='mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm'
-                placeholder='zipCode'
-              />
-              {errors.zipCode && <p className='text-red-500'>Please enter a valid zipCode code</p>}
-            </div>
-
-            <div className=' sm:w-1/2 mx-4 mb-8 mt-8'>
-              <label htmlFor='city' className='block text-sm font-medium text-gray-700'>
-                City
-              </label>
-
-              <input
-                {...register('city', { required: true })}
-                type='text'
-                name='city'
-                // defaultValue={user.city}
-                onChange={(e) => {
-                  console.log(e.target.value)
-                  setFormState({ ...formState, city: e.target.value })
-                }}
-                value={formState.city.trim()}
-                id='city'
-                className='mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm'
-                placeholder='city'
-              />
-              {errors.city && <p className='text-red-500'>This field is required</p>}
-            </div>
-          </div>
-          <div className='mb-6 '>
-            <Controller
-              name='state'
-              control={control}
-              defaultValue={states[0]}
-              render={({ field: { onChange } }) => (
-                <DataListField
-                  list={states}
-                  value={selctedState}
-                  onChange={(e): void => {
-                    onChange(e)
-                    setSelectedState(e)
-                    setErrorState('')
-                  }}
-                />
-              )}
-            ></Controller>
-            {errorState && <p className='flex justify-center text-red-500'>{errorState}</p>}
-          </div>
-        </div> */}
-
+        )}
+       
         <div className='w-full flex justify-center mt-8 mb-8'>
           <button
             type='submit'

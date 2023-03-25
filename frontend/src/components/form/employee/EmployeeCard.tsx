@@ -1,11 +1,11 @@
-import React from 'react'
-import { useGetEmployeesQuery } from '../../../features/employees/EmployeesApiSlice'
+import React, { memo } from 'react'
+import { useGetEmployeesQuery } from '../../../features/EmployeesApiSlice'
 
 interface IProps {
   id: string
 }
 
-const Card: React.FC<IProps> = ({ id }): JSX.Element => {
+const EmployeeCard: React.FC<IProps> = ({ id }): JSX.Element => {
   const { employee } = useGetEmployeesQuery('employeesList', {
     selectFromResult: ({ data }) => ({
       employee: data?.entities[id],
@@ -64,4 +64,6 @@ const Card: React.FC<IProps> = ({ id }): JSX.Element => {
   )
 }
 
-export default Card
+const memoizedEmployee = memo(EmployeeCard)
+
+export default memoizedEmployee

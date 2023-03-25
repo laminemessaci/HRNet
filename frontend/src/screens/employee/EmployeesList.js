@@ -1,15 +1,15 @@
 import Loader from '../../components/Loader'
-import { useDeleteEmployeeMutation, useGetEmployeesQuery } from '../../features/employees/EmployeesApiSlice'
-import { useGetUsersQuery } from '../../features/users/usersApiSlice.js'
+import { useGetEmployeesQuery } from '../../features/EmployeesApiSlice'
+import { useGetUsersQuery } from '../../features/usersApiSlice.js'
 import useAuth from '../../hooks/useAuth'
 import EmployeesFormat from '../../utils/EmployeeFormatter'
 
+import { faAdd } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useState } from 'react'
+import { NavLink } from 'react-router-dom'
 import EmployeesTable from '../../components/TableList'
 import { columns } from './EmployeesColumn'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { NavLink } from 'react-router-dom'
-import { faAdd } from '@fortawesome/free-solid-svg-icons'
 
 const EmployeesList = () => {
   const [search, setSearch] = useState(null)

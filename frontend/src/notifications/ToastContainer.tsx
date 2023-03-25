@@ -2,7 +2,7 @@
 /* Author: Dalibor Kundrat  https://github.com/damikun */
 
 import clsx from 'clsx'
-import React, { useContext } from 'react'
+import { useContext } from 'react'
 import ToastMessage from './ToastMessage'
 import { ToastContext } from './ToastProvider'
 

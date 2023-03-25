@@ -3,18 +3,18 @@
 // @ts-nocheck
 import { faAddressCard } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import React, { useState, useEffect } from 'react'
+import isEqual from 'lodash/isEqual'
+import React, { useEffect, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { NavigateFunction, useNavigate } from 'react-router'
-import isEqual from 'lodash/isEqual'
-import { useGetEmployeesQuery, useUpdateEmployeeMutation } from '../../../features/employees/EmployeesApiSlice'
-import { useGetUsersQuery } from '../../../features/users/usersApiSlice'
+import { useGetEmployeesQuery, useUpdateEmployeeMutation } from '../../../features/EmployeesApiSlice'
+import { useGetUsersQuery } from '../../../features/usersApiSlice'
+import { useToast } from '../../../notifications/ToastProvider'
 import { departments, IDepartment } from '../../../utils/Department'
-import { IState, states } from '../../../utils/States'
 import { navigateTo } from '../../../utils/index'
+import { IState, states } from '../../../utils/States'
 import { FormInputs } from './CreateEmployee'
 import DataListField from './DataListField'
-import { useToast } from '../../../notifications/ToastProvider'
 
 interface IProps {
   id: string
@@ -65,7 +65,6 @@ const UpdateForm: React.FC<IProps> = ({ id, setIsOpen }): JSX.Element => {
 
   const onSubmit = async (data) => {
     const { firstName, lastName, birthDay, startDay, id } = employee
-  
 
     const { department: department, state: state, street, zipCode, city } = data
     if (department.name === 'Select Your Department') {

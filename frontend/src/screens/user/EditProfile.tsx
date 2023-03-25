@@ -1,7 +1,7 @@
 /* eslint-disable react/no-unescaped-entities */
-import React, { useState, useEffect } from 'react'
-import UpdateUserForm from '../../components/form/user/UpdateUserForm'
+import React, { useEffect } from 'react'
 import { useParams } from 'react-router-dom'
+import UpdateUserForm from '../../components/form/user/UpdateUserForm'
 
 /**
  * * Profile Edit Page
@@ -9,7 +9,7 @@ import { useParams } from 'react-router-dom'
  */
 const EditProfile: React.FC = (): JSX.Element => {
   const { userId } = useParams()
-  console.log(userId + ' from EditProfile.tsx')
+ 
   useEffect(() => {
     console.log(userId)
   }, [userId])

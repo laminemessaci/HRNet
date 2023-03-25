@@ -1,7 +1,6 @@
-import { apiSlice } from '../../app/api/apiSlice'
+import { apiSlice } from '../app/api/apiSlice'
 import { logOut, setCredentials } from './authSlice'
 
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 export const authApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
