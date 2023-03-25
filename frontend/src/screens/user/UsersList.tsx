@@ -2,16 +2,16 @@
 /* eslint-disable react/jsx-no-comment-textnodes */
 /* eslint-disable react/no-unknown-property */
 // @ts-check
-import { faAdd, faEye } from '@fortawesome/free-solid-svg-icons'
+import { faAdd } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React, { useState } from 'react'
 import { NavLink } from 'react-router-dom'
 import Loader from '../../components/Loader'
 import UsersTable from '../../components/TableList'
-import { useGetUsersQuery } from '../../features/users/usersApiSlice'
+import { useGetUsersQuery } from '../../features/usersApiSlice'
 import useAuth from '../../hooks/useAuth'
 import UserFormatter from '../../utils/UserFormatter'
-import { columns } from '../../features/users/UsersColumn'
+import { columns } from './UsersColumn'
 
 const UsersList: React.FC = (): JSX.Element => {
   const [search, setSearch] = useState(null)

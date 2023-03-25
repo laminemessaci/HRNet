@@ -1,15 +1,12 @@
-import React, { useEffect } from 'react'
-import { Space } from 'antd'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEye, faTrashCan, faUserEdit } from '@fortawesome/free-solid-svg-icons'
-import { useDeleteEmployeeMutation, useGetEmployeesQuery } from '../../../features/employees/EmployeesApiSlice'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { Space } from 'antd'
+import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router'
+import { useDeleteEmployeeMutation } from '../../../features/EmployeesApiSlice'
 import Drawer from '../../Drawer'
 import Card from './EmployeeCard'
-import ConfirmAction from '../../ConfirmAction'
 import UpdateForm from './UpdateEmployeeForm'
-import { useGetUsersQuery } from '../../../features/users/usersApiSlice'
-import useAuth from './../../../hooks/useAuth'
 
 interface IProps {
   id: string

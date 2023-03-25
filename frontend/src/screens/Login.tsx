@@ -1,19 +1,16 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import React, { useEffect, useRef, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { Navigate } from 'react-router'
-import * as Yup from 'yup'
 import { ErrorMessage, Field, Form, Formik } from 'formik'
-import Loader from '../components/Loader'
-import Message from '../components/Message'
-import { useLoginMutation } from '../features/auth/authApiSlice'
-import { IAuth, setCredentials } from '../features/auth/authSlice'
-import { useAppDispatch } from '../app/storeTypes'
-import usePersist from '../hooks/usePersist'
-import Footer from '../components/Footer'
+import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
-import { selectCurrentToken } from './../features/auth/authSlice'
+import { useNavigate } from 'react-router-dom'
+import * as Yup from 'yup'
+import { useAppDispatch } from '../app/storeTypes'
+import Footer from '../components/Footer'
+import Message from '../components/Message'
+import { useLoginMutation } from '../features/authApiSlice'
+import { IAuth, selectCurrentToken, setCredentials } from '../features/authSlice'
 import useAuth from '../hooks/useAuth'
+import usePersist from '../hooks/usePersist'
 
 export interface IUserLogin {
   loading: boolean
@@ -33,10 +30,12 @@ const Login: React.FC = (): JSX.Element => {
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
   const token = useSelector(selectCurrentToken)
-  console.log('login', token)
+  // console.log('login', token)
 
   const [errMsg, setErrMsg] = useState('')
   const [persist, setPersist] = usePersist()
+
+  const { roles } = useAuth()
 
   //  const userRef = useRef<HTMLInputElement | null>(null)
 
@@ -45,8 +44,14 @@ const Login: React.FC = (): JSX.Element => {
 
   useEffect(() => {
     //  userRef.current.focus()
-    if (token) navigate('/home')
-  }, [])
+    if (token) {
+      if (roles.includes('Employee')) {
+        navigate('/user/home')
+      } else {
+        navigate('/home')
+      }
+    }
+  }, [navigate, token, roles])
 
   const validationSchema = Yup.object().shape({
     email: Yup.string().required('email is required!.').min(3, 'Must be greater than 5 characters.'),
@@ -60,6 +65,8 @@ const Login: React.FC = (): JSX.Element => {
     email: '',
     password: '',
   }
+
+  const handleToggle = () => setPersist((prev) => !prev)
 
   const handleSubmit = async (values: IValues) => {
     // const userNameRegular = '^(?=[a-zA-Z0-9._]{8,20}$)(?!.*[_.]{2})[^_.].*[^_.]$'
@@ -77,12 +84,10 @@ const Login: React.FC = (): JSX.Element => {
     }
     try {
       const { accessToken }: IAuth = await login({ email: trimmedUsername, password: trimmedPassword }).unwrap()
-      // console.log('accessToken', accessToken)
+
       dispatch(setCredentials({ accessToken }))
-   
-      //  setPersist('persist:auth', { accessToken })
-      console.log('status', status)
-      navigate('/home')
+
+      // navigate('/user/home')
     } catch (err: any) {
       if (!err.status) {
         setErrMsg('No Server Response')
@@ -141,7 +146,20 @@ const Login: React.FC = (): JSX.Element => {
                     className='block w-full px-4 py-2 mt-2 text-teal-700 bg-white border rounded-md focus:border-teal-400 focus:ring-teal-300 focus:outline-none focus:ring focus:ring-opacity-40'
                   />
                   <ErrorMessage name='password' component='small' className='text-red-700' />
+                  <div className='mt-4'>
+                    <label htmlFor='persist' className='mt-6 '>
+                      <input
+                        className='w-4 h-4 text-green-700 bg-gray-100 border-gray-300 rounded focus:ring-lime-500 dark:focus:ring-lime-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600'
+                        type='checkbox'
+                        id='persist'
+                        onChange={handleToggle}
+                        checked={persist}
+                      />
+                      &nbsp;Trust This Device
+                    </label>
+                  </div>
                 </div>
+
                 <a href='#' className='text-xs text-teal-600 hover:underline'>
                   Forget Password?
                 </a>

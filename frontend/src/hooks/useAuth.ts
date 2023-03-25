@@ -1,6 +1,6 @@
-import { useSelector } from 'react-redux'
-import { IAuth, selectCurrentToken } from '../features/auth/authSlice'
 import jwtDecode from 'jwt-decode'
+import { useSelector } from 'react-redux'
+import { IAuth, selectCurrentToken } from '../features/authSlice'
 
 export interface IUser {
   email: string

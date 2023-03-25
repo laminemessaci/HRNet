@@ -1,5 +1,5 @@
-import { createSelector, createEntityAdapter } from '@reduxjs/toolkit'
-import { apiSlice } from '../../app/api/apiSlice'
+import { createEntityAdapter, createSelector } from '@reduxjs/toolkit'
+import { apiSlice } from '../app/api/apiSlice'
 
 const employeesAdapter = createEntityAdapter({
   sortComparer: (a, b) => (a.completed === b.completed ? 0 : a.completed ? 1 : -1),
@@ -60,7 +60,8 @@ export const employeesApiSlice = apiSlice.injectEndpoints({
   }),
 })
 
-export const { useGetEmployeesQuery, useAddNewEmployeeMutation, useUpdateEmployeeMutation, useDeleteEmployeeMutation } = employeesApiSlice
+export const { useGetEmployeesQuery, useAddNewEmployeeMutation, useUpdateEmployeeMutation, useDeleteEmployeeMutation } =
+  employeesApiSlice
 
 // returns the query result object
 export const selectEmployeesResult = employeesApiSlice.endpoints.getEmployees.select()

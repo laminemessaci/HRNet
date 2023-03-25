@@ -3,7 +3,6 @@ import React from 'react'
 import { Table } from 'antd'
 import { ColumnsType } from 'antd/es/table'
 
-
 interface ITableContent {
   key: string
   firstName: string
@@ -23,7 +22,7 @@ interface ITable {
   columns: ColumnsType<ITableContent>
 }
 
-const EmployeesTable: React.FC<ITable> = ({ searchResult = null, tableContent = [], columns }): JSX.Element => {
+const TableList: React.FC<ITable> = ({ searchResult = null, tableContent = [], columns }): JSX.Element => {
   return (
     <Table<ITableContent>
       dataSource={searchResult ? searchResult : tableContent}
@@ -52,4 +51,4 @@ const EmployeesTable: React.FC<ITable> = ({ searchResult = null, tableContent = 
   )
 }
 
-export default EmployeesTable
+export default TableList

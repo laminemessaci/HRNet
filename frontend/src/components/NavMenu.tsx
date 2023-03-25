@@ -1,12 +1,12 @@
 import { Disclosure } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
-import { useSendLogoutMutation } from '../features/auth/authApiSlice'
-import UserAvatar from './UserAvatar'
-import Dropdown from './Dropdown'
-import { navigateTo } from './../utils/index'
+import { useSendLogoutMutation } from '../features/authApiSlice'
 import useAuth from '../hooks/useAuth'
+import { navigateTo } from './../utils/index'
+import Dropdown from './Dropdown'
+import Loader from './Loader'
 
 function NavMenu() {
   const navigate = useNavigate()
@@ -18,13 +18,14 @@ function NavMenu() {
   useEffect(() => {
     if (isSuccess) navigate('/')
   }, [isSuccess, navigate, status])
+  // if (isLoading) return <Loader color={'green'} type='bubbles' width={40} height={40} />
 
   if (status === 'Admin') {
     navigation = [
       // { name: 'Home', href: '/home' },
       { name: 'Add Employee', href: '/home/new-employee' },
       { name: 'Employees', href: '/home/employees-list' },
-      { name: 'Users', href: '/home/users-list' },
+      { name: 'Users', href: '/admin/users-list' },
     ]
   }
   if (status === 'Manager') {
@@ -33,12 +34,12 @@ function NavMenu() {
       { name: 'Employees', href: '/home/employees-list' },
     ]
   }
-  if (status === 'Employee') {
-    navigation = [
-      { name: 'Profile', href: '/Profile' },
-      { name: 'edit your Profile', href: '/edit-profile' },
-    ]
-  }
+  // if (status === 'Employee') {
+  //   navigation = [
+  //     // { name: 'Profile', href: '/Profile' },
+  //     { name: 'Edit your Profile', href: '/user/edit-profile' },
+  //   ]
+  // }
 
   return (
     <header className=' flex flex-row w-full bg-gray-200 p-4 items-center justify-center'>
@@ -127,7 +128,7 @@ function NavMenu() {
                 SignOut
               </button>
               <button
-                onClick={() => navigateTo('/edit-profile', navigate)}
+                onClick={() => navigateTo('/user/edit-profile', navigate)}
                 className='mx-auto block border px-3 lg:hidden  rounded bg-green-700 text-green-200 hover:bg-green-200 hover:text-green-700'
               >
                 Edit-Profile

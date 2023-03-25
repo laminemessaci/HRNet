@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
 const usePersistentState = <T>(key: string, defaultValue: T): [T, (value: T) => void] => {
   const [state, setState] = useState<T>(() => {

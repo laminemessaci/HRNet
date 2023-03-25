@@ -1,16 +1,15 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable react/jsx-no-comment-textnodes */
-import React, { useEffect } from 'react'
-import { Space } from 'antd'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEye, faTrashCan, faUserEdit } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { Space } from 'antd'
+import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router'
-import Drawer from '../../Drawer'
-import UserCard from './UserCard'
-import { useDeleteUserMutation } from '../../../features/users/usersApiSlice'
-import Message from '../../Message'
-import UpdateUserForm from './UpdateUserForm'
+import { useDeleteUserMutation } from '../../../features/usersApiSlice'
 import { useToast } from '../../../notifications/ToastProvider'
+import Drawer from '../../Drawer'
+import UpdateUserForm from './UpdateUserForm'
+import UserCard from './UserCard'
 
 interface IProps {
   id: string

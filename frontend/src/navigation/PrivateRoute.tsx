@@ -1,8 +1,8 @@
+import { useSelector } from 'react-redux'
 import { Navigate, Outlet } from 'react-router'
 import { ActionFunction, LoaderFunction, ShouldRevalidateFunction } from 'react-router-dom'
-import { useSelector } from 'react-redux'
-import { selectCurrentToken } from '../features/auth/authSlice'
 import NavMenu from '../components/NavMenu'
+import { selectCurrentToken } from '../features/authSlice'
 import Footer from './../components/Footer'
 
 interface RouteObject {

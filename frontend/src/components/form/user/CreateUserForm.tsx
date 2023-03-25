@@ -1,24 +1,18 @@
 /* eslint-disable react/prop-types */
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
-import { faAddressCard } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import axios from 'axios'
 
-import { useState, useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
-import { useAddNewUserMutation, useGetUsersQuery } from '../../../features/users/usersApiSlice.js'
-import useAuth from '../../../hooks/useAuth'
+import ReactLoading from 'react-loading'
+import { NavigateFunction, useNavigate } from 'react-router'
+import { useAddNewUserMutation, useGetUsersQuery } from '../../../features/usersApiSlice.js'
 import { departments, IDepartment } from '../../../utils/Department'
-import { IState, states } from '../../../utils/States'
+import { navigateTo } from '../../../utils/index'
 import Loader from '../../Loader'
 import Message from '../../Message'
 import DataListField from '../employee/DataListField'
-import DateField from './DateField'
-import { navigateTo } from '../../../utils/index'
-import { NavigateFunction, useNavigate } from 'react-router'
-import { ErrorMessage } from '@hookform/error-message'
-import ReactLoading from 'react-loading'
 import { ROLES } from './../../../config/roles'
 
 export interface FormInputs {

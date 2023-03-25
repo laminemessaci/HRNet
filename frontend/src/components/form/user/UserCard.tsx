@@ -1,5 +1,5 @@
-import React from 'react'
-import { useGetUsersQuery } from '../../../features/users/usersApiSlice'
+import React, { memo } from 'react'
+import { useGetUsersQuery } from '../../../features/usersApiSlice'
 
 interface IProps {
   id: string
@@ -60,5 +60,5 @@ const UserCard: React.FC<IProps> = ({ id }): JSX.Element => {
     </div>
   )
 }
-
-export default UserCard
+const memoizedUser = memo(UserCard)
+export default memoizedUser
