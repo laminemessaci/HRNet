@@ -1,4 +1,3 @@
-
 import mongoose from 'mongoose';
 import connectDB from './config/dbConn.js';
 import dotenv from 'dotenv/config.js';
@@ -18,9 +17,7 @@ import errorHandler from './middleware/errorHandler.js';
 
 const app = express();
 
-const PORT = process.env.PORT || 3500;
-
-console.log(process.env.NODE_ENV);
+console.log(colors.bgMagenta(process.env.NODE_ENV));
 
 connectDB();
 
@@ -41,6 +38,24 @@ app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/upload', uploadRoutes);
 
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, '/frontend/build')));
+  app.get('*', (req, res) =>
+    res.sendFile(path.resolve(__dirname, 'frontend', 'build', 'index.html'))
+  );
+} else {
+  app.get('/', (req, res) => {
+    res.send('API is running...');
+  });
+}
+// app.use(express.static(path.join(__dirname, 'build')));
+
+// app.get('/', function (req, res) {
+//   res.sendFile(path.join(__dirname, 'build', 'index.html'));
+// });
+
+//app.listen(5000);
+
 app.all('*', (req, res) => {
   res.status(404);
   if (req.accepts('html')) {
@@ -53,6 +68,8 @@ app.all('*', (req, res) => {
 });
 
 app.use(errorHandler);
+
+const PORT = process.env.PORT || 5000;
 
 // const __dirname = path.resolve();
 // app.use('/uploads', express.static(path.join(__dirname, '/uploads')));
