@@ -1,8 +1,8 @@
 import bcrypt from 'bcrypt';
 import color from 'colors';
-import User from '../models/User.js';
-import Employee from '../models/Employee.js';
 import Mongoose from 'mongoose';
+import Employee from '../models/Employee.js';
+import User from '../models/User.js';
 
 // @desc Get all users
 // @route GET /users
@@ -184,3 +184,4 @@ const deleteUser = async (req, res) => {
 };
 
 export { getAllUsers, createNewUser, updateUser, deleteUser };
+

@@ -17,8 +17,6 @@ import errorHandler from './middleware/errorHandler.js';
 
 const app = express();
 
-
-
 console.log(colors.bgMagenta(process.env.NODE_ENV));
 
 connectDB();
@@ -45,9 +43,10 @@ if (process.env.NODE_ENV === 'production') {
   app.get('*', (req, res) =>
     res.sendFile(path.resolve(__dirname, 'frontend', 'build', 'index.html'))
   );
+  console.log(colors.bgGreen('In production'));
 } else {
   app.get('/', (req, res) => {
-    res.send('API is running...');
+    res.send(color('API is running...'));
   });
 }
 // app.use(express.static(path.join(__dirname, 'build')));
@@ -82,7 +81,7 @@ mongoose.connection.once('open', () => {
 });
 
 mongoose.connection.on('error', (err) => {
-  console.log(err);
+  console.log(colors.bgRed(err));
   logEvents(
     `${err.no}: ${err.code}\t${err.syscall}\t${err.hostname}`,
     'mongoErrLog.log'

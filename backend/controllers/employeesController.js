@@ -1,5 +1,4 @@
 import color from 'cli-color';
-import bcrypt from 'bcrypt';
 import Mongoose from 'mongoose';
 import Employee from '../models/Employee.js';
 

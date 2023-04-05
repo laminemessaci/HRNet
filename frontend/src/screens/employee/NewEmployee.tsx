@@ -1,7 +1,12 @@
-import React from 'react'
+import React, { useState } from 'react'
 import EmployeeForm from '../../components/form/employee/CreateEmployee'
+import Modal from 'customized-modal-react'
 
 const NewEmployee: React.FC = () => {
+  const [isOpen, setIsOpen] = useState(true)
+
+  // if (isOpen) return <Modal darkMode={true} check setIsOpen={setIsOpen} close button />
+
   return (
     <>
       <div className='title sm:flex flex flex-col items-center justify-center  w-full mx-auto mt-12 '>

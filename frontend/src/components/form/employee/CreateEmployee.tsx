@@ -36,6 +36,7 @@ export interface FormInputs {
 // }
 
 const EmployeeForm: React.FC = (): JSX.Element => {
+  
   const [department, setDepartment] = useState<IDepartment>(departments[0])
   const [selctedState, setSelectedState] = useState<IState>(states[0])
   const [errorState, setErrorState] = useState<string>('')

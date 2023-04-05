@@ -1,5 +1,5 @@
-import mongoose from 'mongoose';
 import colors from 'cli-color';
+import mongoose from 'mongoose';
 
 const generatePassword = () => {
   var length = 3,

@@ -13,6 +13,8 @@ env
 
 # production
 /build
+/frontend/build
+frontend/build
 
 # misc
 .DS_Store
