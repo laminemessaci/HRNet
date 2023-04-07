@@ -16,6 +16,8 @@ const UserAvatar: React.FC<IProps> = ({
         // src='https://user.oc-static.com/users/avatars/1579109717362_me1.jpg'
         src={imageSource}
         alt='Avatar'
+        width={20}
+        height={20}
       />{' '}
       {active ? (
         <div className='absolute mb-0 p-2 w-2 ml-10  rounded-full bg-green-500 border-2 border-white'></div>

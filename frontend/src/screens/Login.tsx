@@ -108,7 +108,7 @@ const Login: React.FC = (): JSX.Element => {
   return (
     <>
       <div className='relative  mx-8 justify-center min-h-screen  lg:flex-row  flex flex-col '>
-        <div className='w-full p-6 m-auto bg-white rounded-md shadow-xl lg:max-w-xl'>
+        <div className='w-full p-2 m-auto bg-white rounded-md  shadow-xl lg:max-w-xl '>
           <div className='flex flex-row sm:mx-auto sm:w-full sm:max-w-md  justify-center'>
             <img className='mx-0 h-12 w-auto' src='/logo192.png' alt='HrNet' />
             <h1 className='text-3xl font-semibold text-center text-lime-700 uppercase'>Sign in</h1>
@@ -195,7 +195,7 @@ const Login: React.FC = (): JSX.Element => {
           />
           <img className=' absolute  h-16  mb-16 w-auto' src='/logo192.ico' alt='HrNet' />
           <strong className=' my-8 mb-0 max-w-md text-lg text-green-600 sm:text-xl md:mt-5 md:max-w-3xl'>
-            manage your employee
+            manage your employees
           </strong>
         </div>
 

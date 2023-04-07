@@ -22,8 +22,8 @@ const Home = () => {
               <span className='block text-green-600 xl:inline'>your employees</span>
             </h1>
             <p className='mx-auto mt-3 max-w-md text-lg text-gray-500 sm:text-xl md:mt-5 md:max-w-3xl'>
-              manage your employee list
-            </p>
+            
+              manage your employee list</p>
             <div className='mt-10 sm:flex sm:justify-center lg:justify-start'>
               <div className='rounded-md shadow'>
                 <a

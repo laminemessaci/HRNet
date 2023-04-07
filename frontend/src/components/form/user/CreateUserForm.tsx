@@ -140,7 +140,7 @@ const UserForm: React.FC = (): JSX.Element => {
         setDepartment(departments[0])
       }
       if (error || isError) return
-      navigateTo('/home/users-list', navigate)
+      navigateTo('/admin/users-list', navigate)
     } catch (error) {
       console.log(error)
       setGlobalError(error)
@@ -171,7 +171,7 @@ const UserForm: React.FC = (): JSX.Element => {
                   alt='Avatar Upload'
                 />
               </div>
-              <label className='cursor-pointer mt-6'>
+              <label className='cursor-pointer mt-6' id='avatar'>
                 <span className='mt-2 text-base leading-normal px-4 py-2 bg-green-500 text-white text-sm rounded-full'>
                   Select Avatar
                 </span>
@@ -181,7 +181,7 @@ const UserForm: React.FC = (): JSX.Element => {
           </div>
           <div className='flex lg:flex-row  flex-col  justify-between my-8'>
             <div className='lg:w-1/2 m-1'>
-              <label htmlFor='firstName' className='block text-sm font-medium text-gray-700'>
+              <label htmlFor='firstName' className='block text-sm font-medium text-gray-700' id='firstname'>
                 Firstname
               </label>
 
@@ -196,7 +196,7 @@ const UserForm: React.FC = (): JSX.Element => {
               {errors.firstName && <p className='text-red-500'>Please enter a Firstname</p>}
             </div>
             <div className='lg:w-1/2 m-1'>
-              <label htmlFor='lastName' className='block text-sm font-medium text-gray-700'>
+              <label htmlFor='lastName' className='block text-sm font-medium text-gray-700' id='lastname'>
                 Lastname
               </label>
               <input
@@ -212,7 +212,7 @@ const UserForm: React.FC = (): JSX.Element => {
           </div>
           <div className='flex lg:flex-row  flex-col  justify-between'>
             <div className='lg:w-1/2 m-1'>
-              <label htmlFor='email' className='block text-sm font-medium text-gray-700'>
+              <label htmlFor='email' className='block text-sm font-medium text-gray-700' id='email'>
                 Email
               </label>
 
@@ -228,7 +228,7 @@ const UserForm: React.FC = (): JSX.Element => {
             </div>
 
             <div className='lg:w-1/2 m-1'>
-              <label htmlFor='phone' className='block text-sm font-medium text-gray-700'>
+              <label htmlFor='phone' className='block text-sm font-medium text-gray-700' id='phone'>
                 Phone
               </label>
 
