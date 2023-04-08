@@ -213,7 +213,7 @@ const EmployeeForm: React.FC = (): JSX.Element => {
           {errorDept && <p className='text-red-500'>{errorDept}</p>}
         </div>
 
-        <div className='adress border mt-8 bg-green-200 mb-8'>
+        <div className=' border mt-8 bg-green-200 mb-8'>
           <h1 className='text-green-600 text-center mt-8'>
             <FontAwesomeIcon icon={faAddressCard} className='mx-2' />
             Address
