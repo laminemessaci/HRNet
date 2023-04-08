@@ -194,7 +194,7 @@ const UpdateUserForm: React.FC<IProps> = ({ id, setIsOpen, fromUser = false }): 
               <span className='mt-2 text-base leading-normal px-4 py-2 bg-green-500 text-white text-sm rounded-full'>
                 Select Avatar
               </span>
-              <input type='file' name='image' id='image' className='hidden' onChange={uploadFileHandler} />
+              <input type='file' name='image' id={user?.avatar} className='hidden' onChange={uploadFileHandler} />
             </label>
           </div>
         </div>
@@ -209,7 +209,7 @@ const UpdateUserForm: React.FC<IProps> = ({ id, setIsOpen, fromUser = false }): 
               disabled
               type='text'
               name='firstName'
-              id='firstName'
+              id={user?.firstName}
               defaultValue={user.firstName}
               className='mt-1 block w-full rounded-md bg-gray-300 border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm'
               placeholder='Firstname'
@@ -224,7 +224,7 @@ const UpdateUserForm: React.FC<IProps> = ({ id, setIsOpen, fromUser = false }): 
               type='text'
               name='lastName'
               defaultValue={user.lastName}
-              id='lastName'
+              id={user?.lastName}
               className='mt-1 block w-full bg-gray-300 rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm'
               placeholder='Lastname'
             />
@@ -239,7 +239,7 @@ const UpdateUserForm: React.FC<IProps> = ({ id, setIsOpen, fromUser = false }): 
             type='email'
             name='email'
             defaultValue={user.email}
-            id='email'
+            id={user?.email}
             className='mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm'
             placeholder='email'
           />
@@ -254,7 +254,7 @@ const UpdateUserForm: React.FC<IProps> = ({ id, setIsOpen, fromUser = false }): 
             type='text'
             name='phone'
             defaultValue={user.phone}
-            id='phone'
+            id={user?.phone}
             className='mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm'
             placeholder='Phone'
           />
@@ -269,7 +269,7 @@ const UpdateUserForm: React.FC<IProps> = ({ id, setIsOpen, fromUser = false }): 
             type='password'
             name='password'
             defaultValue={user.password}
-            id='password'
+            id={user?.password}
             className='mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm'
             placeholder='Your Password'
           />
@@ -299,6 +299,7 @@ const UpdateUserForm: React.FC<IProps> = ({ id, setIsOpen, fromUser = false }): 
             <div className='mt-6 lg:w-1/2'>
               <Controller
                 name='roles'
+                id='roles'
                 control={control}
                 defaultValue={roles}
                 render={({ field: { onChange } }) => (
@@ -320,11 +321,11 @@ const UpdateUserForm: React.FC<IProps> = ({ id, setIsOpen, fromUser = false }): 
         </div>
         {userRoles.includes('Admin', 'Manager') && (
           <div className='flex items-center mt-4'>
-            <label htmlFor='user-active' className='ml-2 text-sm font-medium text-gray-900 dark:text-gray-300'>
+            <label htmlFor={user?.id} className='ml-2 text-sm font-medium text-gray-900 dark:text-gray-300'>
               Active
             </label>
             <input
-              id='user-active'
+              id={user?.id}
               type='checkbox'
               checked={active}
               onChange={onActiveChanged}
@@ -332,7 +333,7 @@ const UpdateUserForm: React.FC<IProps> = ({ id, setIsOpen, fromUser = false }): 
             />
           </div>
         )}
-       
+
         <div className='w-full flex justify-center mt-8 mb-8'>
           <button
             type='submit'
