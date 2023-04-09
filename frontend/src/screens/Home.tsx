@@ -14,7 +14,7 @@ const Home = () => {
       <section className='w-11/12 lg:h-[500px] flex-1 gap-4 sm:flex lg:flex-row  flex flex-col  sm:justify-center items-center sm:border sm:border-gray-200 sm:rounded-lg '>
         <div className='mx-auto  sm:pt-16 sm:pb-20 text-center lg:py-48 lg:text-left'>
           <div className='sm:justify-center lg:justify-start md:justify-center'>
-            <img className='mx-auto lg:h-40  w-auto' loading='lazy' src='/logo192.ico' alt='HrNet-logo' />
+            <img className='mx-auto lg:h-40  w-auto h-auto' loading='lazy' src='/logo192.ico' alt='HrNet-logo' />
           </div>
           <div className='px-4 sm:px-8 lg:w-11/12 xl:pr-16'>
             <h1 className='text-xl font-bold tracking-tight text-gray-900 sm:text-5xl md:text-6xl lg:text-5xl xl:text-6xl '>
@@ -22,8 +22,8 @@ const Home = () => {
               <span className='block text-green-600 xl:inline'>your employees</span>
             </h1>
             <p className='mx-auto mt-3 max-w-md text-lg text-gray-500 sm:text-xl md:mt-5 md:max-w-3xl'>
-            
-              manage your employee list</p>
+              manage your employee list
+            </p>
             <div className='mt-10 sm:flex sm:justify-center lg:justify-start'>
               <div className='rounded-md shadow'>
                 <a

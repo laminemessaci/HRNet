@@ -21,7 +21,7 @@ const EmployeesList = () => {
     isError,
     error,
   } = useGetEmployeesQuery('employeesList', {
-    pollingInterval: 15000,
+    pollingInterval: 0,
     refetchOnFocus: true,
     refetchOnMountOrArgChange: true,
   })
@@ -43,7 +43,7 @@ const EmployeesList = () => {
   if (isError) {
     content = content = (
       <>
-        <img className='mx-auto mt-8 w-auto h-32 ' src={'/logo192.ico'} alt='logo' />
+        <img className='mx-auto mt-8 w-auto h-auto   ' src={'/logo192.ico'} alt='logo' width={40} height={40}/>
         <h1 className='text-center text-2xl sm:text-5xl sm:mt-8 sm:mb-16 text-green-700 font-bold'> Employees List</h1>
         <div className='mx-auto w-11/12'>
           <div className='sm:flex sm:items-center sm:justify-center sm:mb-12 '>

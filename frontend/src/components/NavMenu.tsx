@@ -64,7 +64,7 @@ function NavMenu() {
                     <div className='flex space-x-8 border-4 '>
                       <NavLink to={'/home'} key='Home'>
                         <img
-                          className=' h-12 p-1 hover:bg-green-400 rounded-full'
+                          className='w-12 h-12 p-1 hover:bg-green-400 rounded-full'
                           loading='lazy'
                           src='/logo192.ico'
                           alt='HrNet-logo'
@@ -76,8 +76,8 @@ function NavMenu() {
                           to={item.href}
                           className={({ isActive }) =>
                             isActive
-                              ? 'bg-green-200 text-green-700 sm:text-lg py-3 px-2 rounded-md text-center  '
-                              : 'text-green-700 hover:bg-green-300  sm:text-lg py-3 px-2 rounded-md text-center '
+                              ? 'bg-green-200 text-green-900 sm:text-lg py-3 px-2 rounded-md text-center  '
+                              : 'text-green-900 hover:bg-green-300  sm:text-lg py-3 px-2 rounded-md text-center '
                           }
                           aria-current={item ? 'page' : undefined}
                           end
