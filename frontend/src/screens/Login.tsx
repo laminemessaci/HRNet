@@ -119,13 +119,14 @@ const Login: React.FC = (): JSX.Element => {
             validationSchema={validationSchema}
             onSubmit={(values: IValues) => handleSubmit(values)}
           >
-            {({ resetForm }: any) => (
+            {({ resetForm }) => (
               <Form className='mt-6'>
                 <div className='mb-2'>
                   <label htmlFor='email' className='block text-sm font-semibold text-gray-800'>
                     Email
                   </label>
                   <Field
+                    autoComplete='on'
                     id='email'
                     name='email'
                     type='email'
@@ -139,6 +140,7 @@ const Login: React.FC = (): JSX.Element => {
                     Password
                   </label>
                   <Field
+                    autoComplete='on'
                     type='password'
                     id='password'
                     placeholder=' Your Password'
@@ -183,19 +185,19 @@ const Login: React.FC = (): JSX.Element => {
           <p className='mt-8 text-xs font-light text-center text-gray-700'>
             Admin User :
             <a href='#' className='font-medium text-teal-600 hover:underline'>
-              <p> Email: admin@hr.net --- password: 123</p>
+              <span> Email: admin@hr.net --- password: 123</span>
             </a>
           </p>
           <p className='mt-4 text-xs font-light text-center text-gray-700'>
             Manager User :
             <a href='#' className='font-medium text-teal-600 hover:underline'>
-              <p> Email: manager@hr.net --- password: 123</p>
+              <span> Email: manager@hr.net --- password: 123</span>
             </a>
           </p>
           <p className='mt-4 text-xs font-light text-center text-gray-700'>
             Employee User :
             <a href='#' className='font-medium text-teal-600 hover:underline'>
-              <p> Email: employee@hr.net --- password: 123</p>
+              <span> Email: employee@hr.net --- password: 123</span>
             </a>
           </p>
         </div>

@@ -64,7 +64,7 @@ function NavMenu() {
                     <div className='flex space-x-8 border-4 '>
                       <NavLink to={'/home'} key='Home'>
                         <img
-                          className='w-12 h-12 p-1 hover:bg-green-400 rounded-full'
+                          className='w-16 h-12 p-1 hover:bg-green-400 rounded-full'
                           loading='lazy'
                           src='/logo192.ico'
                           alt='HrNet-logo'
