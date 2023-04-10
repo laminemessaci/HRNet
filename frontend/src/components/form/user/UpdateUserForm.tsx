@@ -188,7 +188,11 @@ const UpdateUserForm: React.FC<IProps> = ({ id, setIsOpen, fromUser = false }): 
           )}
           <div className='bg-white px-4 py-5 rounded-lg shadow-lg text-center w-48'>
             <div className='mb-4'>
-              <img className='w-auto mx-auto rounded-full object-cover object-center' src={avatar} alt='Avatar Upload' />
+              <img
+                className='w-auto mx-auto rounded-full object-cover object-center'
+                src={avatar || 'https://user.oc-static.com/users/avatars/1579109717362_me1.jpg'}
+                alt='Avatar Upload'
+              />
             </div>
             <label className='cursor-pointer mt-6'>
               <span className='mt-2 text-base leading-normal px-4 py-2 bg-green-500 text-white text-sm rounded-full'>
