@@ -160,9 +160,10 @@ const Login: React.FC = (): JSX.Element => {
                   </div>
                 </div>
 
-                <a href='#' className='text-xs text-teal-600 hover:underline'>
+                <a className='text-xs text-teal-600 hover:underline' href='mailto:admin@hr.net'>
                   Forget Password?
                 </a>
+
                 <div className='mt-6'>
                   <button
                     type='submit'
@@ -176,17 +177,29 @@ const Login: React.FC = (): JSX.Element => {
           </Formik>
 
           <div className='relative flex items-center justify-center w-full mt-6 border border-t'>
-            <div className='absolute px-5 bg-white'>Or</div>
+            <div className='absolute px-5 bg-white'>For Tests: </div>
           </div>
 
           <p className='mt-8 text-xs font-light text-center text-gray-700'>
-            Don&apos;t have an account?
+            Admin User :
             <a href='#' className='font-medium text-teal-600 hover:underline'>
-              Sign up
+              <p> Email: admin@hr.net --- password: 123</p>
+            </a>
+          </p>
+          <p className='mt-4 text-xs font-light text-center text-gray-700'>
+            Manager User :
+            <a href='#' className='font-medium text-teal-600 hover:underline'>
+              <p> Email: manager@hr.net --- password: 123</p>
+            </a>
+          </p>
+          <p className='mt-4 text-xs font-light text-center text-gray-700'>
+            Employee User :
+            <a href='#' className='font-medium text-teal-600 hover:underline'>
+              <p> Email: employee@hr.net --- password: 123</p>
             </a>
           </p>
         </div>
-        <div className='p-2 m-auto  flex flex-col  relative w-full h-full lg:flex  items-center justify-center  bg-green-100  lg:max-w-xl rounded-md shadow-xl '>
+        {/* <div className='p-2 m-auto  flex flex-col  relative w-full h-full lg:flex  items-center justify-center  bg-green-100  lg:max-w-xl rounded-md shadow-xl '>
           <img
             // src='https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp'
             src='logingreen.jpg'
@@ -197,7 +210,7 @@ const Login: React.FC = (): JSX.Element => {
           <strong className=' my-8 mb-0 max-w-md text-lg text-green-600 sm:text-xl md:mt-5 md:max-w-3xl'>
             manage your employees
           </strong>
-        </div>
+        </div> */}
 
         {/* <div className=' flex flex-col hidden relative w-full h-full lg:flex  items-center justify-center m-auto bg-white  lg:max-w-xl min-h-screen '>
           <h1 className='text-3xl font-semibold text-center text-lime-700 uppercase mb-4'>HrNet</h1>
