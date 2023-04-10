@@ -76,8 +76,8 @@ function NavMenu() {
                           to={item.href}
                           className={({ isActive }) =>
                             isActive
-                              ? 'bg-green-200 text-green-900 sm:text-lg py-3 px-2 rounded-md text-center  '
-                              : 'text-green-900 hover:bg-green-300  sm:text-lg py-3 px-2 rounded-md text-center '
+                              ? 'bg-green-200 text-green-900 sm:text-lg py-3 px-2 rounded-md text-center font-bold '
+                              : 'text-green-900 hover:bg-green-300  sm:text-lg py-3 px-2 rounded-md text-center font-bold'
                           }
                           aria-current={item ? 'page' : undefined}
                           end
