@@ -5,7 +5,7 @@ import React, { Fragment } from 'react'
 import { Listbox, Transition } from '@headlessui/react'
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid'
 import { classNames } from '../../../utils'
-import { departments, IDepartment } from '../../../utils/Department'
+import { IDepartment, departments } from '../../../utils/Department'
 import { IState, states } from '../../../utils/States'
 import { IRoles } from '../user/UpdateUserForm'
 

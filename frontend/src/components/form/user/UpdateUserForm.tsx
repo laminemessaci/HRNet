@@ -2,20 +2,20 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
 import axios from 'axios'
-import React, { useEffect, useState, useCallback } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import ReactLoading from 'react-loading'
 import { NavigateFunction, useNavigate } from 'react-router'
 import { ROLES } from '../../../config/roles'
 import { useGetUsersQuery, useUpdateUserMutation } from '../../../features/usersApiSlice'
-import { departments, IDepartment } from '../../../utils/Department'
+import { IDepartment, departments } from '../../../utils/Department'
 import Loader from '../../Loader'
 import DataListField from '../employee/DataListField'
+import useAuth from './../../../hooks/useAuth'
 import { useToast } from './../../../notifications/ToastProvider'
 import { navigateTo } from './../../../utils/index'
 import Message from './../../Message'
 import { FormInputs } from './CreateUser'
-import useAuth from './../../../hooks/useAuth'
 
 interface IProps {
   id: string

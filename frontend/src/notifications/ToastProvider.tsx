@@ -1,6 +1,4 @@
 /* eslint-disable camelcase */
-/* Author: Dalibor Kundrat  https://github.com/damikun */
-
 import { IconProp } from '@fortawesome/fontawesome-svg-core'
 import React, { useCallback, useContext, useState } from 'react'
 import ToastContainer, { ToastContainerProps } from './ToastContainer'

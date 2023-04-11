@@ -1,24 +1,22 @@
 import React, { lazy, Suspense } from 'react'
 import { ActionFunction, LoaderFunction, Route, Routes, ShouldRevalidateFunction } from 'react-router-dom'
-
-import Loader from '../components/Loader'
-import PersistLogin from '../features/auth/PersistLogin'
-import Prefetch from '../features/auth/Prefetch'
-import ErrorPage from './../screens/ErrorPage'
-import PrivateRoute from './PrivateRoute'
-
-import Layout from '../components/Layout'
-import NewEmployee from '../screens/employee/NewEmployee'
-import EditProfile from '../screens/user/EditProfile'
-import NewUser from '../screens/user/NewUser'
-import RequireAuth from '../features/auth/RequireAuth'
 import { ROLES } from '../config/roles'
-import EmployeeDash from '../screens/employee/EmployeeDash'
 
 const Home = lazy(() => import('../screens/Home'))
 const Login = lazy(() => import('../screens/Login'))
 const EmployeesList = lazy(() => import('../screens/employee/EmployeesList'))
 const UsersList = lazy(() => import('../screens/user/UsersList'))
+const PersistLogin = lazy(() => import('../features/auth/PersistLogin'))
+const PrivateRoute = lazy(() => import('./PrivateRoute'))
+const Prefetch = lazy(() => import('../features/auth/Prefetch'))
+const Loader = lazy(() => import('../components/Loader'))
+const ErrorPage = lazy(() => import('./../screens/ErrorPage'))
+const Layout = lazy(() => import('../components/Layout'))
+const RequireAuth = lazy(() => import('../features/auth/RequireAuth'))
+const EmployeeDash = lazy(() => import('../screens/employee/EmployeeDash'))
+const NewEmployee = lazy(() => import('../screens/employee/NewEmployee'))
+const EditProfile = lazy(() => import('../screens/user/EditProfile'))
+const NewUser = lazy(() => import('../screens/user/NewUser'))
 
 interface RouteObject {
   path?: string

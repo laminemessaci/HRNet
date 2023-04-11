@@ -1,4 +1,3 @@
-/* Author: Dalibor Kundrat  https://github.com/damikun */
 
 import { faCheck, faExclamationCircle, faInfoCircle, faTimes } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'

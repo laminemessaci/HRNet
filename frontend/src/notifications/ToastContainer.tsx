@@ -1,5 +1,4 @@
 /* eslint-disable camelcase */
-/* Author: Dalibor Kundrat  https://github.com/damikun */
 
 import clsx from 'clsx'
 import { useContext } from 'react'

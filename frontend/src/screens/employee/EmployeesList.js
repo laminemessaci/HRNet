@@ -43,7 +43,7 @@ const EmployeesList = () => {
   if (isError) {
     content = content = (
       <>
-        <img className='mx-auto mt-8 w-auto h-auto   ' src={'/logo192.ico'} alt='logo' width={40} height={40}/>
+        <img className='mx-auto mt-8 w-auto h-auto   ' src={'/logo192.ico'} alt='logo' width={40} height={40} />
         <h1 className='text-center text-2xl sm:text-5xl sm:mt-8 sm:mb-16 text-green-700 font-bold'> Employees List</h1>
         <div className='mx-auto w-11/12'>
           <div className='sm:flex sm:items-center sm:justify-center sm:mb-12 '>
@@ -53,15 +53,15 @@ const EmployeesList = () => {
             </div>
 
             <div className='mt-4 sm:mt-0 sm:ml-16 sm:flex h-auto sm:w-1/4'>
-              <label htmlFor='firstname' className='block text-sm font-medium text-gray-700 sm:mt-3 sm:mr-4'>
+              <label htmlFor='search' className='block text-sm font-medium text-gray-700 sm:mt-3 sm:mr-4'>
                 Search
               </label>
               <div className='mt-1'>
                 <input
                   onChange={(e) => console.log(e.target.value)}
                   type='text'
-                  name='firstname'
-                  id='firstname'
+                  name='search'
+                  id='search'
                   className='block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm'
                   placeholder='Search an employee'
                 />
@@ -128,15 +128,15 @@ const EmployeesList = () => {
             </div>
 
             <div className='mt-4 sm:mt-0 sm:ml-16 sm:flex h-auto sm:w-1/4'>
-              <label htmlFor='firstname' className='block text-sm font-medium text-gray-700 sm:mt-3 sm:mr-4'>
+              <label htmlFor='search' className='block text-sm font-medium text-gray-700 sm:mt-3 sm:mr-4'>
                 Search
               </label>
               <div className='mt-1'>
                 <input
                   onChange={(e) => onSearchInput(e.target.value)}
                   type='text'
-                  name='firstname'
-                  id='firstname'
+                  name='search'
+                  id='search'
                   className='block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm'
                   placeholder='Search an employee'
                 />
