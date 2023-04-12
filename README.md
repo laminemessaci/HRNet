@@ -1,6 +1,6 @@
 # HRNet
 
-![logo](/public/wealthHealth.png)
+![logo](frontend/public/wealthHealth.png)
 
 ## Presentation
 
