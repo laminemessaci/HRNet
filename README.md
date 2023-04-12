@@ -47,11 +47,11 @@ If you are working with several versions of NodeJS, we recommend you install nvm
 
 - Install mongoose compass `https://www.mongodb.com/fr-fr/products/compass`
 - Add `.env` fille in the root of this project, it contains variables:
-  -- `NODE_ENV` = Your mode development
-  -- `PORT`= Port
-  -- `MONGO_URI`= Your URL BDD (Instruction tutorial here `https://www.section.io/engineering-education/nodejs-mongoosejs-mongodb/`)
-  -- `ACCESS_TOKEN_SECRET`= Your secret
-  -- `REFRESH_TOKEN_SECRET`=Your secret
+  - `NODE_ENV` = Your mode development
+  - `PORT`= Port
+  - `MONGO_URI`= Your URL BDD (Instruction tutorial here `https://www.section.io/engineering-education/nodejs-mongoosejs-mongodb/`)
+  - `ACCESS_TOKEN_SECRET`= Your secret
+  - `REFRESH_TOKEN_SECRET`=Your secret
 
 - At the root of the project run `npm run dev`
   
