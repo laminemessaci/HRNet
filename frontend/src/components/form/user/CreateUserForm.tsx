@@ -14,6 +14,7 @@ import Loader from '../../Loader'
 import Message from '../../Message'
 import DataListField from '../employee/DataListField'
 import { ROLES } from './../../../config/roles'
+import { useToast } from './../../../notifications/ToastProvider'
 
 export interface FormInputs {
   firstName: string
@@ -52,9 +53,12 @@ const UserForm: React.FC = (): JSX.Element => {
   const [uploading, setUploading] = useState(false)
   const [errorRole, setErrorRole] = useState<string>('')
   const [errorDept, setErrorDept] = useState<string>('')
+  const [errorAvatar, setErrorAvatar] = useState<boolean>(false)
   const [globalError, setGlobalError] = useState<string>('')
 
   const navigate = useNavigate<NavigateFunction>()
+
+  const toast = useToast()
 
   const {
     control,
@@ -78,7 +82,7 @@ const UserForm: React.FC = (): JSX.Element => {
   useEffect(() => {
     if (errorDept) setErrorDept('')
     if (errorRole) setErrorRole('')
-  }, [errorDept, error, navigate, role])
+  }, [errorDept, error, navigate, role, errorRole, errorAvatar])
 
   if (!users?.length || isLoading) return <Loader type='spokes' color='green' width={200} height={200} />
 
@@ -93,7 +97,16 @@ const UserForm: React.FC = (): JSX.Element => {
   }
 
   const uploadFileHandler = async (e) => {
+    const acceptedImageTypes = ['image/gif', 'image/jpg', 'image/jpeg', 'image/png']
     const file = e.target.files[0]
+    // console.log('file Type:: ', file['type'])
+    if (!acceptedImageTypes.includes(file['type'])) {
+      setErrorAvatar(true)
+      toast?.pushError('Please upload a valid image file !')
+      return
+    }
+    setErrorAvatar(false)
+
     const formData = new FormData()
     formData.append('image', file)
     setUploading(true)
@@ -109,9 +122,11 @@ const UserForm: React.FC = (): JSX.Element => {
 
       setImage(data)
       setUploading(false)
+      toast?.pushSuccess('Image updated successfully !')
     } catch (error) {
       console.error(error)
       setUploading(false)
+      toast?.pushError('Error while uploading image !')
     }
   }
 
@@ -119,6 +134,10 @@ const UserForm: React.FC = (): JSX.Element => {
     const { firstName, lastName, department: department, phone, email } = data
     if (department.name === 'Select Your Department') {
       setErrorDept('Please select your department !')
+      return
+    }
+    if (errorAvatar) {
+      toast?.pushError('Please upload a valid image file !')
       return
     }
 
@@ -164,10 +183,7 @@ const UserForm: React.FC = (): JSX.Element => {
               <div className='mb-4'>
                 <img
                   className='w-auto mx-auto rounded-full object-cover object-center'
-                  src={
-                    image ||
-                    'https://i1.pngguru.com/preview/137/834/449/cartoon-cartoon-character-avatar-drawing-film-ecommerce-facial-expression-png-clipart.jpg'
-                  }
+                  src={image || '/avatar.png'}
                   alt='Avatar Upload'
                 />
               </div>

@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { NavigateFunction, useNavigate } from 'react-router'
+import Modal from 'customized-modal-react'
 import { useAddNewEmployeeMutation } from '../../../features/EmployeesApiSlice.js'
 import { useGetUsersQuery } from '../../../features/usersApiSlice.js'
 import useAuth from '../../../hooks/useAuth'
@@ -17,6 +18,7 @@ import Loader from '../../Loader'
 import Message from '../../Message'
 import DataListField from './DataListField'
 import DateField from './DateField'
+import { useToast } from '../../../notifications/ToastProvider'
 
 export interface FormInputs {
   firstName: string
@@ -31,10 +33,6 @@ export interface FormInputs {
   country: string
 }
 
-// function classNames(...classes) {
-//   return classes.filter(Boolean).join(' ')
-// }
-
 const EmployeeForm: React.FC = (): JSX.Element => {
   const [department, setDepartment] = useState<IDepartment>(departments[0])
   const [selctedState, setSelectedState] = useState<IState>(states[0])
@@ -42,6 +40,8 @@ const EmployeeForm: React.FC = (): JSX.Element => {
   const [errorDept, setErrorDept] = useState<string>('')
   const [globalError, setGlobalError] = useState<string>('')
   const navigate = useNavigate<NavigateFunction>()
+
+  // const toast = useToast()
 
   const {
     control,
@@ -54,27 +54,17 @@ const EmployeeForm: React.FC = (): JSX.Element => {
   const [addNewEmployee, { isLoading, isSuccess, error }] = useAddNewEmployeeMutation()
   const { roles, email } = useAuth()
 
-  // console.log('username', username, roles)
   const { users } = useGetUsersQuery('usersList', {
     selectFromResult: ({ data }) => ({
       users: data?.ids.map((id) => data?.entities[id]),
     }),
   })
 
-  // console.log('users', users)
-  // useEffect(() => {
-  //   console.log('errorDept', errorDept)
-  // }, [errorDept, errorState, error, navigate])
-
   if (!users?.length || isLoading) return <Loader type='spokes' color='green' width={200} height={200} />
-
-  // console.log('users', users)
-
-  // console.log('currentUser', currentUser[0]._id)
 
   const onSubmit = async (data) => {
     const userCreator = users.filter((user) => user.email == email)
-    console.log('creator: ', userCreator)
+
     const { firstName, lastName, startDay, birthDay, department: department, state: state, street, zipCode, city } = data
     if (department.name === 'Select Your Department') {
       setErrorDept('Please select your department !')
@@ -101,7 +91,11 @@ const EmployeeForm: React.FC = (): JSX.Element => {
       reset()
       setSelectedState(states[0])
       setDepartment(departments[0])
+      // toast?.success('Employee created successfully !')
       if (error || isError) return
+      if(isSuccess){
+        setIsOpen(true)
+      }
       navigateTo('/home/employees-list', navigate)
     } catch (error) {
       console.log(error)
@@ -290,12 +284,6 @@ const EmployeeForm: React.FC = (): JSX.Element => {
           >
             Save
           </button>
-          {/* <button
-            onClick={reset()}
-            className='inline-flex items-center rounded-md border border-gray-200 shadow bg-white px-6 py-3 text-base font-medium text-green-700  hover:bg-green-200 hover:text-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2'
-          >
-            Cancel
-          </button> */}
         </div>
       </form>
     </>

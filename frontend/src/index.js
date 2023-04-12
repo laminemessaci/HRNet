@@ -6,11 +6,11 @@ import { BrowserRouter } from 'react-router-dom'
 import App from './App'
 import { store } from './app/store'
 import './index.css'
-import reportWebVitals from './reportWebVitals'
 
 import 'react-datepicker/dist/react-datepicker.css'
 
 if (process.env.NODE_ENV === 'production') disableReactDevTools()
+console.log(process.env.NODE_ENV)
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
@@ -22,8 +22,3 @@ root.render(
     </Provider>
   </React.StrictMode>,
 )
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals()

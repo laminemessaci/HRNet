@@ -7,6 +7,7 @@
   "scripts": {
     "build": "npm run build --prefix frontend",
     "data:import": "node backend/seeder",
+    "install:frontend": " npm install --prefix frontend",
     "data:destroy": "node backend/seeder -d",
     "start": "node backend/server",
     "server": "nodemon backend/server",
