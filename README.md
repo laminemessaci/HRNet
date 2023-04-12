@@ -75,3 +75,7 @@ ADMIN, MANAGER and EMPLOYEE.
 ### Employee
 
 -Employee will have access to his dashboard , and will have the possibility to update his profile (address, telephone number and email ..)
+
+## Author
+
+Lamine MESSACI
