@@ -107,8 +107,8 @@ const Login: React.FC = (): JSX.Element => {
 
   return (
     <>
-      <div className='relative  mx-8 justify-center min-h-screen  lg:flex-row  flex flex-col '>
-        <div className='w-full p-2 m-auto bg-white rounded-md  shadow-xl lg:max-w-xl '>
+      <main className='relative  mx-8 justify-center min-h-screen  lg:flex-row  flex flex-col '>
+        <section className='w-full p-8  m-auto  bg-white rounded-md  shadow-xl lg:max-w-xl '>
           <div className='flex flex-row sm:mx-auto sm:w-full sm:max-w-md  justify-center'>
             <img className='mx-0 h-12 w-auto' src='/logo192.png' alt='HrNet' loading='lazy' />
             <h1 className='text-3xl font-semibold text-center text-lime-700 uppercase'>Sign in</h1>
@@ -200,7 +200,7 @@ const Login: React.FC = (): JSX.Element => {
               <span> Email: employee@hr.net --- password: 123</span>
             </a>
           </p>
-        </div>
+        </section>
         {/* <div className='p-2 m-auto  flex flex-col  relative w-full h-full lg:flex  items-center justify-center  bg-green-100  lg:max-w-xl rounded-md shadow-xl '>
           <img
             // src='https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp'
@@ -221,7 +221,7 @@ const Login: React.FC = (): JSX.Element => {
           </div>
           <div className='w-full h-1/2 absolute bottom-0 bg-white/10 backdrop-blur-lg' />
         </div> */}
-      </div>
+      </main>
       <Footer />
     </>
   )
