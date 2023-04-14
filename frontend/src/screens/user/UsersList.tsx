@@ -17,7 +17,7 @@ const UsersList: React.FC = (): JSX.Element => {
   const [search, setSearch] = useState(null)
 
   const { data, isLoading, isSuccess, isError, error } = useGetUsersQuery('usersList', {
-    pollingInterval: 0,
+    pollingInterval: 15000,
     refetchOnFocus: true,
     refetchOnMountOrArgChange: true,
   })

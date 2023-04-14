@@ -21,7 +21,7 @@ const EmployeesList = () => {
     isError,
     error,
   } = useGetEmployeesQuery('employeesList', {
-    pollingInterval: 0,
+    pollingInterval: 15000,
     refetchOnFocus: true,
     refetchOnMountOrArgChange: true,
   })

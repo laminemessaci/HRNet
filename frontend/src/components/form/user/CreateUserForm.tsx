@@ -7,8 +7,9 @@ import { useEffect, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import ReactLoading from 'react-loading'
 import { NavigateFunction, useNavigate } from 'react-router'
+
 import { useAddNewUserMutation, useGetUsersQuery } from '../../../features/usersApiSlice.js'
-import { departments, IDepartment } from '../../../utils/Department'
+import { IDepartment, departments } from '../../../utils/Department'
 import { navigateTo } from '../../../utils/index'
 import Loader from '../../Loader'
 import Message from '../../Message'
@@ -80,9 +81,9 @@ const UserForm: React.FC = (): JSX.Element => {
 
   // console.log('users', users)
   useEffect(() => {
-    if (errorDept) setErrorDept('')
-    if (errorRole) setErrorRole('')
-  }, [errorDept, error, navigate, role, errorRole, errorAvatar])
+    // if (errorDept) setErrorDept('')
+    // if (errorRole) setErrorRole('')
+  }, [navigate])
 
   if (!users?.length || isLoading) return <Loader type='spokes' color='green' width={200} height={200} />
 
@@ -262,23 +263,25 @@ const UserForm: React.FC = (): JSX.Element => {
 
           <div className='flex lg:flex-row  flex-col  justify-between'>
             <div className='mt-6 lg:w-1/2 flex justify-end'>
-              <Controller
-                name='department'
-                control={control}
-                defaultValue={departments[0]}
-                render={({ field: { onChange } }) => (
-                  <DataListField<IDepartment>
-                    list={departments}
-                    value={department}
-                    onChange={(e) => {
-                      onChange(e)
-                      setDepartment(e)
-                      setErrorDept('')
-                    }}
-                  />
-                )}
-              ></Controller>
-              {errorDept && <p className='text-red-500'>{errorDept}</p>}
+              <div className='w-full'>
+                <Controller
+                  name='department'
+                  control={control}
+                  defaultValue={departments[0]}
+                  render={({ field: { onChange } }) => (
+                    <DataListField<IDepartment>
+                      list={departments}
+                      value={department}
+                      onChange={(e) => {
+                        onChange(e)
+                        setDepartment(e)
+                        setErrorDept('')
+                      }}
+                    />
+                  )}
+                ></Controller>
+                {errorDept && <p className='text-red-500'>{errorDept}</p>}
+              </div>
             </div>
             <div className='mt-6 lg:w-1/2'>
               <Controller
@@ -304,6 +307,7 @@ const UserForm: React.FC = (): JSX.Element => {
 
           <div className='w-full flex justify-center mt-8 mb-8'>
             <button
+              // disabled={errorAvatar || errorRole || errorDept || errors}
               type='submit'
               className='inline-flex mr-2 items-center  rounded-md border border-transparent bg-green-700 px-6 py-3 text-base font-medium text-green-200 hover:bg-green-200 hover:text-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2'
             >
