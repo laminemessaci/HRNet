@@ -5,8 +5,7 @@ import { faAddressCard } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import Modal from 'customized-modal-react'
-import _ from 'lodash'
-import React, { useState, useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { NavigateFunction, useNavigate } from 'react-router'
 
@@ -15,7 +14,6 @@ import { useGetUsersQuery } from '../../../features/usersApiSlice.js'
 import useAuth from '../../../hooks/useAuth'
 import { IDepartment, departments } from '../../../utils/Department'
 import { IState, states } from '../../../utils/States'
-import { navigateTo } from '../../../utils/index'
 import Loader from '../../Loader'
 import Message from '../../Message'
 import DataListField from './DataListField'
@@ -36,7 +34,7 @@ export interface FormInputs {
 
 const EmployeeForm: React.FC = (): JSX.Element => {
   const [department, setDepartment] = useState<IDepartment>(departments[0])
-  const [selctedState, setSelectedState] = useState<IState>(states[0])
+  const [selectedState, setSelectedState] = useState<IState>(states[0])
   const [errorState, setErrorState] = useState<string>('')
   const [errorDept, setErrorDept] = useState<string>('')
   const [globalError, setGlobalError] = useState<string>('')
@@ -54,11 +52,11 @@ const EmployeeForm: React.FC = (): JSX.Element => {
   } = useForm<FormInputs>()
 
   const [addNewEmployee, { isLoading, isSuccess, error }] = useAddNewEmployeeMutation()
-  const { roles, email } = useAuth()
+  const { email } = useAuth()
 
   const { users } = useGetUsersQuery('usersList', {
     selectFromResult: ({ data }) => ({
-      users: data?.ids.map((id) => data?.entities[id]),
+      users: data?.ids.map((id: string | number) => data?.entities[id]),
     }),
   })
 
@@ -73,8 +71,18 @@ const EmployeeForm: React.FC = (): JSX.Element => {
 
   if (!users?.length || isLoading) return <Loader type='spokes' color='green' width={200} height={200} />
 
-  const onSubmit = async (data) => {
-    const userCreator = users.filter((user) => user.email == email)
+  const onSubmit = async (data: {
+    firstName: any
+    lastName: any
+    startDay: any
+    birthDay: any
+    department: any
+    state: any
+    street: any
+    zipCode: any
+    city: any
+  }) => {
+    const userCreator = users.filter((user: { email: string }) => user.email == email)
 
     const { firstName, lastName, startDay, birthDay, department: department, state: state, street, zipCode, city } = data
     if (department.name === 'Select Your Department') {
@@ -102,9 +110,10 @@ const EmployeeForm: React.FC = (): JSX.Element => {
       reset()
       setSelectedState(states[0])
       setDepartment(departments[0])
-      setIsOpen(true)
+
       // toast?.success('Employee created successfully !')
       if (error || isError) return
+      setIsOpen(true)
 
       // _.throttle(() => navigateTo('/home/employees-list', navigate), 3000)
     } catch (error) {
@@ -112,22 +121,6 @@ const EmployeeForm: React.FC = (): JSX.Element => {
       setGlobalError(error)
     }
   }
-
-  // {
-  //   isOpen ? (
-  //     <div className='h-screen w-full'>
-  //       <Modal
-  //         setIsOpen={() => setIsOpen((prev) => !prev)}
-  //         darkMode={true}
-  //         title='Employee created successfully'
-  //         close
-  //         check={true}
-  //         checkSize={'3rem'}
-  //         button
-  //       />
-  //     </div>
-  //   ) : null
-  // }
 
   return (
     <section className='h-full'>
@@ -289,7 +282,7 @@ const EmployeeForm: React.FC = (): JSX.Element => {
               render={({ field: { onChange } }) => (
                 <DataListField
                   list={states}
-                  value={selctedState}
+                  value={selectedState}
                   onChange={(e): void => {
                     onChange(e)
                     setSelectedState(e)
