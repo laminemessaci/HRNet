@@ -1,4 +1,4 @@
-# HRNet
+<h1 align="center"> HRNet </h1>
 <p align="center"> <img src='frontend/public/wealthHealth.png' /> </p>
 
 ## Demo:
