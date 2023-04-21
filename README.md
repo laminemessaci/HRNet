@@ -1,6 +1,5 @@
-# HRNet
-
-![logo](frontend/public/wealthHealth.png)
+<h1 align="center"> HRNet </h1>
+<p align="center"> <img src='frontend/public/wealthHealth.png' /> </p>
 
 ## Demo:
 <https://user-images.githubusercontent.com/60298344/232225648-ef56d973-9bb5-476a-a62b-a5bb1168a7e8.mp4>
@@ -53,7 +52,7 @@ If you are working with several versions of NodeJS, we recommend you install nvm
 - Add `.env` fille in the root of this project, it contains variables:
   - `NODE_ENV` = Your mode ``development`` Or ``production``
   - `PORT`= 5000
-  - `MONGO_URI`= Your URL BDD (Instruction tutorial here `https://www.section.io/engineering-education/nodejs-mongoosejs-mongodb/`)
+  - `MONGO_URI`= Your URL BDD (Instruction tutorial here <https://www.section.io/engineering-education/nodejs-mongoosejs-mongodb/>)
   - `ACCESS_TOKEN_SECRET`= Your secret
   - `REFRESH_TOKEN_SECRET`=Your secret
 
@@ -80,6 +79,6 @@ ADMIN, MANAGER and EMPLOYEE.
 
 -Employee will have access to his dashboard , and will have the possibility to update his profile (address, telephone number and email ..)
 
-## Author
+# Author
 
 Lamine MESSACI
