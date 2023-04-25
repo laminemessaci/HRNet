@@ -28,6 +28,14 @@ export interface IRoles {
   name: string
 }
 
+/**
+ ** Update User Form
+ * @param id 
+ * @param setIsOpen callback 
+ * @param fromUser  boolean to check if from User
+ * @returns 
+ */
+
 const UpdateUserForm: React.FC<IProps> = ({ id, setIsOpen, fromUser = false }): JSX.Element => {
   const roleOptions = () => {
     const rolesObject = []

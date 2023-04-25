@@ -30,9 +30,6 @@ export interface FormInputs {
   country: string
 }
 
-// function classNames(...classes) {
-//   return classes.filter(Boolean).join(' ')
-// }
 const roleOptions = () => {
   const rolesObject = []
   Object.keys(ROLES).map((role, index) => {
@@ -41,6 +38,11 @@ const roleOptions = () => {
   })
   return rolesObject
 }
+
+/**
+ * * Create User Form
+ * @returns {JSXElement}
+ */
 
 const UserForm: React.FC = (): JSX.Element => {
   const options = roleOptions()

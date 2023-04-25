@@ -5,6 +5,12 @@ interface IProps {
   active: boolean
 }
 
+/**
+ *  User Avatar
+ * @param IProps
+ * @returns
+ */
+
 const UserAvatar: React.FC<IProps> = ({
   imageSource = 'https://user.oc-static.com/users/avatars/1579109717362_me1.jpg',
   active = true,

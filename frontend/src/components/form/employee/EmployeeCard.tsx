@@ -5,6 +5,11 @@ interface IProps {
   id: string
 }
 
+/**
+ ** Employee Card
+ * @param id  Employee ID
+ * @returns 
+ */
 const EmployeeCard: React.FC<IProps> = ({ id }): JSX.Element => {
   const { employee } = useGetEmployeesQuery('employeesList', {
     selectFromResult: ({ data }) => ({

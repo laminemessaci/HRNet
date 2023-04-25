@@ -8,12 +8,13 @@ interface IProps {
   setIsValidate: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const ConfirmAction: React.FC<IProps> = ({
-  title,
-  messageText ,
-  isValidate,
-  setIsValidate,
-}): JSX.Element => {
+// TO DO Refactor code later
+/**
+ * TO DO
+ * @param IProps
+ * @returns
+ */
+const ConfirmAction: React.FC<IProps> = ({ title, messageText, isValidate, setIsValidate }): JSX.Element => {
   console.log('isValidate: ', isValidate)
   return (
     <div

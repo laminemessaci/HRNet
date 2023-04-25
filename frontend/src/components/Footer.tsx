@@ -1,3 +1,7 @@
+/**
+ * Footer 
+ * @returns  {JSXElement} 
+ */
 const Footer = () => {
   return (
     <footer className='bg-gray-200 text-center w-full lg:text-left p-4 '>

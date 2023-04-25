@@ -15,8 +15,16 @@ interface IDatalist {
   onChange: (e) => void
 }
 
+
+/**
+ ** Drop-down menus
+ * @param list options
+ * @param value value
+ * @param onChange callback
+ * @returns 
+ */
 const DataListField: React.FC<IDatalist> = ({ list, value, onChange }: IDatalist): JSX.Element => {
-  // console.log('list :', list, 'val: ', value)
+
   return (
     <Listbox value={value} onChange={onChange}>
       {({ open }) => (

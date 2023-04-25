@@ -5,6 +5,11 @@ interface IProps {
   id: string
 }
 
+/**
+ * * User Card Component
+ * @param id User ID 
+ * @returns 
+ */
 const UserCard: React.FC<IProps> = ({ id }): JSX.Element => {
   const { user } = useGetUsersQuery('usersList', {
     selectFromResult: ({ data }) => ({

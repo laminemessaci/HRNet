@@ -11,6 +11,11 @@ import UpdateForm from './UpdateEmployeeForm'
 interface IProps {
   id: string
 }
+/**
+ ** CRUD Employee
+ * @param id employee ID
+ * @returns {JSXElement}
+ */
 
 const EmployeeActions: React.FC<IProps> = ({ id }): JSX.Element => {
   const [deleteEmployee, { isSuccess: isDelSuccess, isError: isDelError, error: delerror }] = useDeleteEmployeeMutation()

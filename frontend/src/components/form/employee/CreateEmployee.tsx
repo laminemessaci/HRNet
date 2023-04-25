@@ -32,6 +32,11 @@ export interface FormInputs {
   country: string
 }
 
+
+/**
+ ** Add Employee Form
+ * @returns {JSXElement}
+ */
 const EmployeeForm: React.FC = (): JSX.Element => {
   const [department, setDepartment] = useState<IDepartment>(departments[0])
   const [selectedState, setSelectedState] = useState<IState>(states[0])

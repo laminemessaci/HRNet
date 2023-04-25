@@ -22,6 +22,13 @@ interface ITable {
   columns: ColumnsType<ITableContent>
 }
 
+/**
+ ** Table component renders list of details
+ * @param searchResult
+ * @param  tableContent Content of table
+ * @param  columns Columns of table
+ * @returns {Array} list of objects
+ */
 const TableList: React.FC<ITable> = ({ searchResult = null, tableContent = [], columns }): JSX.Element => {
   return (
     <Table<ITableContent>

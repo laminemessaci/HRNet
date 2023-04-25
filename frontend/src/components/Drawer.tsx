@@ -6,6 +6,14 @@ interface IPropsChild {
   setIsOpen: (isOpen: boolean) => void
 }
 
+/**
+ ** Drawer 
+ * @param children 
+ * @param isOpen  state
+ * @param setIsOpen  callBack 
+ * @returns 
+ */
+
 const Drawer: React.FC<IPropsChild> = ({ children, isOpen, setIsOpen }): JSX.Element => {
   return (
     <main

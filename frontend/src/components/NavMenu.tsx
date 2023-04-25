@@ -7,7 +7,12 @@ import useAuth from '../hooks/useAuth'
 import { navigateTo } from './../utils/index'
 import Dropdown from './Dropdown'
 
-function NavMenu() {
+/**
+ * Header navigation
+ * @returns Menu  navigation
+ */
+
+const NavMenu: React.FC = (): JSX.Element => {
   const navigate = useNavigate()
   const { status } = useAuth()
   let navigation = []
@@ -33,12 +38,6 @@ function NavMenu() {
       { name: 'Employees', href: '/home/employees-list' },
     ]
   }
-  // if (status === 'Employee') {
-  //   navigation = [
-  //     // { name: 'Profile', href: '/Profile' },
-  //     { name: 'Edit your Profile', href: '/user/edit-profile' },
-  //   ]
-  // }
 
   return (
     <header className=' flex flex-row w-full bg-gray-200 p-4 items-center justify-center'>
@@ -86,12 +85,6 @@ function NavMenu() {
                       ))}
                     </div>
 
-                    {/* <button
-                      onClick={sendLogout}
-                      className='border px-3  rounded bg-green-700 text-green-200 hover:bg-green-200 hover:text-green-700'
-                    >
-                      SignOut
-                    </button> */}
                     <div className='mr-0 justify-center mx-auto block  px-4 z-40'>
                       <Dropdown />
                     </div>

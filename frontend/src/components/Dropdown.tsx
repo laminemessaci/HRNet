@@ -9,6 +9,10 @@ import useAuth from '../hooks/useAuth'
 import { navigateTo } from '../utils/index'
 import UserAvatar from './UserAvatar'
 
+/**
+ * User list Params (edit & logout)
+ * @returns  {[JSXElement]} 
+ */
 const Dropdown: React.FC = (): JSX.Element => {
   const navigate = useNavigate()
   const { email, roles } = useAuth()
@@ -68,23 +72,6 @@ const Dropdown: React.FC = (): JSX.Element => {
                   </button>
                 )}
               </Menu.Item>
-              {/* <Menu.Item>
-                {({ active }) => (
-                  <button
-                    onClick={() => navigateTo('/profile', navigate)}
-                    className={`${
-                      active ? 'bg-green-200 text-white' : 'text-lime-700'
-                    } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
-                  >
-                    {active ? (
-                      <DuplicateActiveIcon className='mr-2 h-5 w-5' aria-hidden='true' />
-                    ) : (
-                      <DuplicateInactiveIcon className='mr-2 h-5 w-5' aria-hidden='true' />
-                    )}
-                    Details
-                  </button>
-                )}
-              </Menu.Item> */}
               <Menu.Item>
                 {({ active }) => (
                   <button

@@ -15,15 +15,17 @@ interface IProps {
   id: string
 }
 
+/**
+ * * CRUD user
+ * @param id User ID
+ * @returns {JSXElement}
+ */
+
 const UserActions: React.FC<IProps> = ({ id }): JSX.Element => {
   const [deleteUser, { isSuccess: isDelSuccess, isError: isDelError, error: delerror }] = useDeleteUserMutation()
   const [isOpen, setIsOpen] = React.useState(false)
   const [action, setAction] = React.useState(null)
   const toast = useToast()
-
-  // function dateFormat(seconds) {
-  //   return new Date(seconds * 1000).toLocaleDateString('fr')
-  // }
 
   const navigate = useNavigate()
 
@@ -57,7 +59,7 @@ const UserActions: React.FC<IProps> = ({ id }): JSX.Element => {
     <>
       {/* 
 // @ts-ignore */}
-      {/* {isDelError && <Message>{delerror?.data['message']}</Message>} */}
+
       <Space className='m-1 flex justify-around  '>
         <div className='mx-1'>
           <FontAwesomeIcon

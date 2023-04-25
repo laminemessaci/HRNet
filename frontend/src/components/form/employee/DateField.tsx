@@ -15,6 +15,12 @@ interface ICalendarContainer {
   children: React.ReactNode
 }
 
+/**
+ **  Date Picker
+ * @param props 
+ * @returns {DatePicker}
+ */
+
 const DateField: React.FC<IDatePicker> = (props) => {
   const { placeholderText, selectedField, callbackFn, text } = props
 

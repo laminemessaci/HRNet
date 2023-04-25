@@ -21,6 +21,11 @@ interface IProps {
   setIsOpen: (isOpen: boolean) => void
 }
 
+/**
+ ** Update Employee component
+ * @param id Employee ID
+ * @returns
+ */
 const UpdateForm: React.FC<IProps> = ({ id, setIsOpen }): JSX.Element => {
   const { employee } = useGetEmployeesQuery('employeesList', {
     selectFromResult: ({ data }) => ({
@@ -56,7 +61,6 @@ const UpdateForm: React.FC<IProps> = ({ id, setIsOpen }): JSX.Element => {
 
   const [updateEmployee, { isLoading: isUpdateLoading, isSuccess: isUpdateSuccess, error: isUpdatError }] =
     useUpdateEmployeeMutation()
-  // const { roles, username } = useAuth()
   const { users } = useGetUsersQuery('usersList', {
     selectFromResult: ({ data }) => ({
       users: data?.ids.map((id) => data?.entities[id]),
@@ -92,13 +96,10 @@ const UpdateForm: React.FC<IProps> = ({ id, setIsOpen }): JSX.Element => {
         zipCode: formState.zipCode,
         city: formState.city,
       })
-      // setAlert(true)
-      // toast?.pushSuccess(` ${employee.lastName} ${employee.firstName} is updated successfully !`)
-      // reset()
+  
       setSelectedState(selctedState)
       setDepartment(department)
       setIsOpen(false)
-      // location.reload()
       navigateTo('/home/employees-list', navigate)
       if (error || isError) {
         console.log(error)
@@ -106,7 +107,7 @@ const UpdateForm: React.FC<IProps> = ({ id, setIsOpen }): JSX.Element => {
       }
     } catch (error) {
       console.log(error)
-      // setGlobalError(error)
+  
       toast?.pushError(error)
     }
   }
@@ -120,14 +121,8 @@ const UpdateForm: React.FC<IProps> = ({ id, setIsOpen }): JSX.Element => {
 
   return (
     <>
-      {/* {globalError && <p className='flex justify-center text-red-500'>{globalError}</p>} */}
-
+    
       <form onSubmit={handleSubmit(onSubmit)} className='w-4/5 sm:w-4/5 mx-auto mt-16 bg-zinc-200 p-4 rounded-md'>
-        {/* {alert ? (
-          <div className='mb-4 rounded-lg bg-green-600 py-5 px-6 text-base text-success-700' role='alert'>
-            {employee.lastName} has been updated successfully !
-          </div>
-        ) : null} */}
         <div className='flex lg:flex-row  flex-col  justify-between'>
           <div className='lg:w-1/2 m-1'>
             <label htmlFor='firstName' className='block text-sm font-medium text-gray-700'>
@@ -280,12 +275,7 @@ const UpdateForm: React.FC<IProps> = ({ id, setIsOpen }): JSX.Element => {
           >
             Save
           </button>
-          {/* <button
-            onClick={reset()}
-            className='inline-flex items-center rounded-md border border-gray-200 shadow bg-white px-6 py-3 text-base font-medium text-green-700  hover:bg-green-200 hover:text-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2'
-          >
-            Cancel
-          </button> */}
+
         </div>
       </form>
     </>
