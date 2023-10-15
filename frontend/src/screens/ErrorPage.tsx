@@ -16,7 +16,8 @@ const ErrorPage: React.FC = (): JSX.Element => {
           <h1 className='mt-4 text-5xl font-extrabold leading-tight text-center text-white'>You&#x27;re alone here</h1>
           <p className='font-extrabold text-white text-8xl my-44 animate-bounce'>404</p>
           <Link className='text-lg text-white font-extrabold flex justify-center mt-11' to='/'>
-            <FaBackward className='w-8 h-8 mx-2'></FaBackward>Back to the home page
+            <FaBackward className='w-8 h-
+            8 mx-2'></FaBackward>Back to the home page
           </Link>
         </div>
       </div>

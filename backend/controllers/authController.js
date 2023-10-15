@@ -7,16 +7,14 @@ import color from 'colors';
 // @route POST /auth
 // @access Public
 const login = async (req, res) => {
-  console.log(color.red('login:::'));
   const { email, password } = req.body;
-  console.log(color.cyan(req.body));
+ // console.log(color.cyan(req.body));
 
   if (!email || !password) {
     return res.status(400).json({ message: 'All fields are required' });
   }
 
   const foundUser = await User.findOne({ email }).exec();
-  console.log(color.cyan(foundUser));
 
   if (!foundUser || !foundUser.active) {
     return res.status(401).json({ message: 'Unauthorized' });

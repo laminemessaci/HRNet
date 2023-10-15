@@ -10,7 +10,7 @@ import './index.css'
 import 'react-datepicker/dist/react-datepicker.css'
 
 if (process.env.NODE_ENV === 'production') disableReactDevTools()
-console.log(process.env.NODE_ENV)
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(

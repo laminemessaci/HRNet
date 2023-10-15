@@ -9,10 +9,15 @@ const authSlice = createSlice({
   name: 'auth',
   initialState: initialValues,
   reducers: {
-    setCredentials: (state, action: PayloadAction<{ accessToken: string }>) => {
+    /**
+     * Sets the credentials with the given access token.
+     *
+     * @param state - The current state.
+     * @param action - The action containing the access token.
+     */
+    setCredentials: (state: IAuth, action: PayloadAction<{ accessToken: string }>): void => {
       const { accessToken } = action.payload
       state.token = accessToken
-      // state.token = action.payload.token
     },
     logOut: (state, action: PayloadAction<{ token: string }>) => {
       state.token = null

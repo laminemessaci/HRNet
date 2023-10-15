@@ -11,7 +11,6 @@ const PersistLogin = () => {
   const [persist] = usePersist()
   const token = useSelector(selectCurrentToken)
 
-  console.log('token:: ', token)
   const effectRan = useRef(false)
 
   const [trueSuccess, setTrueSuccess] = useState(false)
@@ -22,6 +21,11 @@ const PersistLogin = () => {
     if (effectRan.current === true || process.env.NODE_ENV !== 'development') {
       // React 18 Strict Mode
 
+      /**
+       * Verify the refresh token.
+       *
+       * @return {Promise<void>} Promise that resolves when the refresh token is verified.
+       */
       const verifyRefreshToken = async () => {
         console.log('verifying refresh token')
         try {

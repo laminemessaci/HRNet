@@ -38,6 +38,7 @@ export interface FormInputs {
  * @returns {JSXElement}
  */
 const EmployeeForm: React.FC = (): JSX.Element => {
+
   const [department, setDepartment] = useState<IDepartment>(departments[0])
   const [selectedState, setSelectedState] = useState<IState>(states[0])
   const [errorState, setErrorState] = useState<string>('')
@@ -77,15 +78,15 @@ const EmployeeForm: React.FC = (): JSX.Element => {
   if (!users?.length || isLoading) return <Loader type='spokes' color='green' width={200} height={200} />
 
   const onSubmit = async (data: {
-    firstName: any
-    lastName: any
-    startDay: any
-    birthDay: any
-    department: any
-    state: any
-    street: any
-    zipCode: any
-    city: any
+    firstName: string
+    lastName: string
+    startDay: string
+    birthDay: string
+    department: string
+    state: string
+    street: string
+    zipCode: string
+    city: string
   }) => {
     const userCreator = users.filter((user: { email: string }) => user.email == email)
 
