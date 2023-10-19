@@ -2,7 +2,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { setCredentials } from '../../features/authSlice'
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: 'https://hr-net-vqtc.vercel.app/api/',
+  baseUrl: 'https://hr-net-vqtc.vercel.app',
   credentials: 'include',
   prepareHeaders: (headers, { getState }) => {
     const { token } = getState().auth
