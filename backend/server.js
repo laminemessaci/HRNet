@@ -17,8 +17,6 @@ import errorHandler from './middleware/errorHandler.js';
 
 const app = express();
 
-console.log(colors.bgMagenta(process.env.NODE_ENV));
-
 connectDB();
 
 app.use(logger);

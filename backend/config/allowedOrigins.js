@@ -5,7 +5,7 @@ const allowedOrigins = [
   "http://localhost:5000",
 
   "http://127.0.0.1:5000",
-  "https://hr-net-vqtc.vercel.app/",
+  "https://hr-net-vqtc.vercel.app",
 ];
 
 export default allowedOrigins;
