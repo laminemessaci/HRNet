@@ -1,5 +1,5 @@
 import multer from "multer";
-const fs = require("fs");
+import fs from "fs"
 
 import path from "path";
 import express from "express";
