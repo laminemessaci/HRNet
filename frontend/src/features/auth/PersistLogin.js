@@ -48,7 +48,6 @@ const PersistLogin = () => {
 
   let content
   if (!persist) {
-    // persist: no
     console.log('no persist')
     content = <Outlet />
   } else if (isLoading) {
