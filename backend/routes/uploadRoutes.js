@@ -1,14 +1,20 @@
-import multer from 'multer';
+import multer from "multer";
+const fs = require("fs");
 
-import path from 'path';
-import express from 'express';
-import color from 'colors';
+import path from "path";
+import express from "express";
+import color from "colors";
 
 const router = express.Router();
 
+const fileImages = fs.existsSync("uploads");
+if (!fileImages) {
+  fs.mkdirSync("uploads");
+}
+
 const storage = multer.diskStorage({
   destination(req, file, cb) {
-    cb(null, 'uploads/');
+    cb(null, "uploads/");
   },
   filename(req, file, cb) {
     cb(
@@ -26,7 +32,7 @@ function checkFileType(file, cb) {
   if (extname && mimetype) {
     return cb(null, true);
   } else {
-    cb('Images only!');
+    cb("Images only!");
   }
 }
 
@@ -39,9 +45,9 @@ const upload = multer({
 
 // console.log(color.red(upload.fileFilter));
 
-router.post('/', upload.single('image'), (req, res) => {
-  // console.log(color.red(upload));
-  // console.log(color.red(req.file.path));
+router.post("/", upload.single("image"), (req, res) => {
+  console.log(color.red(upload));
+  console.log(color.red(req.file.path));
   res.send(`/${req.file.path}`);
 });
 
