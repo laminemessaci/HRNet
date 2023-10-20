@@ -11,6 +11,7 @@ const fileImages = fs.existsSync("uploads");
 if (!fileImages) {
   fs.mkdirSync("uploads");
 }
+console.log(color.red("path: " + path.join(__dirname, "uploads")));
 
 const storage = multer.diskStorage({
   destination(req, file, cb) {
@@ -47,8 +48,8 @@ const upload = multer({
 
 router.post("/", upload.single("image"), (req, res) => {
   console.log(color.red(upload));
-  console.log(color.red(req.file.path));
-  res.send(`/${req.file.path}`);
+  console.log(color.red(req.file?.path));
+  res.send(`/${req.file?.path}`);
 });
 
 export default router;
