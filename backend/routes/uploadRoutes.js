@@ -11,7 +11,7 @@ const fileImages = fs.existsSync("uploads");
 if (!fileImages) {
   fs.mkdirSync("uploads");
 }
-console.log(color.red("path: " + path.join(__dirname, "uploads")));
+console.log(color.red("path: " + path));
 
 const storage = multer.diskStorage({
   destination(req, file, cb) {
