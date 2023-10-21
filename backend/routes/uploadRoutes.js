@@ -1,5 +1,5 @@
 import multer from "multer";
-import fs from "fs"
+import fs from "fs";
 
 import path from "path";
 import express from "express";
@@ -11,7 +11,6 @@ const fileImages = fs.existsSync("uploads");
 if (!fileImages) {
   fs.mkdirSync("uploads");
 }
-console.log(color.red("path: " + path));
 
 const storage = multer.diskStorage({
   destination(req, file, cb) {
@@ -47,7 +46,7 @@ const upload = multer({
 // console.log(color.red(upload.fileFilter));
 
 router.post("/", upload.single("image"), (req, res) => {
-  console.log(color.red(upload));
+  console.log(color.cyan(upload));
   console.log(color.red(req.file?.path));
   res.send(`/${req.file?.path}`);
 });
