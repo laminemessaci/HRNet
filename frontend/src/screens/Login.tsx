@@ -167,12 +167,29 @@ const Login: React.FC = (): JSX.Element => {
                 </a>
 
                 <div className='mt-6'>
-                  <button
+                  {
+                    isLoading?
+                    <button
+                      type='submit'
+                      disabled
+                      className='w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-teal-400 rounded-md'
+                    >
+                      Loading...
+                    </button>
+                    :
+                    <button
+                      type='submit'
+                      className='w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-teal-700 rounded-md hover:bg-teal-600 focus:outline-none focus:bg-teal-600'
+                    >
+                      Login
+                    </button>
+                  }
+                  {/* <button
                     type='submit'
                     className='w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-teal-700 rounded-md hover:bg-teal-600 focus:outline-none focus:bg-teal-600'
                   >
                     Login
-                  </button>
+                  </button> */}
                 </div>
               </Form>
             )}

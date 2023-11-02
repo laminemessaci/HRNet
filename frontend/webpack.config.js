@@ -8,7 +8,7 @@ const BrotliPlugin = require('brotli-webpack-plugin')
 import 'webpack-dev-server'
 
 module.exports = {
-  entry: './src/index.tsx',
+  entry: './src/index.js',
   module: {
     rules: [
       {
